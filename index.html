@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Marketplace</title>
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial; }
+  body { background: #000; color: #fff; }
+  header { background: linear-gradient(90deg, #D4AF37, #000); padding: 15px; position: sticky; top: 0; z-index: 10; }
+  nav { display: flex; justify-content: space-around; align-items: center; }
+  nav a { color: #D4AF37; text-decoration: none; font-weight: bold; font-size: 16px; padding: 10px; }
+  nav a.active { border-bottom: 3px solid #D4AF37; }
+  .container { padding: 15px; max-width: 600px; margin: auto; }
+  .section { display: none; }
+  .section.active { display: block; }
+  .search-bar { display: flex; gap: 5px; margin: 15px 0; }
+  .search-bar input { flex: 1; padding: 10px; border: 2px solid #D4AF37; border-radius: 20px; background: #111; color: #fff; }
+  .search-bar button { padding: 10px 15px; background: #D4AF37; color: #000; border: none; border-radius: 20px; font-weight: bold; }
+  .product-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .product { background: #111; border: 1px solid #D4AF37; border-radius: 10px; padding: 5px; text-align: center; }
+  .product img { width: 100%; height: 120px; object-fit: cover; border-radius: 8px; background: #222; }
+  .product h4 { color: #D4AF37; font-size: 14px; margin: 5px 0; }
+  .product p { color: #fff; font-weight: bold; }
+  .card { background: #111; padding: 15px; border-radius: 10px; border: 1px solid #D4AF37; margin: 15px 0; }
+  input, textarea { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #D4AF37; border-radius: 8px; background: #222; color: #fff; }
+  .btn { background: #D4AF37; color: #000; padding: 12px; border: none; border-radius: 8px; width: 100%; font-weight: bold; font-size: 16px; cursor: pointer; }
+  .otp-box { display: flex; gap: 8px; justify-content: center; margin: 10px 0; }
+  .otp-box input { width: 50px; text-align: center; font-size: 24px; font-weight: bold; }
+  .otp-timer { text-align: center; color: #D4AF37; margin: 5px 0; }
+</style>
+</head>
+<body>
+
+<header>
+  <nav>
+    <a href="#" onclick="show('home')" id="nav-home" class="active">HOME</a>
+    <a href="#" onclick="show('search')" id="nav-search">SEARCH</a>
+    <a href="#" onclick="show('account')" id="nav-account">ACCOUNT</a>
+    <a href="#" onclick="show('post')" id="nav-post">POST</a>
+  </nav>
+</header>
+
+<div class="container">
+
+  <!-- HOME -->
+  <div id="home" class="section active">
+    <h2 style="color:#D4AF37; text-align:center;">MARKETPLACE</h2>
+    <div class="product-grid" id="productGrid"></div>
+  </div>
+
+  <!-- SEARCH -->
+  <div id="search" class="section">
+    <h2 style="color:#
