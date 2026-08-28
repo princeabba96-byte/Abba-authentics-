@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Abba Authentics - Verify Before You Buy</title>
+<style>
+    *{margin:0;padding:0;box-sizing:border-box;font-family:Arial, sans-serif;}
+    body{background:#0a0a0a;color:#fff;}
+    header{background:#000;padding:15px 20px;display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #d4af37;}
+    header h1{color:#d4af37;}
+    nav a{color:#fff;margin:0 10px;text-decoration:none;font-weight:bold;}
+    nav a:hover{color:#d4af37;}
+    .container{max-width:1200px;margin:auto;padding:20px;}
+    .search-bar{display:flex;margin:20px 0;}
+    .search-bar input{flex:1;padding:10px;border:none;border-radius:5px 0 0 5px;}
+    .search-bar button{padding:10px 20px;background:#d4af37;border:none;border-radius:0 5px 5px 0;cursor:pointer;font-weight:bold;}
+    .products{display:grid;grid-template-columns:repeat(auto-fit, minmax(250px, 1fr));gap:20px;}
+    .card{background:#1a1a1a;padding:15px;border-radius:10px;border:1px solid #333;}
+    .card img{width:100%;height:200px;object-fit:cover;border-radius:8px;}
+    .card h3{color:#d4af37;margin:10px 0;}
+    .btn{background:#d4af37;color:#000;padding:10px;width:100%;border:none;border-radius:5px;font-weight:bold;cursor:pointer;margin-top:10px;}
+    .btn:hover{background:#f1c40f;}
+    .login-box{background:#1a1a1a;padding:30px;border-radius:10px;max-width:400px;margin:50px auto;}
+    .login-box input{width:100%;padding:10px;margin:10px 0;border-radius:5px;border:none;}
+    footer{text-align:center;padding:20px;border-top:1px solid #333;margin-top:40px;color:#888;}
+    .hidden{display:none;}
+    .review{color:#d4af37;}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+    <h1>ABBA AUTHENTICS</h1>
+    <nav>
+        <a href="#" onclick="showPage('home')">Home</a>
+        <a href="#" onclick="showPage('items')">Items</a>
+        <a href="#" onclick="showPage('search')">Search</a>
+        <a href="#" onclick="showPage('account')">Account</a>
+    </nav>
+</header>
+
+<div class="container">
+
+<!-- HOME PAGE -->
+<div id="home">
+    <h2>Welcome to Abba Authentics</h2>
+    <p>Your trusted place for discovering and buying authenticated products.</p>
+    
+    <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="Search what you want to verify...">
+        <button onclick="searchProduct()">SEARCH</button>
+    </div>
+
+    <h3>Featured Products</h3>
+    <div class="products">
+        <div class="card">
+            <img src="https://via.placeholder.com/300x200?text=Watch" alt="Watch">
+            <h3>Rolex Watch</h3>
+            <p>Verified & Authenticated</p>
+            <button class="btn" onclick="verifyProduct('Rolex Watch')">Verify Product</button>
+        </div>
+        <div class="card">
+            <img src="https://via.placeholder.com/300x200?text=Sneakers" alt="Sneakers">
+            <h3>Air Jordan Sneakers</h3>
+            <p>Verified & Authenticated</p>
+            <button class="btn" onclick="verifyProduct('Air Jordan Sneakers')">Verify Product</button>
+        </div>
+        <div class="card">
+            <img src="https://via.placeholder.com/300x200?text=Bag" alt="Bag">
+            <h3>Louis Vuitton Bag</h3>
+            <p>Verified & Authenticated</p>
+            <button class="btn" onclick="verifyProduct('LV Bag')">Verify Product</button>
+        </div>
+    </div>
+</div>
+
+<!-- ITEMS PAGE -->
+<div id="items" class="hidden">
+    <h2>All Authenticated Items</h2>
+    <div class="products" id="allProducts"></div>
+</div>
+
+<!-- SEARCH PAGE -->
+<div id="search" class="hidden">
+    <h2>Search Products</h2>
+    <div class="search-bar">
+        <input type="text" id="searchInput2" placeholder="Enter product name...">
+        <button onclick="searchProduct()">SEARCH</button>
+    </div>
+    <div id="searchResults"></div>
+</div>
+
+<!-- ACCOUNT / LOGIN PAGE -->
+<div id="account" class="hidden">
+    <div class="login-box">
+        <h2>Login / Sign Up</h2>
+        <input type="tel" id="phone" placeholder="Enter Phone Number">
+        <input type="password" id="password" placeholder="Enter Password">
+        <button class="btn" onclick="login()">Login</button>
+        <p style="margin-top:10px;font-size:12px;">Note: Students can login with phone number only</p>
+    </div>
+</div>
+
+<!-- PRODUCT VERIFICATION PAGE -->
+<div id="verify" class="hidden">
+    <h2>Product Verification</h2>
+    <div class="login-box">
+        <h3 id="verifyProductName"></h3>
+        <p>Send product pictures + WhatsApp number to admin for verification</p>
+        <input type="tel" placeholder="Your WhatsApp Number">
+        <input type="file" multiple>
+        <button class="btn" onclick="sendVerification()">Send for Verification</button>
+    </div>
+</div>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+    <p>© 2026 Abba Authentics - Verify Before You Buy</p>
+    <p><a href="#" onclick="showTerms()" style="color:#d4af37;">Terms and Conditions</a></p>
+    <p style="font-size:12px;margin-top:10px;">We don't sell products. We only verify to reduce risk of scam.</p>
+</footer>
+
+<script>
+    function showPage(page){
+        document.querySelectorAll('.container > div').forEach(d => d.classList.add('hidden'));
+        document.getElementById(page).classList.remove('hidden');
+    }
+    
+    function searchProduct(){
+        let q = document.getElementById('searchInput').value || document.getElementById('searchInput2').value;
+        alert("Searching for: " + q);
+        showPage('search');
+    }
+
+    function verifyProduct(name){
+        showPage('verify');
+        document.getElementById('verifyProductName').innerText = "Verify: " + name;
+    }
+
+    function login(){
+        let phone = document.getElementById('phone').value;
+        if(phone){
+            alert("Login successful! Welcome " + phone);
+            showPage('home');
+        } else {
+            alert("Enter phone number");
+        }
+    }
+
+    function sendVerification(){
+        alert("Sent to Abba Authentics WhatsApp for verification. We will reply you.");
+    }
+
+    function showTerms(){
+        alert("TERMS: Abba Authentics does not sell products. We only verify authenticity. This reduces risk of scam.");
+    }
+
+    // Load products
+    let products = ["Rolex Watch", "Air Jordan", "LV Bag", "Gucci Belt", "iPhone 15"];
+    let productHTML = "";
+    products.forEach(p => {
+        productHTML += `<div class="card"><h3>${p}</h3><p class="review">★★★★★</p><button class="btn" onclick="verifyProduct('${p}')">Verify Now</button></div>`;
+    });
+    document.getElementById('allProducts').innerHTML = productHTML;
+</script>
+
+</body>
+</html>
