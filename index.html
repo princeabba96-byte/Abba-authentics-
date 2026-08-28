@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Abba Authentics - Luxury Verified</title>
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: Arial; background: #0a0a0a; color: #fff; }
+    header { background: linear-gradient(135deg, #000, #D4AF37); padding: 20px; text-align: center; }
+    h1 { color: #D4AF37; font-size: 28px; }
+    nav { background: #111; padding: 15px; display: flex; justify-content: center; gap: 20px; }
+    nav button { background: #D4AF37; color: #000; border: none; padding: 10px 20px; font-weight: bold; cursor: pointer; border-radius: 5px; }
+    .container { max-width: 1200px; margin: 20px auto; padding: 20px; }
+    .dashboard { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 30px; }
+    .stat-card { background: #1a1a1a; border: 2px solid #D4AF37; padding: 20px; text-align: center; border-radius: 10px; }
+    .stat-card h3 { color: #D4AF37; font-size: 14px; }
+    .stat-card p { font-size: 32px; font-weight: bold; margin-top: 10px; }
+    .product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+    .product-card { background: #1a1a1a; border: 1px solid #D4AF37; border-radius: 10px; padding: 15px; }
+    .product-card img { width: 100%; height: 200px; object-fit: cover; border-radius: 5px; }
+    .product-card h3 { color: #D4AF37; margin: 10px 0; }
+    .price { font-size: 20px; font-weight: bold; color: #fff; }
+    .btn { background: #D4AF37; color: #000; border: none; padding: 10px; width: 100%; margin-top: 10px; font-weight: bold; cursor: pointer; border-radius: 5px; }
+    .btn-order { background: #25D366; color: #fff; }
+    .admin-form input, .admin-form textarea { width: 100%; padding: 12px; margin: 10px 0; background: #222; border: 1px solid #D4AF37; color: #fff; border-radius: 5px; }
+    .order-item { background: #1a1a1a; border-left: 4px solid #25D366; padding: 15px; margin: 10px 0; }
+    .hidden { display: none; }
+</style>
+</head>
+<body>
+
+<header>
+    <h1>👑 ABBA AUTHENTICS</h1>
+    <p>Luxury • Verified • Authentic</p>
+</header>
+
+<nav>
+    <button onclick="showSection('home')">Home</button>
+    <button onclick="showSection('products')">Products</button>
+    <button onclick="showSection('dashboard')">Dashboard</button>
+    <button onclick="showSection('orders')">Orders</button>
+    <button onclick="showSection('admin')">Admin</button>
+</nav>
+
+<div class="container">
+    
+    <!-- DASHBOARD -->
+    <div id="dashboard" class="hidden">
+        <h2 style="color:#D4AF37; margin-bottom:20px;">📊 DASHBOARD</h2>
+        <div class="dashboard">
+            <div class="stat-card">
+                <h3>TOTAL PRODUCTS</h3>
+                <p id="totalProducts">0</p>
+            </div>
+            <div class="stat-card">
+                <h3>TOTAL ORDERS</h3>
+                <p id="totalOrders">0</p>
+            </div>
+            <div class="stat-card">
+                <h3>TOTAL REVENUE</h3>
+                <p id="totalRevenue">₦0</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- PRODUCTS -->
+    <div id="products">
+        <h2 style="color:#D4AF37; margin-bottom:20px;">🛍️ PRODUCTS</h2>
+        <div class="product-grid" id="productGrid"></div>
+    </div>
+
+    <!-- ORDERS -->
+    <div id="orders" class="hidden">
+        <h2 style="color:#D4AF37; margin-bottom:20px;">📦 CUSTOMER ORDERS</h2>
+        <div id="ordersList"></div>
+    </div>
+
+    <!-- ADMIN -->
+    <div id="admin" class="hidden">
+        <h2 style="color:#D4AF37;">🔐 ADMIN</h2>
+        <input type="password" id="adminPass" placeholder="Enter Admin Password">
+        <button class="btn" onclick="checkAdmin()">Login</button>
+        
+        <div id="adminPanel" class="hidden">
+            <h3 style="color:#D4AF37; margin-top:20px;">Post New Product</h3>
+            <div class="admin-form">
+                <input type="text" id="name" placeholder="Product Name">
+                <input type="text" id="price" placeholder="Price e.g. ₦150,000">
+                <input type="url" id="image" placeholder="Image Link URL">
+                <textarea id="desc" rows="3" placeholder="Description"></textarea>
+                <button class="btn" onclick="addProduct()">POST PRODUCT</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+const ADMIN_PASSWORD = "Abba2026"; // CHANGE THIS
+let products = JSON.parse(localStorage.getItem('abba_products')) || [];
+let orders = JSON.parse(localStorage.getItem('abba_orders')) || [];
+
+function showSection(id) {
+    document.querySelectorAll('.container > div').forEach(d => d.classList.add('hidden'));
+    document.getElementById(id).classList.remove('hidden');
+    if(id === 'dashboard') updateDashboard();
+    if(id === 'orders') loadOrders();
+}
+
+function checkAdmin() {
+    if(document.getElementById('adminPass').value === ADMIN_PASSWORD) {
+        document.getElementById('adminPanel').classList.remove('hidden');
+    } else { alert('Wrong Password!'); }
+}
+
+function addProduct() {
+    const product = {
+        id: Date.now(),
+        name: document.getElementById('name').value,
+        price: document.getElementById('price').value,
+        image: document.getElementById('image').value,
+        desc: document.getElementById('desc').value
+    };
+    products.push(product);
+    localStorage.setItem('abba_products', JSON.stringify(products));
+    
+    // Send to WhatsApp
+    let message = `🔥 *NEW PRODUCT ALERT - ABBA AUTHENTICS* 🔥\n\n`;
+    message += `*Name:* ${product.name}\n`;
+    message += `*Price:* ${product.price}\n`;
+    message += `*Image:* ${product.image}\n`;
+    message += `*Desc:* ${product.desc}`;
+    window.open(`https://wa.me/2349061530541?text=${encodeURIComponent(message)}`);
+    
+    alert('Product Posted!');
+    loadProducts();
+}
+
+function orderProduct(id) {
+    const product = products.find(p => p.id === id);
+    const newOrder = {
+        id: Date.now(),
+        product: product.name,
+        price: product.price,
+        time: new Date().toLocaleString()
+    };
+    orders.push(newOrder);
+    localStorage.setItem('abba_orders', JSON.stringify(orders));
+    
+    // Send order to WhatsApp
+    let message = `🛒 *NEW ORDER - ABBA AUTHENTICS* 🛒\n\n`;
+    message += `*Product:* ${product.name}\n`;
+    message += `*Price:* ${product.price}\n`;
+    message += `*Time:* ${newOrder.time}`;
+    window.open(`https://wa.me/2349061530541?text=${encodeURIComponent(message)}`);
+    
+    alert('Order sent to WhatsApp!');
+}
+
+function loadProducts() {
+    const grid = document.getElementById('productGrid');
+    grid.innerHTML = products.map(p => `
+        <div class="product-card">
+            <img src="${p.image}" onerror="this.src='https://via.placeholder.com/300'">
+            <h3>${p.name}</h3>
+            <p class="price">${p.price}</p>
+            <p>${p.desc}</p>
+            <button class="btn btn-order" onclick="orderProduct(${p.id})">ORDER NOW</button>
+        </div>
+    `).join('');
+}
+
+function updateDashboard() {
+    document.getElementById('totalProducts').innerText = products.length;
+    document.getElementById('totalOrders').innerText = orders.length;
+    
+    let total = 0;
+    orders.forEach(o => {
+        let num = parseInt(o.price.replace(/[^0-9]/g, '')) || 0;
+        total += num;
+    });
+    document.getElementById('totalRevenue').innerText = '₦' + total.toLocaleString();
+}
+
+function loadOrders() {
+    const list = document.getElementById('ordersList');
+    if(orders.length === 0) {
+        list.innerHTML = '<p>No orders yet</p>';
+        return;
+    }
+    list.innerHTML = orders.reverse().map(o => `
+        <div class="order-item">
+            <h4>${o.product}</h4>
+            <p>Price: ${o.price}</p>
+            <p>Time: ${o.time}</p>
+        </div>
+    `).join('');
+}
+
+loadProducts();
+</script>
+</body>
+</html>
