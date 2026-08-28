@@ -1,0 +1,1993 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>ABBA AUTHENTICS</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+:root{
+    --gold:#d4af37;
+    --gold-light:#f4d76d;
+    --black:#080808;
+    --dark:#111;
+    --white:#fff;
+    --grey:#777;
+    --green:#16b957;
+    --red:#e53935;
+}
+
+body{
+    background:#f4f3ef;
+    color:#111;
+    padding-bottom:90px;
+}
+
+body.dark{
+    background:#080808;
+    color:#fff;
+}
+
+/* HEADER */
+
+header{
+    height:70px;
+    background:#080808;
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 20px;
+    position:sticky;
+    top:0;
+    z-index:100;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.logo-box{
+    width:40px;
+    height:40px;
+    border:2px solid var(--gold);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:var(--gold);
+    font-weight:bold;
+}
+
+.logo-text strong{
+    display:block;
+    letter-spacing:3px;
+}
+
+.logo-text small{
+    color:var(--gold);
+    letter-spacing:2px;
+}
+
+.settings{
+    background:none;
+    border:none;
+    color:white;
+    font-size:25px;
+    cursor:pointer;
+}
+
+/* PAGES */
+
+.page{
+    display:none;
+    max-width:1100px;
+    margin:auto;
+    padding:18px;
+}
+
+.page.active{
+    display:block;
+}
+
+/* BANNER */
+
+.banner{
+    min-height:390px;
+    border-radius:20px;
+    margin-bottom:20px;
+    padding:35px;
+    display:flex;
+    align-items:center;
+
+    background:
+    linear-gradient(90deg,rgba(0,0,0,.92),rgba(0,0,0,.4)),
+    url("https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1600&q=80");
+
+    background-size:cover;
+    background-position:center;
+    color:white;
+}
+
+.banner-content{
+    max-width:600px;
+}
+
+.banner small{
+    color:var(--gold-light);
+    letter-spacing:3px;
+    font-weight:bold;
+}
+
+.banner h1{
+    font-size:clamp(38px,8vw,70px);
+    margin:15px 0;
+}
+
+.banner h1 span{
+    color:var(--gold-light);
+}
+
+.banner p{
+    line-height:1.7;
+    color:#ddd;
+    margin-bottom:25px;
+}
+
+/* BUTTONS */
+
+.gold-btn{
+    border:none;
+    background:linear-gradient(135deg,var(--gold-light),var(--gold));
+    color:#111;
+    padding:14px 20px;
+    border-radius:8px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.gold-btn:hover{
+    transform:translateY(-2px);
+}
+
+.full{
+    width:100%;
+}
+
+/* DASHBOARD */
+
+.dashboard{
+    background:#101010;
+    color:white;
+    border-radius:18px;
+    padding:25px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:35px;
+}
+
+.dashboard h2{
+    margin:8px 0;
+}
+
+.dashboard small{
+    color:var(--gold-light);
+    letter-spacing:2px;
+}
+
+.purchase{
+    border:1px solid #444;
+    border-radius:14px;
+    padding:15px 25px;
+    text-align:center;
+}
+
+.purchase strong{
+    display:block;
+    font-size:38px;
+    color:var(--gold-light);
+}
+
+.purchase span{
+    font-size:11px;
+    letter-spacing:1px;
+}
+
+/* SECTION */
+
+.section-title{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:18px;
+}
+
+.section-title small{
+    color:#9a7917;
+    letter-spacing:2px;
+    font-weight:bold;
+}
+
+.section-title h2{
+    margin-top:5px;
+}
+
+/* PRODUCTS */
+
+.products{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:18px;
+}
+
+.product{
+    background:white;
+    border-radius:15px;
+    overflow:hidden;
+    box-shadow:0 8px 25px rgba(0,0,0,.08);
+    cursor:pointer;
+    transition:.2s;
+}
+
+.product:hover{
+    transform:translateY(-5px);
+}
+
+body.dark .product{
+    background:#151515;
+    color:white;
+}
+
+.product img{
+    width:100%;
+    height:200px;
+    object-fit:cover;
+}
+
+.product-info{
+    padding:15px;
+}
+
+.product-info h3{
+    margin:8px 0;
+}
+
+.product-info p{
+    color:#777;
+    margin:5px 0;
+    font-size:13px;
+}
+
+body.dark .product-info p{
+    color:#aaa;
+}
+
+/* VERIFIED */
+
+.verified{
+    display:inline-block;
+    background:var(--green);
+    color:white;
+    padding:5px 9px;
+    border-radius:20px;
+    font-size:10px;
+    font-weight:bold;
+}
+
+/* SEARCH */
+
+.search-box{
+    display:flex;
+    align-items:center;
+    background:white;
+    border:1px solid #ddd;
+    border-radius:12px;
+    padding:0 15px;
+    margin:20px 0;
+}
+
+.search-box input{
+    width:100%;
+    padding:15px;
+    border:none;
+    outline:none;
+}
+
+body.dark .search-box{
+    background:#151515;
+    border-color:#333;
+}
+
+body.dark .search-box input{
+    background:#151515;
+    color:white;
+}
+
+/* ACCOUNT */
+
+.account-card{
+    background:white;
+    padding:25px;
+    border-radius:18px;
+    display:flex;
+    align-items:center;
+    gap:18px;
+    margin-bottom:15px;
+}
+
+body.dark .account-card{
+    background:#151515;
+}
+
+.avatar{
+    width:70px;
+    height:70px;
+    border-radius:50%;
+    background:#111;
+    color:var(--gold-light);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:28px;
+    font-weight:bold;
+}
+
+/* POST */
+
+.partner{
+    background:white;
+    border-radius:20px;
+    padding:50px 25px;
+    text-align:center;
+}
+
+body.dark .partner{
+    background:#151515;
+}
+
+.partner-icon{
+    width:70px;
+    height:70px;
+    border-radius:50%;
+    background:var(--green);
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:35px;
+    margin:0 auto 20px;
+}
+
+.partner h1{
+    margin-bottom:15px;
+}
+
+.partner p{
+    color:#777;
+    line-height:1.7;
+    margin-bottom:25px;
+}
+
+body.dark .partner p{
+    color:#aaa;
+}
+
+/* SETTINGS */
+
+.settings-list{
+    display:grid;
+    gap:10px;
+}
+
+.setting{
+    width:100%;
+    border:1px solid #ddd;
+    background:white;
+    padding:18px;
+    border-radius:12px;
+    display:flex;
+    justify-content:space-between;
+    cursor:pointer;
+}
+
+body.dark .setting{
+    background:#151515;
+    color:white;
+    border-color:#333;
+}
+
+.logout{
+    color:var(--red);
+    font-weight:bold;
+}
+
+/* TERMS */
+
+.terms{
+    background:white;
+    padding:25px;
+    border-radius:18px;
+    line-height:1.7;
+}
+
+body.dark .terms{
+    background:#151515;
+}
+
+.terms h2,
+.terms h3{
+    margin:15px 0 7px;
+}
+
+/* BOTTOM NAV */
+
+.bottom-nav{
+    position:fixed;
+    bottom:0;
+    left:0;
+    right:0;
+    height:78px;
+    background:#090909;
+    display:flex;
+    justify-content:center;
+    z-index:200;
+}
+
+.nav-btn{
+    flex:1;
+    max-width:180px;
+    border:none;
+    background:none;
+    color:#777;
+    font-size:10px;
+    font-weight:bold;
+    position:relative;
+    cursor:pointer;
+}
+
+.nav-btn span{
+    display:block;
+    font-size:23px;
+    margin-bottom:4px;
+}
+
+.nav-btn.active{
+    color:white;
+}
+
+.nav-btn.active::after{
+    content:"";
+    position:absolute;
+    top:0;
+    left:25%;
+    right:25%;
+    height:3px;
+    background:var(--gold);
+}
+
+/* MODAL */
+
+.modal{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.75);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+    z-index:500;
+}
+
+.modal.hidden{
+    display:none;
+}
+
+.modal-box{
+    background:white;
+    color:#111;
+    padding:28px;
+    width:100%;
+    max-width:450px;
+    border-radius:18px;
+    position:relative;
+}
+
+body.dark .modal-box{
+    background:#151515;
+    color:white;
+}
+
+.close{
+    position:absolute;
+    right:15px;
+    top:10px;
+    background:none;
+    border:none;
+    font-size:28px;
+    cursor:pointer;
+}
+
+.modal-box input,
+.modal-box textarea{
+    width:100%;
+    padding:13px;
+    border:1px solid #ddd;
+    border-radius:8px;
+    margin:7px 0;
+}
+
+.error{
+    color:var(--red);
+    font-weight:bold;
+    margin-top:8px;
+}
+
+/* STAR */
+
+.stars{
+    display:flex;
+    justify-content:center;
+    gap:7px;
+    font-size:38px;
+    margin:20px 0;
+}
+
+.star{
+    color:#999;
+    cursor:pointer;
+}
+
+.star.selected{
+    color:var(--gold);
+    text-shadow:0 0 12px #d4af37;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:750px){
+
+    .products{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .dashboard{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+
+    .purchase{
+        width:100%;
+    }
+}
+
+@media(max-width:480px){
+
+    .products{
+        grid-template-columns:1fr;
+    }
+
+    .banner{
+        min-height:430px;
+        padding:25px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo" onclick="showPage('home')">
+
+        <div class="logo-box">
+            AA
+        </div>
+
+        <div class="logo-text">
+            <strong>ABBA</strong>
+            <small>AUTHENTICS</small>
+        </div>
+
+    </div>
+
+    <button class="settings" onclick="showPage('settings')">
+        ⚙
+    </button>
+
+</header>
+
+
+<!-- HOME -->
+
+<section id="home" class="page active">
+
+    <div class="banner">
+
+        <div class="banner-content">
+
+            <small>TRUST • VERIFY • SHOP SMART</small>
+
+            <h1>
+                KNOW WHAT'S
+                <span>AUTHENTIC.</span>
+            </h1>
+
+            <p>
+                Abba Authentics helps customers discover
+                verified products and reduce the risk of scams.
+            </p>
+
+            <button class="gold-btn"
+                    onclick="showPage('search')">
+                EXPLORE PRODUCTS
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <div class="dashboard">
+
+        <div>
+
+            <small>CUSTOMER DASHBOARD</small>
+
+            <h2 id="dashboardName">
+                WELCOME, GUEST
+            </h2>
+
+            <p>
+                Your verified shopping activity
+            </p>
+
+        </div>
+
+        <div class="purchase">
+
+            <strong id="purchaseNumber">0</strong>
+
+            <span id="purchaseText">
+                PURCHASE
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <div class="section-title">
+
+        <div>
+
+            <small>VERIFIED ITEMS</small>
+
+            <h2>PRODUCTS</h2>
+
+        </div>
+
+        <button onclick="showPage('search')">
+            VIEW ALL →
+        </button>
+
+    </div>
+
+
+    <div id="homeProducts" class="products"></div>
+
+</section>
+
+
+
+<!-- SEARCH -->
+
+<section id="search" class="page">
+
+    <div class="section-title">
+
+        <div>
+
+            <small>DISCOVER</small>
+
+            <h1>SEARCH</h1>
+
+        </div>
+
+    </div>
+
+
+    <div class="search-box">
+
+        🔎
+
+        <input
+            id="searchInput"
+            oninput="renderProducts()"
+            placeholder="Search products, owners or companies..."
+        >
+
+    </div>
+
+
+    <div id="searchProducts" class="products"></div>
+
+</section>
+
+
+
+<!-- ACCOUNT -->
+
+<section id="account" class="page">
+
+    <div class="section-title">
+
+        <div>
+
+            <small>YOUR PROFILE</small>
+
+            <h1>ACCOUNT</h1>
+
+        </div>
+
+    </div>
+
+
+    <div class="account-card">
+
+        <div class="avatar" id="avatar">
+            A
+        </div>
+
+        <div>
+
+            <h2 id="accountName">
+                GUEST
+            </h2>
+
+            <p id="accountPhone">
+                Not logged in
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <button
+        class="gold-btn full"
+        onclick="openLogin()">
+
+        LOGIN / VERIFY PHONE
+
+    </button>
+
+
+    <br><br>
+
+    <button
+        class="gold-btn full"
+        onclick="showPage('terms')">
+
+        TERMS & CONDITIONS
+
+    </button>
+
+</section>
+
+
+
+<!-- POST -->
+
+<section id="post" class="page">
+
+    <div class="partner">
+
+        <div class="partner-icon">
+            ✓
+        </div>
+
+        <h1>
+            WANT TO BE VERIFIED
+            AND BECOME A PARTNER?
+        </h1>
+
+        <p>
+            Customers can see this page, but products
+            cannot be posted without Abba Authentics
+            approval.
+        </p>
+
+        <button
+            class="gold-btn"
+            onclick="contactPartner()">
+
+            POST
+
+        </button>
+
+    </div>
+
+</section>
+
+
+
+<!-- SETTINGS -->
+
+<section id="settings" class="page">
+
+    <div class="section-title">
+
+        <div>
+
+            <small>PREFERENCES</small>
+
+            <h1>SETTINGS</h1>
+
+        </div>
+
+    </div>
+
+
+    <div class="settings-list">
+
+        <button
+            class="setting"
+            onclick="toggleDark()">
+
+            <span>
+                🌙 <b>DARK THEME</b>
+            </span>
+
+            <span id="darkState">
+                OFF
+            </span>
+
+        </button>
+
+
+        <button
+            class="setting"
+            onclick="contactAbba()">
+
+            <span>
+                💬 <b>CONTACT ABBA AUTHENTICS</b>
+            </span>
+
+            <span>→</span>
+
+        </button>
+
+
+        <button
+            class="setting"
+            onclick="openComplaint()">
+
+            <span>
+                📝 <b>SHARE COMPLAIN</b>
+            </span>
+
+            <span>→</span>
+
+        </button>
+
+
+        <button
+            class="setting"
+            onclick="openReview()">
+
+            <span>
+                ⭐ <b>REVIEW</b>
+            </span>
+
+            <span>→</span>
+
+        </button>
+
+
+        <button
+            class="setting logout"
+            onclick="logout()">
+
+            <span>
+                🚪 <b>LOG OUT</b>
+            </span>
+
+            <span>→</span>
+
+        </button>
+
+    </div>
+
+</section>
+
+
+
+<!-- TERMS -->
+
+<section id="terms" class="page">
+
+    <div class="section-title">
+
+        <div>
+
+            <small>LEGAL</small>
+
+            <h1>TERMS & CONDITIONS</h1>
+
+        </div>
+
+    </div>
+
+
+    <article class="terms">
+
+        <h2>
+            Welcome to Abba Authentics
+        </h2>
+
+        <p>
+            By using this website, you agree to use
+            the platform responsibly and provide
+            accurate information where requested.
+        </p>
+
+
+        <h3>1. PRODUCT VERIFICATION</h3>
+
+        <p>
+            Products carrying the green ✓ VERIFIED
+            badge have been approved through the
+            Abba Authentics verification process.
+        </p>
+
+
+        <h3>2. NO PRODUCT SALES</h3>
+
+        <p>
+            <b>
+                Abba Authentics does not sell products.
+                We only show you original products to
+                reduce risk of scam.
+            </b>
+        </p>
+
+
+        <h3>3. TRANSACTIONS</h3>
+
+        <p>
+            Any purchase, payment, delivery or agreement
+            is made directly between the customer and
+            the product owner/company.
+        </p>
+
+
+        <h3>4. PARTNER APPROVAL</h3>
+
+        <p>
+            Anyone wishing to become a partner must
+            contact Abba Authentics and receive approval
+            before products can be published.
+        </p>
+
+
+        <h3>5. USER RESPONSIBILITY</h3>
+
+        <p>
+            Customers should exercise reasonable care
+            before sending money or entering into any
+            transaction.
+        </p>
+
+
+        <h3>6. ACCOUNT SECURITY</h3>
+
+        <p>
+            Users must keep their passwords and OTPs
+            private and must not share them with others.
+        </p>
+
+
+        <h3>7. CHANGES</h3>
+
+        <p>
+            Abba Authentics may update these terms as
+            the website develops.
+        </p>
+
+    </article>
+
+</section>
+
+
+
+<!-- BOTTOM NAV -->
+
+<nav class="bottom-nav">
+
+    <button
+        class="nav-btn active"
+        data-page="home"
+        onclick="showPage('home')">
+
+        <span>⌂</span>
+        HOME
+
+    </button>
+
+
+    <button
+        class="nav-btn"
+        data-page="search"
+        onclick="showPage('search')">
+
+        <span>⌕</span>
+        SEARCH
+
+    </button>
+
+
+    <button
+        class="nav-btn"
+        data-page="account"
+        onclick="showPage('account')">
+
+        <span>◉</span>
+        ACCOUNT
+
+    </button>
+
+
+    <button
+        class="nav-btn"
+        data-page="post"
+        onclick="showPage('post')">
+
+        <span>＋</span>
+        POST
+
+    </button>
+
+</nav>
+
+
+
+<!-- LOGIN -->
+
+<div id="loginModal" class="modal hidden">
+
+    <div class="modal-box">
+
+        <button
+            class="close"
+            onclick="closeModal('loginModal')">
+            ×
+        </button>
+
+        <h2>
+            SECURE LOGIN
+        </h2>
+
+        <br>
+
+        <div id="loginStep1">
+
+            <input
+                id="loginPhone"
+                placeholder="Phone number"
+                inputmode="tel"
+            >
+
+            <input
+                id="loginPassword"
+                type="password"
+                placeholder="Password"
+            >
+
+            <button
+                class="gold-btn full"
+                onclick="sendOTP()">
+
+                SEND OTP
+
+            </button>
+
+        </div>
+
+
+        <div id="loginStep2" style="display:none">
+
+            <p>
+                Your OTP is:
+                <b id="otpDisplay"></b>
+            </p>
+
+            <br>
+
+            <input
+                id="otpInput"
+                placeholder="Enter OTP"
+                inputmode="numeric"
+            >
+
+            <button
+                class="gold-btn full"
+                onclick="verifyOTP()">
+
+                VERIFY OTP
+
+            </button>
+
+        </div>
+
+
+        <div id="loginStep3" style="display:none">
+
+            <input
+                id="nameInput"
+                placeholder="YOUR NAME"
+            >
+
+            <button
+                class="gold-btn full"
+                onclick="finishLogin()">
+
+                COMPLETE LOGIN
+
+            </button>
+
+        </div>
+
+
+        <p
+            id="loginError"
+            class="error">
+        </p>
+
+    </div>
+
+</div>
+
+
+
+<!-- MESSAGE -->
+
+<div id="messageModal" class="modal hidden">
+
+    <div class="modal-box">
+
+        <button
+            class="close"
+            onclick="closeModal('messageModal')">
+            ×
+        </button>
+
+        <h2 id="messageTitle">
+            Share your message
+        </h2>
+
+        <br>
+
+        <textarea
+            id="messageText"
+            rows="6"
+            placeholder="Write your message...">
+        </textarea>
+
+        <button
+            class="gold-btn full"
+            onclick="sendMessage()">
+
+            ➤ SEND
+
+        </button>
+
+    </div>
+
+</div>
+
+
+
+<!-- REVIEW -->
+
+<div id="reviewModal" class="modal hidden">
+
+    <div class="modal-box">
+
+        <button
+            class="close"
+            onclick="closeModal('reviewModal')">
+            ×
+        </button>
+
+        <h2>
+            RATE ABBA AUTHENTICS
+        </h2>
+
+        <div class="stars">
+
+            <span class="star" onclick="rate(1)">★</span>
+            <span class="star" onclick="rate(2)">★</span>
+            <span class="star" onclick="rate(3)">★</span>
+            <span class="star" onclick="rate(4)">★</span>
+            <span class="star" onclick="rate(5)">★</span>
+
+        </div>
+
+        <textarea
+            id="reviewText"
+            rows="5"
+            placeholder="Write your review...">
+        </textarea>
+
+        <button
+            class="gold-btn full"
+            onclick="sendReview()">
+
+            SEND REVIEW
+
+        </button>
+
+    </div>
+
+</div>
+
+
+
+<!-- PRODUCT -->
+
+<div id="productModal" class="modal hidden">
+
+    <div class="modal-box">
+
+        <button
+            class="close"
+            onclick="closeModal('productModal')">
+            ×
+        </button>
+
+        <img
+            id="productImage"
+            style="width:100%;border-radius:10px"
+        >
+
+        <br><br>
+
+        <span class="verified">
+            ✓ VERIFIED
+        </span>
+
+        <h2 id="productName"></h2>
+
+        <p id="productOwner"></p>
+
+        <p id="productCompany"></p>
+
+        <br>
+
+        <button
+            class="gold-btn full"
+            onclick="buyProduct()">
+
+            CONTACT OWNER ON WHATSAPP
+
+        </button>
+
+    </div>
+
+</div>
+
+
+
+<script>
+
+/* ============================
+   ABBA AUTHENTICS
+   ============================ */
+
+const WHATSAPP_NUMBER = "2349061530541";
+
+let products =
+JSON.parse(localStorage.getItem("abbaProducts")) || [];
+
+let user =
+JSON.parse(localStorage.getItem("abbaUser")) || {
+    name:"",
+    phone:"",
+    password:"",
+    purchases:0,
+    dark:false
+};
+
+let currentOTP = null;
+let currentProduct = null;
+let currentRating = 0;
+
+
+/* PAGE SYSTEM */
+
+function showPage(page){
+
+    document
+    .querySelectorAll(".page")
+    .forEach(p=>{
+        p.classList.remove("active");
+    });
+
+    document
+    .getElementById(page)
+    .classList.add("active");
+
+    document
+    .querySelectorAll(".nav-btn")
+    .forEach(btn=>{
+        btn.classList.toggle(
+            "active",
+            btn.dataset.page === page
+        );
+    });
+
+    if(page==="home" || page==="search"){
+        renderProducts();
+    }
+
+    window.scrollTo(0,0);
+}
+
+
+/* WHATSAPP */
+
+function whatsapp(message){
+
+    window.open(
+        "https://wa.me/"
+        + WHATSAPP_NUMBER
+        + "?text="
+        + encodeURIComponent(message),
+        "_blank"
+    );
+
+}
+
+
+/* PARTNER */
+
+function contactPartner(){
+
+    whatsapp(
+        "Hello Abba Authentics, I want to be verified and become a partner."
+    );
+
+}
+
+
+/* CONTACT */
+
+function contactAbba(){
+
+    whatsapp(
+        "Hello Abba Authentics, I would like to contact you."
+    );
+
+}
+
+
+/* PRODUCTS */
+
+function renderProducts(){
+
+    const search =
+    document
+    .getElementById("searchInput")
+    ?.value
+    .toLowerCase() || "";
+
+
+    const filtered =
+    products.filter(p=>
+
+        (
+            p.name +
+            " " +
+            p.owner +
+            " " +
+            p.company
+        )
+        .toLowerCase()
+        .includes(search)
+
+    );
+
+
+    let html="";
+
+
+    if(filtered.length===0){
+
+        html=`
+        <div class="account-card">
+            <div>
+                <h3>NO PRODUCTS YET</h3>
+                <p>
+                    Verified products will appear here
+                    when the owner publishes them.
+                </p>
+            </div>
+        </div>
+        `;
+
+    }else{
+
+        filtered.forEach((p,index)=>{
+
+            html+=`
+
+            <div
+                class="product"
+                onclick="openProduct(${index})">
+
+                <img
+                    src="${p.image}"
+                    alt="${p.name}"
+                >
+
+                <div class="product-info">
+
+                    <span class="verified">
+                        ✓ VERIFIED
+                    </span>
+
+                    <h3>
+                        ${p.name}
+                    </h3>
+
+                    <p>
+                        <b>OWNER:</b>
+                        ${p.owner}
+                    </p>
+
+                    <p>
+                        <b>COMPANY:</b>
+                        ${p.company}
+                    </p>
+
+                </div>
+
+            </div>
+
+            `;
+
+        });
+
+    }
+
+
+    document
+    .getElementById("homeProducts")
+    .innerHTML=html;
+
+    document
+    .getElementById("searchProducts")
+    .innerHTML=html;
+
+}
+
+
+/* PRODUCT DETAILS */
+
+function openProduct(index){
+
+    currentProduct=products[index];
+
+    document
+    .getElementById("productImage")
+    .src=currentProduct.image;
+
+    document
+    .getElementById("productName")
+    .textContent=currentProduct.name;
+
+    document
+    .getElementById("productOwner")
+    .textContent=
+    "Owner: "+currentProduct.owner;
+
+    document
+    .getElementById("productCompany")
+    .textContent=
+    "Company: "+currentProduct.company;
+
+    document
+    .getElementById("productModal")
+    .classList.remove("hidden");
+
+}
+
+
+/* BUY / WHATSAPP */
+
+function buyProduct(){
+
+    user.purchases++;
+
+    saveUser();
+
+    updateUserUI();
+
+    whatsapp(
+        "Hello, I am interested in the verified product: "
+        + currentProduct.name
+    );
+
+    closeModal("productModal");
+
+}
+
+
+/* LOGIN */
+
+function openLogin(){
+
+    document
+    .getElementById("loginModal")
+    .classList.remove("hidden");
+
+    document
+    .getElementById("loginStep1")
+    .style.display="block";
+
+    document
+    .getElementById("loginStep2")
+    .style.display="none";
+
+    document
+    .getElementById("loginStep3")
+    .style.display="none";
+
+    document
+    .getElementById("loginError")
+    .textContent="";
+
+}
+
+
+/* SEND OTP */
+
+function sendOTP(){
+
+    const phone =
+    document
+    .getElementById("loginPhone")
+    .value.trim();
+
+    const password =
+    document
+    .getElementById("loginPassword")
+    .value;
+
+
+    if(!phone || !password){
+
+        showLoginError(
+            "PLEASE ENTER PHONE NUMBER AND PASSWORD"
+        );
+
+        return;
+    }
+
+
+    if(
+        user.phone &&
+        user.phone===phone &&
+        user.password &&
+        user.password!==password
+    ){
+
+        showLoginError(
+            "INVALID LOGIN CREDENTIALS"
+        );
+
+        return;
+    }
+
+
+    currentOTP =
+    Math.floor(
+        100000 +
+        Math.random()*900000
+    )
+    .toString();
+
+
+    document
+    .getElementById("otpDisplay")
+    .textContent=currentOTP;
+
+
+    document
+    .getElementById("loginStep1")
+    .style.display="none";
+
+    document
+    .getElementById("loginStep2")
+    .style.display="block";
+
+}
+
+
+/* VERIFY OTP */
+
+function verifyOTP(){
+
+    const entered =
+    document
+    .getElementById("otpInput")
+    .value.trim();
+
+
+    if(entered!==currentOTP){
+
+        showLoginError(
+            "INVALID OTP"
+        );
+
+        return;
+    }
+
+
+    document
+    .getElementById("loginStep2")
+    .style.display="none";
+
+    document
+    .getElementById("loginStep3")
+    .style.display="block";
+
+}
+
+
+/* COMPLETE LOGIN */
+
+function finishLogin(){
+
+    const name =
+    document
+    .getElementById("nameInput")
+    .value
+    .trim()
+    .toUpperCase();
+
+
+    if(!name){
+
+        showLoginError(
+            "PLEASE ENTER YOUR NAME"
+        );
+
+        return;
+    }
+
+
+    user.name =
+    name;
+
+    user.phone =
+    document
+    .getElementById("loginPhone")
+    .value;
+
+    user.password =
+    document
+    .getElementById("loginPassword")
+    .value;
+
+
+    user.loginTime =
+    Date.now();
+
+
+    saveUser();
+
+    updateUserUI();
+
+    closeModal("loginModal");
+
+
+    alert(
+        "THANKS FOR WORKING WITH ABBA AUTHENTICS"
+    );
+
+}
+
+
+/* LOGIN ERROR */
+
+function showLoginError(message){
+
+    const error =
+    document
+    .getElementById("loginError");
+
+    error.textContent=message;
+
+}
+
+
+/* UPDATE USER */
+
+function updateUserUI(){
+
+    const name =
+    user.name || "GUEST";
+
+
+    document
+    .getElementById("dashboardName")
+    .textContent =
+    user.name
+    ? "WELCOME, "+name
+    : "WELCOME, GUEST";
+
+
+    document
+    .getElementById("accountName")
+    .textContent=name;
+
+
+    document
+    .getElementById("accountPhone")
+    .textContent =
+    user.phone ||
+    "Not logged in";
+
+
+    document
+    .getElementById("avatar")
+    .textContent =
+    name.charAt(0);
+
+
+    const purchases =
+    user.purchases || 0;
+
+
+    document
+    .getElementById("purchaseNumber")
+    .textContent=purchases;
+
+
+    document
+    .getElementById("purchaseText")
+    .textContent =
+    purchases===1
+    ? "PURCHASE"
+    : "PURCHASES";
+
+
+    document.body
+    .classList.toggle(
+        "dark",
+        user.dark
+    );
+
+
+    document
+    .getElementById("darkState")
+    .textContent =
+    user.dark ? "ON" : "OFF";
+
+}
+
+
+/* SAVE */
+
+function saveUser(){
+
+    localStorage.setItem(
+        "abbaUser",
+        JSON.stringify(user)
+    );
+
+}
+
+
+/* DARK MODE */
+
+function toggleDark(){
+
+    user.dark=!user.dark;
+
+    saveUser();
+
+    updateUserUI();
+
+}
+
+
+/* COMPLAINT */
+
+function openComplaint(){
+
+    document
+    .getElementById("messageTitle")
+    .textContent=
+    "SHARE COMPLAIN";
+
+    document
+    .getElementById("messageText")
+    .value="";
+
+    document
+    .getElementById("messageModal")
+    .classList.remove("hidden");
+
+}
+
+
+/* SEND MESSAGE */
+
+function sendMessage(){
+
+    const message =
+    document
+    .getElementById("messageText")
+    .value.trim();
+
+
+    if(!message){
+
+        alert("WRITE A MESSAGE FIRST");
+
+        return;
+    }
+
+
+    whatsapp(
+        "ABBA AUTHENTICS COMPLAINT:\n\n"
+        +message
+    );
+
+
+    closeModal("messageModal");
+
+}
+
+
+/* REVIEW */
+
+function openReview(){
+
+    currentRating=0;
+
+    document
+    .querySelectorAll(".star")
+    .forEach(star=>{
+        star.classList.remove("selected");
+    });
+
+    document
+    .getElementById("reviewText")
+    .value="";
+
+
+    document
+    .getElementById("reviewModal")
+    .classList.remove("hidden");
+
+}
+
+
+/* RATE */
+
+function rate(number){
+
+    currentRating=number;
+
+    document
+    .querySelectorAll(".star")
+    .forEach((star,index)=>{
+
+        star.classList.toggle(
+            "selected",
+            index<number
+        );
+
+    });
+
+}
+
+
+/* SEND REVIEW */
+
+function sendReview(){
+
+    if(currentRating===0){
+
+        alert(
+            "PLEASE SELECT A STAR RATING"
+        );
+
+        return;
+    }
+
+
+    const text =
+    document
+    .getElementById("reviewText")
+    .value;
+
+
+    whatsapp(
+        "ABBA AUTHENTICS REVIEW\n\n"
+        +"Rating: "
+        +currentRating
+        +" / 5\n\n"
+        +text
+    );
+
+
+    closeModal("reviewModal");
+
+}
+
+
+/* LOGOUT */
+
+function logout(){
+
+    localStorage.removeItem(
+        "abbaUser"
+    );
+
+
+    user={
+        name:"",
+        phone:"",
+        password:"",
+        purchases:0,
+        dark:false
+    };
+
+
+    updateUserUI();
+
+    alert(
+        "LOGGED OUT — LOGIN INFORMATION FORGOTTEN"
+    );
+
+    showPage("home");
+
+}
+
+
+/* CLOSE MODAL */
+
+function closeModal(id){
+
+    document
+    .getElementById(id)
+    .classList.add("hidden");
+
+}
+
+
+/* INITIALIZE */
+
+updateUserUI();
+
+renderProducts();
+
+</script>
+
+</body>
+</html>
