@@ -1,0 +1,206 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Marketplace</title>
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial; }
+  body { background: #000; color: #fff; }
+  header { background: linear-gradient(90deg, #D4AF37, #000); padding: 15px; position: sticky; top: 0; }
+  nav { display: flex; justify-content: space-around; }
+  nav a { color: #D4AF37; text-decoration: none; font-weight: bold; padding: 10px; }
+  nav a.active { border-bottom: 3px solid #D4AF37; }
+  .container { padding: 15px; max-width: 600px; margin: auto; }
+  .section { display: none; }
+  .section.active { display: block; }
+  .product-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 15px; }
+  .product { background: #111; border: 2px solid #D4AF37; border-radius: 12px; padding: 5px; text-align: center; }
+  .product img { width: 100%; height: 120px; object-fit: cover; border-radius: 8px; background: #222; }
+  .product h4 { color: #D4AF37; font-size: 13px; margin: 5px 0; }
+  .card { background: #111; padding: 20px; border-radius: 12px; border: 2px solid #D4AF37; margin: 15px 0; text-align: center; }
+  input, textarea { width: 100%; padding: 14px; margin: 10px 0; border: 2px solid #D4AF37; border-radius: 10px; background: #222; color: #fff; }
+  .btn { background: #D4AF37; color: #000; padding: 14px; border: none; border-radius: 10px; width: 100%; font-weight: bold; font-size: 16px; cursor: pointer; }
+  .otp-box { display: flex; gap: 10px; justify-content: center; margin: 15px 0; }
+  .otp-box input { width: 55px; height: 55px; text-align: center; font-size: 24px; font-weight: bold; }
+  #otpDisplay { background: #D4AF37; color: #000; padding: 15px; border-radius: 10px; font-size: 28px; font-weight: bold; letter-spacing: 5px; }
+  .success { color: #00FF00; font-size: 20px; font-weight: bold; }
+</style>
+</head>
+<body>
+
+<header>
+  <nav>
+    <a href="#" onclick="show('home')" class="active">HOME</a>
+    <a href="#" onclick="show('search')">SEARCH</a>
+    <a href="#" onclick="show('account')">ACCOUNT</a>
+    <a href="#" onclick="show('post')">POST</a>
+  </nav>
+</header>
+
+<div class="container">
+
+  <!-- HOME -->
+  <div id="home" class="section active">
+    <h2 style="color:#D4AF37; text-align:center;">MARKETPLACE</h2>
+    <div class="product-grid" id="productGrid"></div>
+  </div>
+
+  <!-- SEARCH -->
+  <div id="search" class="section">
+    <h2 style="color:#D4AF37;">SEARCH</h2>
+    <input type="text" id="searchInput" placeholder="Search product...">
+    <button class="btn" onclick="search()">Search</button>
+    <div class="product-grid" id="searchResults"></div>
+  </div>
+
+  <!-- ACCOUNT -->
+  <div id="account" class="section">
+    <div id="loginScreen">
+      <h2 style="color:#D4AF37;">LOGIN WITH OTP</h2>
+      <div class="card">
+        <input type="tel" id="phone" placeholder="Enter Phone Number">
+        <button class="btn" onclick="sendOTP()">SEND OTP</button>
+        
+        <div id="otpSection" style="display:none;">
+          <p style="color:#D4AF37;">Your OTP Code:</p>
+          <div id="otpDisplay">0000</div>
+          <div class="otp-box">
+            <input type="text" id="otp1" maxlength="1">
+            <input type="text" id="otp2" maxlength="1">
+            <input type="text" id="otp3" maxlength="1">
+            <input type="text" id="otp4" maxlength="1">
+          </div>
+          <input type="text" id="name" placeholder="Enter Your Name">
+          <button class="btn" onclick="verifyOTP()">VERIFY</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="accountScreen" style="display:none;">
+      <h2 style="color:#D4AF37;">ACCOUNT SAVED ✅</h2>
+      <div class="card">
+        <p class="success">VERIFICATION SUCCESS</p>
+        <p style="margin:15px 0; font-size:18px;">Welcome <span id="userName" style="color:#D4AF37; font-weight:bold;"></span></p>
+        <p>Phone: <span id="userPhone" style="color:#D4AF37;"></span></p>
+        <button class="btn" style="background:#555; margin-top:15px;" onclick="logout()">LOGOUT</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- POST -->
+  <div id="post" class="section">
+    <h2 style="color:#D4AF37;">POST PRODUCT</h2>
+    <div class="card">
+      <input type="text" id="pName" placeholder="Product Name">
+      <input type="number" id="pPrice" placeholder="Price ₦">
+      <textarea id="pDesc" placeholder="Description" rows="3"></textarea>
+      <input type="tel" id="pWhatsApp" placeholder="Your WhatsApp Number">
+      <button class="btn" onclick="addProduct()">POST NOW</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+let products = JSON.parse(localStorage.getItem('products')) || [];
+let currentOTP = "";
+let userData = JSON.parse(localStorage.getItem('user')) || null;
+
+// Check if user already logged in
+if(userData) {
+  showAccountScreen();
+}
+
+function show(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+  event.target.classList.add('active');
+  loadProducts();
+}
+
+function sendOTP() {
+  const phone = document.getElementById('phone').value;
+  if(!phone) return alert('Enter phone number');
+  currentOTP = Math.floor(1000 + Math.random() * 9000);
+  document.getElementById('otpDisplay').innerText = currentOTP;
+  document.getElementById('otpSection').style.display = 'block';
+  alert(`Your OTP: ${currentOTP}`);
+}
+
+function verifyOTP() {
+  const entered = document.getElementById('otp1').value + document.getElementById('otp2').value + document.getElementById('otp3').value + document.getElementById('otp4').value;
+  const name = document.getElementById('name').value;
+  const phone = document.getElementById('phone').value;
+  
+  if(entered == currentOTP && name) {
+    // SAVE ACCOUNT
+    userData = {name: name, phone: phone};
+    localStorage.setItem('user', JSON.stringify(userData));
+    showAccountScreen();
+  } else {
+    alert('Wrong OTP or Enter Name');
+  }
+}
+
+function showAccountScreen() {
+  document.getElementById('loginScreen').style.display = 'none';
+  document.getElementById('accountScreen').style.display = 'block';
+  document.getElementById('userName').innerText = userData.name;
+  document.getElementById('userPhone').innerText = userData.phone;
+}
+
+function logout() {
+  localStorage.removeItem('user');
+  userData = null;
+  document.getElementById('loginScreen').style.display = 'block';
+  document.getElementById('accountScreen').style.display = 'none';
+  document.getElementById('phone').value = "";
+  document.getElementById('name').value = "";
+}
+
+function addProduct() {
+  const name = document.getElementById('pName').value;
+  const price = document.getElementById('pPrice').value;
+  const desc = document.getElementById('pDesc').value;
+  const wa = document.getElementById('pWhatsApp').value;
+  if(!name || !price || !wa) return alert('Fill all fields');
+  products.push({id: Date.now(), name, price, desc, wa});
+  localStorage.setItem('products', JSON.stringify(products));
+  alert('Product Posted!');
+  show('home');
+}
+
+function loadProducts() {
+  const grid = document.getElementById('productGrid');
+  grid.innerHTML = '';
+  products.slice().reverse().forEach(p => {
+    grid.innerHTML += `
+      <div class="product">
+        <img src="https://via.placeholder.com/150/D4AF37/000?text=${p.name}">
+        <h4>${p.name}</h4>
+        <p>₦${p.price}</p>
+        <a href="https://wa.me/${p.wa}" style="color:#D4AF37; font-size:12px;">WhatsApp</a>
+      </div>
+    `;
+  });
+}
+
+function search() {
+  const val = document.getElementById('searchInput').value.toLowerCase();
+  const results = products.filter(p => p.name.toLowerCase().includes(val));
+  document.getElementById('searchResults').innerHTML = results.map(p => `
+    <div class="product">
+      <img src="https://via.placeholder.com/150/D4AF37/000?text=${p.name}">
+      <h4>${p.name}</h4>
+      <p>₦${p.price}</p>
+    </div>
+  `).join('');
+}
+
+loadProducts();
+</script>
+
+</body>
+</html>
