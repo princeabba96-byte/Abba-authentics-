@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Abba Authentics</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
+body{background:#f4f4f4;color:#333}
+header{background:#1a1a1a;color:#fff;padding:15px;text-align:center;position:sticky;top:0;z-index:10}
+header h1{font-size:24px}
+nav{margin-top:10px}
+nav button{background:#ff6600;color:#fff;border:none;padding:10px 20px;margin:5px;border-radius:5px;cursor:pointer;font-weight:bold}
+nav button:hover{background:#e55a00}
+.container{max-width:1200px;margin:20px auto;padding:10px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+@media(max-width:900px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.grid{grid-template-columns:1fr}}
+.card{background:#fff;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,0.1);padding:15px;text-align:center}
+.card img{width:100%;height:200px;object-fit:cover;border-radius:8px;margin-bottom:10px}
+.card h3{color:#ff6600;margin:10px 0}
+.card p{font-size:14px;margin:5px 0}
+.price{font-size:18px;font-weight:bold;color:#1a1a1a}
+.modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);justify-content:center;align-items:center;z-index:100}
+.modal-content{background:#fff;padding:20px;border-radius:10px;width:90%;max-width:500px}
+.modal-content input, .modal-content textarea{width:100%;padding:10px;margin:8px 0;border:1px solid #ccc;border-radius:5px}
+.modal-content button{background:#ff6600;color:#fff;border:none;padding:12px;width:100%;border-radius:5px;cursor:pointer;font-weight:bold;margin-top:10px}
+.close{float:right;font-size:24px;cursor:pointer;color:#999}
+.hidden{display:none}
+#adminPanel{margin-top:20px}
+</style>
+</head>
+<body>
+<header>
+<h1>ABBA AUTHENTICS</h1>
+<p>Verify products and know which are original</p>
+<nav>
+<button onclick="showHome()">HOME</button>
+<button onclick="showPost()">POST</button>
+</nav>
+</header>
+
+<div class="container">
+<div id="home">
+<h2 style="text-align:center;margin-bottom:20px;">Our Products</h2>
+<div class="grid" id="productGrid"></div>
+</div>
+
+<div id="post" class="hidden">
+<h2 style="text-align:center;">Admin Post Panel</h2>
+<div id="loginBox" style="max-width:400px;margin:20px auto;text-align:center;">
+<input type="password" id="adminPass" placeholder="Enter Admin Password">
+<button onclick
