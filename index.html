@@ -8,8 +8,16 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: Arial; background: #0a0a0a; color: #fff; }
     header { background: linear-gradient(135deg, #000, #D4AF37); padding: 20px; text-align: center; }
-    h1 { color: #D4AF37; font-size: 28px; }
-    nav { background: #111; padding: 15px; display: flex; justify-content: center; gap: 20px; }
+    h1 { color: #D4AF37; font-size: 28pxnav { 
+    background: #111; 
+    padding: 15px; 
+    display: flex; 
+    justify-content: flex-start; 
+    gap: 12px; 
+    overflow-x: auto; 
+    white-space: nowrap;
+}
+nav button { flex-shrink: 0; } 
     nav button { background: #D4AF37; color: #000; border: none; padding: 10px 20px; font-weight: bold; cursor: pointer; border-radius: 5px; }
     .container { max-width: 1200px; margin: 20px auto; padding: 20px; }
     .dashboard { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 30px; }
