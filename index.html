@@ -858,30 +858,30 @@ showPage("home");
 /* ================================
    CHECK ADMIN
 ================================ */
+async function checkAdmin() {
+  admin = false;
 
-async function checkAdmin(){
+  if (!currentUser) {
+    updateAdminArea();
+    return;
+  }
 
-admin=false;
+  const { data, error } = await db
+    .from("admins")
+    .select("user_id")
+    .eq("user_id", currentUser.id)
+    .maybeSingle();
 
-if(!currentUser){
-updateAdminArea();
-return;
+  if (error) {
+    console.log("Admin check error:", error);
+    admin = false;
+  } else if (data && data.user_id === currentUser.id) {
+    admin = true;
+  }
+
+  updateAdminArea();
 }
 
-const result=
-await db
-.from("admins")
-.select("user_id")
-.eq("user_id",currentUser.id)
-.maybeSingle();
-
-if(result.data){
-admin=true;
-}
-
-updateAdminArea();
-
-}
 
 
 function updateAdminArea(){
