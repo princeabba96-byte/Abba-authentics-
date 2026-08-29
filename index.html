@@ -1520,48 +1520,48 @@ async function logout(){
 /* =========================================
    ADMIN CHECK
 ========================================= */
-
 async function checkAdmin(){
 
   admin = false;
 
   if(!currentUser){
-
     updateAdminArea();
-
     return;
   }
 
-  const result =
-    await db
-      .from("admins")
-      .select("user_id")
-      .eq("user_id",currentUser.id)
-      .maybeSingle();
+  const result = await db
+    .from("admins")
+    .select("user_id")
+    .eq("user_id", currentUser.id)
+    .maybeSingle();
+
+  console.log("CURRENT USER UID:", currentUser.id);
+  console.log("ADMIN QUERY RESULT:", result);
 
   if(result.error){
 
-    console.log(
-      "Admin check:",
-      result.error
+    alert(
+      "Admin check error: " +
+      result.error.message
     );
 
-    admin = false;
-
-  }else if(
-    result.data &&
-    result.data.user_id === currentUser.id
-  ){
+  }else if(result.data){
 
     admin = true;
+
+    alert("ADMIN FOUND! 👑");
+
+  }else{
+
+    alert(
+      "No admin record found for UID: " +
+      currentUser.id
+    );
 
   }
 
   updateAdminArea();
-
 }
-
-
 /* =========================================
    ADMIN UI
 ========================================= */
