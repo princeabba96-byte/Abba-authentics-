@@ -861,10 +861,12 @@ showPage("home");
 async function checkAdmin() {
   admin = false;
 
-  if (!currentUser) {
-    updateAdminArea();
-    return;
+  if (currentUser && currentUser.email) {
+    admin = currentUser.email.toLowerCase() === "princeabba96@gmail.com";
   }
+
+  updateAdminArea();
+}
 
   const { data, error } = await db
     .from("admins")
