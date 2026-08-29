@@ -874,7 +874,8 @@ async function checkAdmin() {
 
   if (error) {
     console.log("Admin check error:", error);
-    admin = false;
+    admin = false;console.log("Website User ID:", currentUser.id);
+console.log("Admin Row:", data);
   } else if (data && data.user_id === currentUser.id) {
     admin = true;
   }
