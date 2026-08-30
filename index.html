@@ -1,0 +1,2429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Abba Authentics</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+:root{
+  --bg:#f5f7fb;
+  --card:#ffffff;
+  --text:#111827;
+  --muted:#6b7280;
+  --gold:#d4af37;
+  --dark:#090909;
+  --border:#e5e7eb;
+  --green:#16a34a;
+  --red:#dc2626;
+}
+
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  padding-bottom:80px;
+}
+
+body.dark{
+  --bg:#101010;
+  --card:#1d1d1d;
+  --text:#f5f5f5;
+  --muted:#aaa;
+  --border:#333;
+}
+
+header{
+  height:65px;
+  background:#090909;
+  color:white;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 18px;
+  position:sticky;
+  top:0;
+  z-index:20;
+}
+
+.logo{
+  color:var(--gold);
+  font-weight:900;
+  font-size:22px;
+  letter-spacing:2px;
+  cursor:pointer;
+}
+
+.logo span{
+  display:block;
+  color:white;
+  font-size:8px;
+  letter-spacing:4px;
+  text-align:center;
+}
+
+header button{
+  border:0;
+  background:none;
+  color:white;
+  font-size:23px;
+}
+
+.page{
+  display:none;
+  max-width:1100px;
+  margin:auto;
+  padding:18px;
+}
+
+.page.active{
+  display:block;
+}
+
+.hero{
+  min-height:420px;
+  border-radius:20px;
+  padding:30px;
+  display:flex;
+  align-items:center;
+  color:white;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(0,0,0,.9),
+      rgba(0,0,0,.3)
+    ),
+    url("https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1600&q=80");
+
+  background-size:cover;
+  background-position:center;
+}
+
+.hero small{
+  color:var(--gold);
+  font-weight:bold;
+  letter-spacing:2px;
+}
+
+.hero h1{
+  font-size:46px;
+  margin:15px 0;
+}
+
+.hero h1 span{
+  color:var(--gold);
+}
+
+.hero p{
+  max-width:620px;
+  line-height:1.7;
+  color:#ddd;
+}
+
+.gold-btn{
+  border:0;
+  background:var(--gold);
+  color:#111;
+  padding:13px 18px;
+  border-radius:9px;
+  font-weight:bold;
+  margin-top:15px;
+  cursor:pointer;
+}
+
+.dashboard{
+  margin:20px 0;
+  background:#090909;
+  color:white;
+  padding:22px;
+  border-radius:16px;
+
+  display:flex;
+  justify-content:space-between;
+  gap:20px;
+}
+
+.dashboard small{
+  color:var(--gold);
+}
+
+.purchase strong{
+  display:block;
+  color:var(--gold);
+  font-size:32px;
+}
+
+.section{
+  margin:25px 0 15px;
+}
+
+.section small{
+  color:#a47b00;
+  font-weight:bold;
+  letter-spacing:2px;
+}
+
+.products{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:16px;
+}
+
+.product{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:15px;
+  overflow:hidden;
+}
+
+.product img{
+  width:100%;
+  height:220px;
+  object-fit:cover;
+  display:block;
+}
+
+.product-body{
+  padding:15px;
+}
+
+.verified{
+  display:inline-block;
+  background:var(--green);
+  color:white;
+  padding:5px 9px;
+  border-radius:20px;
+  font-size:10px;
+  font-weight:bold;
+}
+
+.product h3{
+  margin:10px 0;
+}
+
+.product p{
+  color:var(--muted);
+  line-height:1.5;
+  font-size:14px;
+}
+
+.price{
+  color:#a47b00;
+  font-weight:bold;
+  font-size:20px;
+  margin:12px 0;
+}
+
+.actions{
+  display:flex;
+  gap:7px;
+}
+
+.actions button{
+  flex:1;
+  border:0;
+  border-radius:7px;
+  padding:10px 5px;
+  font-size:11px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.buy{
+  background:var(--green);
+  color:white;
+}
+
+.delete{
+  background:var(--red);
+  color:white;
+}
+
+.card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:15px;
+  padding:20px;
+  margin-bottom:18px;
+}
+
+input,
+textarea{
+  width:100%;
+  padding:13px;
+  margin:7px 0 13px;
+  border:1px solid var(--border);
+  border-radius:9px;
+  background:var(--card);
+  color:var(--text);
+}
+
+.full{
+  width:100%;
+}
+
+.message{
+  padding:12px;
+  border-radius:8px;
+  margin:10px 0;
+  font-size:13px;
+}
+
+.error{
+  background:#fee2e2;
+  color:#991b1b;
+}
+
+.success{
+  background:#dcfce7;
+  color:#166534;
+}
+
+.admin-badge{
+  display:inline-block;
+  background:var(--gold);
+  color:#111;
+  padding:7px 11px;
+  border-radius:20px;
+  font-size:11px;
+  font-weight:bold;
+}
+
+.bottom-nav{
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  height:78px;
+  background:#090909;
+  display:flex;
+  z-index:50;
+}
+
+.nav-btn{
+  flex:1;
+  border:0;
+  background:none;
+  color:#777;
+  font-size:10px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.nav-btn span{
+  display:block;
+  font-size:23px;
+  margin-bottom:4px;
+}
+
+.nav-btn.active{
+  color:white;
+}
+
+.nav-btn.active span{
+  color:var(--gold);
+}
+
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.75);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:18px;
+  z-index:100;
+}
+
+.modal.show{
+  display:flex;
+}
+
+.modal-box{
+  width:100%;
+  max-width:430px;
+  background:var(--card);
+  color:var(--text);
+  border-radius:16px;
+  padding:25px;
+  position:relative;
+}
+
+.close{
+  position:absolute;
+  right:12px;
+  top:6px;
+  border:0;
+  background:none;
+  color:var(--text);
+  font-size:28px;
+}
+
+.star{
+  border:0;
+  background:none;
+  color:#aaa;
+  font-size:30px;
+  cursor:pointer;
+}
+
+.star.selected{
+  color:#f5b700;
+}
+
+.setting{
+  padding:16px 0;
+  border-bottom:1px solid var(--border);
+
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.empty{
+  background:var(--card);
+  border:1px solid var(--border);
+  padding:25px;
+  border-radius:12px;
+  color:var(--muted);
+  text-align:center;
+}
+
+@media(max-width:750px){
+
+  .products{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .hero h1{
+    font-size:36px;
+  }
+
+}
+
+@media(max-width:480px){
+
+  .products{
+    grid-template-columns:1fr;
+  }
+
+  .hero h1{
+    font-size:32px;
+  }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+
+  <div
+    class="logo"
+    onclick="showPage('home')">
+
+    ABBA
+
+    <span>
+      AUTHENTICS
+    </span>
+
+  </div>
+
+  <button
+    onclick="showPage('settings')">
+    ⚙️
+  </button>
+
+</header><!-- HOME -->
+
+<section id="home" class="page active">
+
+  <div class="hero">
+
+    <div>
+
+      <small>TRUST • VERIFY • SHOP SMART</small>
+
+      <h1>
+        KNOW WHAT'S <span>AUTHENTIC.</span>
+      </h1>
+
+      <p>
+        Abba Authentics helps customers discover
+        products and make smarter purchasing decisions.
+      </p>
+
+      <button
+        class="gold-btn"
+        onclick="showPage('search')">
+
+        EXPLORE PRODUCTS
+
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <div class="dashboard">
+
+    <div>
+
+      <small>CUSTOMER DASHBOARD</small>
+
+      <h2 id="welcome">
+        WELCOME, GUEST
+      </h2>
+
+      <p style="color:#aaa">
+        Verified shopping experience
+      </p>
+
+    </div>
+
+
+    <div class="purchase">
+
+      <strong id="productCount">
+        0
+      </strong>
+
+      PRODUCTS
+
+    </div>
+
+  </div>
+
+
+  <div class="section">
+
+    <small>VERIFIED ITEMS</small>
+
+    <h2>Latest Products</h2>
+
+  </div>
+
+
+  <div
+    id="homeProducts"
+    class="products">
+  </div>
+
+</section>
+
+
+<!-- SEARCH -->
+
+<section id="search" class="page">
+
+  <div class="section">
+
+    <small>DISCOVER</small>
+
+    <h1>SEARCH PRODUCTS</h1>
+
+  </div>
+
+
+  <input
+    id="searchInput"
+    placeholder="Search products..."
+    oninput="searchProducts">
+
+
+  <div
+    id="searchProducts"
+    class="products">
+  </div>
+
+</section>
+
+
+<!-- ACCOUNT -->
+
+<section id="account" class="page">
+
+  <div class="section">
+
+    <small>YOUR PROFILE</small>
+
+    <h1>ACCOUNT</h1>
+
+  </div>
+
+
+  <div class="card">
+
+    <h2 id="accountName">
+      GUEST
+    </h2>
+
+    <p
+      id="accountEmail"
+      style="color:var(--muted);margin-top:7px">
+
+      Not logged in
+
+    </p>
+
+
+    <div
+      id="adminStatus"
+      style="margin-top:12px">
+    </div>
+
+  </div>
+
+
+  <button
+    id="loginButton"
+    class="gold-btn full"
+    onclick="openLogin()">
+
+    LOGIN
+
+  </button>
+
+
+  <button
+    id="logoutButton"
+    class="gold-btn full"
+    onclick="logout()"
+    style="display:none">
+
+    LOG OUT
+
+  </button>
+
+</section>
+
+
+<!-- POST -->
+
+<section id="post" class="page">
+
+  <div id="adminPost">
+
+    <div class="section">
+
+      <small>ADMIN PANEL</small>
+
+      <h1>POST PRODUCT</h1>
+
+    </div>
+
+
+    <div class="card">
+
+      <form id="productForm">
+
+        <label>
+          Product name
+        </label>
+
+        <input
+          id="productName"
+          required
+          placeholder="Product name">
+
+
+        <label>
+          Description
+        </label>
+
+        <textarea
+          id="productDescription"
+          rows="4"
+          placeholder="Product description">
+        </textarea>
+
+
+        <label>
+          Price
+        </label>
+
+        <input
+          id="productPrice"
+          type="number"
+          required
+          placeholder="Price in Naira">
+
+
+        <label>
+          Category
+        </label>
+
+        <input
+          id="productCategory"
+          placeholder="Category">
+
+
+        <label>
+          Product Image
+        </label>
+
+        <input
+          id="imageFile"
+          type="file"
+          accept="image/*"
+          required>
+
+
+        <label>
+          WhatsApp number
+        </label>
+
+        <input
+          id="productWhatsapp"
+          value="09061530541">
+
+
+        <div id="uploadMessage"></div>
+
+
+        <button
+          class="gold-btn full"
+          type="submit">
+
+          📸 UPLOAD & PUBLISH
+
+        </button>
+
+      </form>
+
+    </div>
+
+  </div>
+
+
+  <div
+    id="notAdmin"
+    class="card"
+    style="display:none">
+
+    <h2>
+      Admin Only 👑
+    </h2>
+
+    <p
+      style="color:var(--muted);margin-top:10px">
+
+      Only authorized administrators can
+      publish products.
+
+    </p>
+
+  </div>
+
+</section>
+
+
+<!-- REVIEWS -->
+
+<section id="reviews" class="page">
+
+  <div class="section">
+
+    <small>
+      CUSTOMER EXPERIENCE
+    </small>
+
+    <h1>
+      5-STAR REVIEWS ⭐
+    </h1>
+
+  </div>
+
+
+  <div class="card">
+
+    <h3>
+      Leave a review
+    </h3>
+
+
+    <div style="margin:12px 0">
+
+      <button
+        class="star"
+        onclick="setRating(1)">
+        ★
+      </button>
+
+      <button
+        class="star"
+        onclick="setRating(2)">
+        ★
+      </button>
+
+      <button
+        class="star"
+        onclick="setRating(3)">
+        ★
+      </button>
+
+      <button
+        class="star"
+        onclick="setRating(4)">
+        ★
+      </button>
+
+      <button
+        class="star"
+        onclick="setRating(5)">
+        ★
+      </button>
+
+    </div>
+
+
+    <textarea
+      id="reviewText"
+      rows="4"
+      placeholder="Write your review...">
+    </textarea>
+
+
+    <button
+      class="gold-btn full"
+      onclick="submitReview()">
+
+      SUBMIT REVIEW
+
+    </button>
+
+  </div>
+
+
+  <div
+    id="reviewsList"
+    class="card">
+
+    Loading reviews...
+
+  </div>
+
+</section>
+
+
+<!-- COMPLAINTS -->
+
+<section id="complaints" class="page">
+
+  <div class="section">
+
+    <small>
+      CUSTOMER SUPPORT
+    </small>
+
+    <h1>
+      CUSTOMER COMPLAINT
+    </h1>
+
+  </div>
+
+
+  <div class="card">
+
+    <input
+      id="complaintName"
+      placeholder="Your name">
+
+
+    <input
+      id="complaintContact"
+      placeholder="Phone or email">
+
+
+    <textarea
+      id="complaintText"
+      rows="5"
+      placeholder="Describe your complaint...">
+    </textarea>
+
+
+    <button
+      class="gold-btn full"
+      onclick="submitComplaint()">
+
+      SEND COMPLAINT
+
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- SETTINGS -->
+
+<section id="settings" class="page">
+
+  <div class="section">
+
+    <small>
+      PREFERENCES
+    </small>
+
+    <h1>
+      SETTINGS
+    </h1>
+
+  </div>
+
+
+  <div class="card">
+
+    <div class="setting">
+
+      <strong>
+        🌙 Dark Theme
+      </strong>
+
+      <input
+        id="darkMode"
+        type="checkbox"
+        onchange="toggleDark()">
+
+    </div>
+
+
+    <div class="setting">
+
+      <strong>
+        ⭐ Reviews
+      </strong>
+
+      <button
+        class="gold-btn"
+        onclick="showPage('reviews')">
+
+        OPEN
+
+      </button>
+
+    </div>
+
+
+    <div class="setting">
+
+      <strong>
+        📝 Complaints
+      </strong>
+
+      <button
+        class="gold-btn"
+        onclick="showPage('complaints')">
+
+        OPEN
+
+      </button>
+
+    </div>
+
+
+    <div class="setting">
+
+      <strong>
+        💬 WhatsApp
+      </strong>
+
+      <button
+        class="gold-btn"
+        onclick="contactWhatsApp()">
+
+        CONTACT
+
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <div class="card">
+
+    <button
+      class="gold-btn full"
+      onclick="showPage('terms')">
+
+      TERMS & CONDITIONS
+
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- TERMS -->
+
+<section id="terms" class="page">
+
+  <div class="section">
+
+    <small>
+      LEGAL
+    </small>
+
+    <h1>
+      TERMS & CONDITIONS
+    </h1>
+
+  </div>
+
+
+  <div
+    class="card"
+    style="line-height:1.7">
+
+    <h3>
+      Product Verification
+    </h3>
+
+    <p style="color:var(--muted)">
+
+      Abba Authentics provides product information
+      to help customers make informed purchasing
+      decisions.
+
+    </p>
+
+    <br>
+
+    <h3>
+      Transactions
+    </h3>
+
+    <p style="color:var(--muted)">
+
+      Customers should confirm product details,
+      price, seller information and payment
+      arrangements before completing a transaction.
+
+    </p>
+
+    <br>
+
+    <h3>
+      Administration
+    </h3>
+
+    <p style="color:var(--muted)">
+
+      Only authorized administrators may publish
+      products.
+
+    </p>
+
+  </div>
+
+</section>
+
+
+<!-- BOTTOM NAVIGATION -->
+
+<nav class="bottom-nav">
+
+  <button
+    class="nav-btn active"
+    onclick="showPage('home')">
+
+    <span>⌂</span>
+    HOME
+
+  </button>
+
+
+  <button
+    class="nav-btn"
+    onclick="showPage('search')">
+
+    <span>⌕</span>
+    SEARCH
+
+  </button>
+
+
+  <button
+    class="nav-btn"
+    onclick="showPage('account')">
+
+    <span>◉</span>
+    ACCOUNT
+
+  </button>
+
+
+  <button
+    class="nav-btn"
+    onclick="showPage('post')">
+
+    <span>＋</span>
+    POST
+
+  </button>
+
+</nav>
+
+
+<!-- LOGIN MODAL -->
+
+<div
+  id="loginModal"
+  class="modal">
+
+  <div class="modal-box">
+
+    <button
+      class="close"
+      onclick="closeLogin()">
+
+      ×
+
+    </button>
+
+
+    <h2>
+      LOGIN
+    </h2>
+
+
+    <div id="loginMessage"></div>
+
+
+    <input
+      id="loginEmail"
+      type="email"
+      placeholder="Email">
+
+
+    <input
+      id="loginPassword"
+      type="password"
+      placeholder="Password">
+
+
+    <button
+      class="gold-btn full"
+      onclick="login()">
+
+      LOGIN
+
+    </button>
+
+  </div>
+
+</div><script>
+
+const SUPABASE_URL =
+"https://eoccjsybttiwcxfaxeqg.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_kjuHflL01uvHLsy4IpYSIw_MMnsCXXD";
+
+const db =
+window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+
+let currentUser = null;
+let admin = false;
+let products = [];
+let rating = 0;
+
+
+/* PAGE NAVIGATION */
+
+function showPage(page){
+
+  document
+    .querySelectorAll(".page")
+    .forEach(function(item){
+
+      item.classList.remove("active");
+
+    });
+
+  const selected =
+    document.getElementById(page);
+
+  if(selected){
+
+    selected.classList.add("active");
+
+  }
+
+  document
+    .querySelectorAll(".nav-btn")
+    .forEach(function(item){
+
+      item.classList.remove("active");
+
+    });
+
+  const buttons =
+    document.querySelectorAll(".nav-btn");
+
+  if(page === "home")
+    buttons[0].classList.add("active");
+
+  if(page === "search")
+    buttons[1].classList.add("active");
+
+  if(page === "account")
+    buttons[2].classList.add("active");
+
+  if(page === "post")
+    buttons[3].classList.add("active");
+
+  window.scrollTo(0,0);
+}
+
+
+/* DARK THEME */
+
+function toggleDark(){
+
+  const enabled =
+    document.getElementById(
+      "darkMode"
+    ).checked;
+
+  document.body.classList.toggle(
+    "dark",
+    enabled
+  );
+
+  localStorage.setItem(
+    "abbaDark",
+    enabled ? "1" : "0"
+  );
+}
+
+
+function loadDark(){
+
+  const enabled =
+    localStorage.getItem(
+      "abbaDark"
+    ) === "1";
+
+  document.body.classList.toggle(
+    "dark",
+    enabled
+  );
+
+  const checkbox =
+    document.getElementById(
+      "darkMode"
+    );
+
+  if(checkbox)
+    checkbox.checked = enabled;
+}
+
+
+/* LOGIN */
+
+function openLogin(){
+
+  document
+    .getElementById("loginModal")
+    .classList.add("show");
+
+}
+
+
+function closeLogin(){
+
+  document
+    .getElementById("loginModal")
+    .classList.remove("show");
+
+}
+
+
+async function login(){
+
+  const email =
+    document
+      .getElementById(
+        "loginEmail"
+      )
+      .value
+      .trim();
+
+  const password =
+    document
+      .getElementById(
+        "loginPassword"
+      )
+      .value;
+
+  const message =
+    document.getElementById(
+      "loginMessage"
+    );
+
+  if(!email || !password){
+
+    message.innerHTML =
+      "<div class='message error'>" +
+      "Enter your email and password." +
+      "</div>";
+
+    return;
+  }
+
+  const result =
+    await db.auth.signInWithPassword({
+
+      email:email,
+
+      password:password
+
+    });
+
+  if(result.error){
+
+    message.innerHTML =
+      "<div class='message error'>" +
+      escapeHTML(
+        result.error.message
+      ) +
+      "</div>";
+
+    return;
+  }
+
+  currentUser =
+    result.data.user;
+
+  await checkAdmin();
+
+  updateAccount();
+
+  closeLogin();
+
+  alert(
+    admin
+      ? "ADMIN LOGIN SUCCESSFUL! 👑"
+      : "CUSTOMER LOGIN SUCCESSFUL!"
+  );
+
+}
+
+
+/* LOGOUT */
+
+async function logout(){
+
+  await db.auth.signOut();
+
+  currentUser = null;
+
+  admin = false;
+
+  updateAccount();
+
+  updateAdminArea();
+
+  showPage("home");
+
+}
+
+
+/* ADMIN CHECK */
+
+async function checkAdmin(){
+
+  admin = false;
+
+  if(!currentUser){
+
+    updateAdminArea();
+
+    return;
+
+  }
+
+  const result =
+    await db
+      .from("admins")
+      .select("user_id")
+      .eq(
+        "user_id",
+        currentUser.id
+      )
+      .maybeSingle();
+
+  console.log(
+    "Admin check:",
+    result
+  );
+
+  if(result.error){
+
+    console.error(
+      "Admin check error:",
+      result.error
+    );
+
+    admin = false;
+
+  }else if(
+    result.data &&
+    result.data.user_id ===
+    currentUser.id
+  ){
+
+    admin = true;
+
+  }
+
+  updateAdminArea();
+
+}
+
+
+/* ADMIN AREA */
+
+function updateAdminArea(){
+
+  const post =
+    document.getElementById(
+      "adminPost"
+    );
+
+  const notAdmin =
+    document.getElementById(
+      "notAdmin"
+    );
+
+  if(post){
+
+    post.style.display =
+      admin
+        ? "block"
+        : "none";
+
+  }
+
+  if(notAdmin){
+
+    notAdmin.style.display =
+      admin
+        ? "none"
+        : "block";
+
+  }
+
+}
+
+
+/* ACCOUNT */
+
+function updateAccount(){
+
+  const name =
+    document.getElementById(
+      "accountName"
+    );
+
+  const email =
+    document.getElementById(
+      "accountEmail"
+    );
+
+  const status =
+    document.getElementById(
+      "adminStatus"
+    );
+
+  const loginButton =
+    document.getElementById(
+      "loginButton"
+    );
+
+  const logoutButton =
+    document.getElementById(
+      "logoutButton"
+    );
+
+  if(!name)
+    return;
+
+  if(currentUser){
+
+    const username =
+      (
+        currentUser.email ||
+        "USER"
+      )
+      .split("@")[0]
+      .toUpperCase();
+
+    name.textContent =
+      username;
+
+    email.textContent =
+      currentUser.email;
+
+    loginButton.style.display =
+      "none";
+
+    logoutButton.style.display =
+      "block";
+
+    status.innerHTML =
+      admin
+
+        ? "<span class='admin-badge'>👑 ADMIN ACCOUNT</span>"
+
+        : "<span style='color:var(--muted)'>Customer account</span>";
+
+    document.getElementById(
+      "welcome"
+    ).textContent =
+      "WELCOME, " + username;
+
+  }else{
+
+    name.textContent =
+      "GUEST";
+
+    email.textContent =
+      "Not logged in";
+
+    status.innerHTML =
+      "";
+
+    loginButton.style.display =
+      "block";
+
+    logoutButton.style.display =
+      "none";
+
+    document.getElementById(
+      "welcome"
+    ).textContent =
+      "WELCOME, GUEST";
+
+  }
+
+}
+
+
+/* LOAD PRODUCTS */
+
+async function loadProducts(){
+
+  const result =
+    await db
+      .from("products")
+      .select("*")
+      .order(
+        "created_at",
+        {
+          ascending:false
+        }
+      );
+
+  if(result.error){
+
+    console.error(
+      "Product loading error:",
+      result.error
+    );
+
+    document.getElementById(
+      "homeProducts"
+    ).innerHTML =
+      "<div class='empty'>" +
+      "Products could not be loaded." +
+      "</div>";
+
+    return;
+
+  }
+
+  products =
+    result.data || [];
+
+  document.getElementById(
+    "productCount"
+  ).textContent =
+    products.length;
+
+  renderProducts(products);
+
+}
+
+
+/* RENDER PRODUCTS */
+
+function renderProducts(list){
+
+  const home =
+    document.getElementById(
+      "homeProducts"
+    );
+
+  const search =
+    document.getElementById(
+      "searchProducts"
+    );
+
+  if(!home || !search)
+    return;
+
+  home.innerHTML = "";
+
+  search.innerHTML = "";
+
+  if(!list.length){
+
+    home.innerHTML =
+      "<div class='empty'>" +
+      "No products yet." +
+      "</div>";
+
+    search.innerHTML =
+      "<div class='empty'>" +
+      "No products found." +
+      "</div>";
+
+    return;
+
+  }
+
+  list
+    .slice(0,6)
+    .forEach(function(product){
+
+      home.innerHTML +=
+        productHTML(product);
+
+    });
+
+  list.forEach(function(product){
+
+    search.innerHTML +=
+      productHTML(product);
+
+  });
+
+}
+
+
+/* PRODUCT CARD */
+
+function productHTML(product){
+
+  const image =
+    product.image_url ||
+
+    "https://via.placeholder.com/600x400?text=Abba+Authentics";
+
+  const price =
+    Number(
+      product.price || 0
+    ).toLocaleString("en-NG");
+
+  let deleteButton = "";
+
+  if(admin){
+
+    deleteButton =
+
+      `<button
+        class="delete"
+        onclick="deleteProduct('${safe(product.id)}')">
+
+        DELETE
+
+      </button>`;
+
+  }
+
+  return `
+
+    <div class="product">
+
+      <img
+        src="${escapeHTML(image)}"
+        alt="Product image"
+        onerror="this.src='https://via.placeholder.com/600x400?text=Abba+Authentics'">
+
+      <div class="product-body">
+
+        <span class="verified">
+
+          ✓ VERIFIED
+
+        </span>
+
+        <h3>
+
+          ${escapeHTML(
+            product.name
+          )}
+
+        </h3>
+
+        <p>
+
+          ${escapeHTML(
+            product.description || ""
+          )}
+
+        </p>
+
+        <div class="price">
+
+          ₦${price}
+
+        </div>
+
+        <div class="actions">
+
+          <button
+            class="buy"
+            onclick="buyProduct('${encodeURIComponent(product.name || "")}')">
+
+            WHATSAPP
+
+          </button>
+
+          ${deleteButton}
+
+        </div>
+
+      </div>
+
+    </div>
+
+  `;
+
+}
+
+
+/* SEARCH */
+
+function searchProducts(){
+
+  const input =
+    document.getElementById(
+      "searchInput"
+    );
+
+  const text =
+    input.value
+      .toLowerCase()
+      .trim();
+
+  const filtered =
+    products.filter(
+      function(product){
+
+        return (
+
+          (product.name || "")
+            .toLowerCase()
+            .includes(text)
+
+          ||
+
+          (product.description || "")
+            .toLowerCase()
+            .includes(text)
+
+          ||
+
+          (product.category || "")
+            .toLowerCase()
+            .includes(text)
+
+        );
+
+      }
+    );
+
+  const box =
+    document.getElementById(
+      "searchProducts"
+    );
+
+  box.innerHTML = "";
+
+  if(!filtered.length){
+
+    box.innerHTML =
+      "<div class='empty'>" +
+      "No products found." +
+      "</div>";
+
+    return;
+
+  }
+
+  filtered.forEach(
+    function(product){
+
+      box.innerHTML +=
+        productHTML(product);
+
+    }
+  );
+
+}
+
+
+/* PRODUCT UPLOAD */
+
+document
+  .getElementById(
+    "productForm"
+  )
+  .addEventListener(
+    "submit",
+    async function(event){
+
+      event.preventDefault();
+
+      if(!admin){
+
+        alert(
+          "Only the admin can post products."
+        );
+
+        return;
+
+      }
+
+      const file =
+        document.getElementById(
+          "imageFile"
+        ).files[0];
+
+      if(!file){
+
+        alert(
+          "Please choose a product image."
+        );
+
+        return;
+
+      }
+
+      if(
+        file.size >
+        5 * 1024 * 1024
+      ){
+
+        alert(
+          "Image must be smaller than 5MB."
+        );
+
+        return;
+
+      }
+
+      const message =
+        document.getElementById(
+          "uploadMessage"
+        );
+
+      message.innerHTML =
+        "<div class='message'>" +
+        "Uploading image..." +
+        "</div>";
+
+      try{
+
+        const extension =
+          file.name
+            .split(".")
+            .pop()
+            .toLowerCase();
+
+        const fileName =
+          currentUser.id +
+          "_" +
+          Date.now() +
+          "." +
+          extension;
+
+
+        /* IMPORTANT:
+           BUCKET NAME IS Products
+        */
+
+        const upload =
+          await db.storage
+            .from("Products")
+            .upload(
+              fileName,
+              file,
+              {
+                cacheControl:"3600",
+                upsert:false
+              }
+            );
+
+        if(upload.error)
+          throw upload.error;
+
+
+        const publicURL =
+          db.storage
+            .from("Products")
+            .getPublicUrl(
+              fileName
+            )
+            .data
+            .publicUrl;
+
+
+        const newProduct = {
+
+          name:
+            document.getElementById(
+              "productName"
+            ).value.trim(),
+
+          description:
+            document.getElementById(
+              "productDescription"
+            ).value.trim(),
+
+          price:
+            Number(
+              document.getElementById(
+                "productPrice"
+              ).value
+            ),
+
+          category:
+            document.getElementById(
+              "productCategory"
+            ).value.trim(),
+
+          image_url:
+            publicURL,
+
+          whatsapp:
+            document.getElementById(
+              "productWhatsapp"
+            ).value.trim() ||
+            "09061530541"
+
+        };
+
+
+        const insert =
+          await db
+            .from("products")
+            .insert(
+              newProduct
+            );
+
+        if(insert.error)
+          throw insert.error;
+
+
+        message.innerHTML =
+          "<div class='message success'>" +
+          "Product published successfully! 🎉" +
+          "</div>";
+
+
+        document
+          .getElementById(
+            "productForm"
+          )
+          .reset();
+
+
+        document.getElementById(
+          "productWhatsapp"
+        ).value =
+          "09061530541";
+
+
+        await loadProducts();
+
+
+      }catch(error){
+
+        console.error(
+          "UPLOAD ERROR:",
+          error
+        );
+
+        message.innerHTML =
+          "<div class='message error'>" +
+          escapeHTML(
+            error.message
+          ) +
+          "</div>";
+
+      }
+
+    }
+  );
+
+
+/* DELETE PRODUCT */
+
+async function deleteProduct(id){
+
+  if(!admin)
+    return;
+
+  if(
+    !confirm(
+      "Delete this product?"
+    )
+  )
+    return;
+
+  const result =
+    await db
+      .from("products")
+      .delete()
+      .eq(
+        "id",
+        id
+      );
+
+  if(result.error){
+
+    alert(
+      "Delete failed: " +
+      result.error.message
+    );
+
+    return;
+
+  }
+
+  await loadProducts();
+
+  alert(
+    "Product deleted."
+  );
+
+}
+
+
+/* WHATSAPP */
+
+function buyProduct(product){
+
+  const message =
+    "Hello Abba Authentics, I am interested in this product: " +
+    decodeURIComponent(product);
+
+  window.open(
+
+    "https://wa.me/2349061530541?text=" +
+    encodeURIComponent(message),
+
+    "_blank"
+
+  );
+
+}
+
+
+function contactWhatsApp(){
+
+  const message =
+    "Hello Abba Authentics, I would like to contact you.";
+
+  window.open(
+
+    "https://wa.me/2349061530541?text=" +
+    encodeURIComponent(message),
+
+    "_blank"
+
+  );
+
+}
+
+
+/* REVIEWS */
+
+function setRating(value){
+
+  rating = value;
+
+  document
+    .querySelectorAll(".star")
+    .forEach(
+      function(star,index){
+
+        star.classList.toggle(
+          "selected",
+          index < value
+        );
+
+      }
+    );
+
+}
+
+
+async function submitReview(){
+
+  if(!currentUser){
+
+    alert(
+      "Please log in first."
+    );
+
+    return;
+
+  }
+
+  if(rating < 1){
+
+    alert(
+      "Please select a star rating."
+    );
+
+    return;
+
+  }
+
+  const text =
+    document
+      .getElementById(
+        "reviewText"
+      )
+      .value
+      .trim();
+
+  if(!text){
+
+    alert(
+      "Please write a review."
+    );
+
+    return;
+
+  }
+
+  const result =
+    await db
+      .from("reviews")
+      .insert({
+
+        user_id:
+          currentUser.id,
+
+        rating:
+          rating,
+
+        review:
+          text
+
+      });
+
+  if(result.error){
+
+    alert(
+      "Review error: " +
+      result.error.message
+    );
+
+    return;
+
+  }
+
+  document.getElementById(
+    "reviewText"
+  ).value = "";
+
+  setRating(0);
+
+  alert(
+    "Thank you for your review! ⭐"
+  );
+
+  loadReviews();
+
+}
+
+
+async function loadReviews(){
+
+  const box =
+    document.getElementById(
+      "reviewsList"
+    );
+
+  const result =
+    await db
+      .from("reviews")
+      .select("*")
+      .order(
+        "created_at",
+        {
+          ascending:false
+        }
+      );
+
+  if(result.error){
+
+    box.innerHTML =
+      "<p style='color:var(--muted)'>" +
+      "Reviews will appear here." +
+      "</p>";
+
+    return;
+
+  }
+
+  if(!result.data.length){
+
+    box.innerHTML =
+      "<p style='color:var(--muted)'>" +
+      "No reviews yet." +
+      "</p>";
+
+    return;
+
+  }
+
+  box.innerHTML = "";
+
+  result.data.forEach(
+    function(item){
+
+      const stars =
+        Number(
+          item.rating || 0
+        );
+
+      box.innerHTML += `
+
+        <div
+          style="
+            padding:14px 0;
+            border-bottom:1px solid var(--border);
+          ">
+
+          <div style="color:#f5b700">
+
+            ${"★".repeat(stars)}
+            ${"☆".repeat(5-stars)}
+
+          </div>
+
+          <p style="margin-top:8px">
+
+            ${escapeHTML(
+              item.review || ""
+            )}
+
+          </p>
+
+        </div>
+
+      `;
+
+    }
+  );
+
+}
+
+
+/* CUSTOMER COMPLAINT */
+
+async function submitComplaint(){
+
+  const name =
+    document
+      .getElementById(
+        "complaintName"
+      )
+      .value
+      .trim();
+
+  const contact =
+    document
+      .getElementById(
+        "complaintContact"
+      )
+      .value
+      .trim();
+
+  const complaint =
+    document
+      .getElementById(
+        "complaintText"
+      )
+      .value
+      .trim();
+
+  if(
+    !name ||
+    !contact ||
+    !complaint
+  ){
+
+    alert(
+      "Please complete all fields."
+    );
+
+    return;
+
+  }
+
+  const result =
+    await db
+      .from("complaints")
+      .insert({
+
+        name:name,
+
+        contact:contact,
+
+        complaint:complaint,
+
+        user_id:
+          currentUser
+            ? currentUser.id
+            : null
+
+      });
+
+  if(result.error){
+
+    alert(
+      "Complaint error: " +
+      result.error.message
+    );
+
+    return;
+
+  }
+
+  document.getElementById(
+    "complaintName"
+  ).value = "";
+
+  document.getElementById(
+    "complaintContact"
+  ).value = "";
+
+  document.getElementById(
+    "complaintText"
+  ).value = "";
+
+  alert(
+    "Your complaint has been sent successfully. ✅"
+  );
+
+}
+
+
+/* SECURITY */
+
+function escapeHTML(value){
+
+  return String(value || "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
+
+function safe(value){
+
+  return String(value || "")
+    .replace(/\\/g,"\\\\")
+    .replace(/'/g,"\\'");
+
+}
+
+
+/* AUTH STATE */
+
+db.auth.onAuthStateChange(
+  function(event,session){
+
+    currentUser =
+      session
+        ? session.user
+        : null;
+
+    setTimeout(
+      async function(){
+
+        await checkAdmin();
+
+        updateAccount();
+
+      },
+      0
+    );
+
+  }
+);
+
+
+/* START WEBSITE */
+
+async function start(){
+
+  loadDark();
+
+  const session =
+    await db.auth.getSession();
+
+  currentUser =
+    session.data.session
+      ? session.data.session.user
+      : null;
+
+  await checkAdmin();
+
+  updateAccount();
+
+  await loadProducts();
+
+  await loadReviews();
+
+}
+
+
+start();
+
+</script>
+
+</body>
+</html>
