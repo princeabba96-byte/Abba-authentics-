@@ -1,0 +1,2734 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="theme-color" content="#000000">
+
+<meta name="description" content="Abba Authentics - Verify products and know which products are original.">
+
+<meta name="google-site-verification" content="4N4kWboFgyj-vm0WYCWQl8pX4Ati3yvwLj0POpdqGM0">
+
+<link rel="manifest" href="manifest.json">
+
+<title>Abba Authentics</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    font-family:Arial,sans-serif;
+    background:#050505;
+    color:#fff;
+    min-height:100vh;
+}
+
+header{
+    background:#000;
+    border-bottom:1px solid #d4af37;
+    padding:25px 15px;
+    text-align:center;
+}
+
+.logo{
+    color:#d4af37;
+    font-size:28px;
+    font-weight:bold;
+    letter-spacing:2px;
+}
+
+.tagline{
+    margin-top:8px;
+    color:#ccc;
+    font-size:14px;
+}
+
+nav{
+    display:flex;
+    justify-content:center;
+    gap:5px;
+    background:#090909;
+    border-bottom:1px solid #333;
+    padding:10px;
+    position:sticky;
+    top:0;
+    z-index:20;
+}
+
+.nav-btn{
+    background:transparent;
+    color:#ddd;
+    border:0;
+    padding:10px 14px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.nav-btn.active{
+    color:#d4af37;
+    border-bottom:2px solid #d4af37;
+}
+
+main{
+    max-width:1100px;
+    margin:auto;
+    padding:20px;
+}
+
+.page{
+    display:none;
+}
+
+.page.active{
+    display:block;
+}
+
+.hero{
+    background:
+    linear-gradient(
+        rgba(0,0,0,.75),
+        rgba(0,0,0,.75)
+    ),
+    linear-gradient(
+        135deg,
+        #000,
+        #241d00,
+        #000
+    );
+
+    border:1px solid #d4af37;
+    border-radius:15px;
+    padding:50px 20px;
+    text-align:center;
+    margin-bottom:25px;
+}
+
+.hero h1{
+    color:#d4af37;
+    font-size:38px;
+    margin-bottom:15px;
+}
+
+.hero p{
+    color:#ddd;
+    line-height:1.6;
+}
+
+.dashboard{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
+    margin-bottom:30px;
+}
+
+.stat{
+    background:#0b0b0b;
+    border:1px solid #333;
+    border-radius:12px;
+    padding:20px;
+    text-align:center;
+}
+
+.stat strong{
+    display:block;
+    color:#d4af37;
+    font-size:25px;
+    margin-bottom:7px;
+}
+
+.section-title{
+    color:#d4af37;
+    margin:25px 0 15px;
+}
+
+.products{
+    display:grid;
+    grid-template-columns:
+    repeat(auto-fit,minmax(250px,1fr));
+    gap:18px;
+}
+
+.product{
+    background:#0b0b0b;
+    border:1px solid #333;
+    border-radius:14px;
+    overflow:hidden;
+}
+
+.product img{
+    width:100%;
+    height:220px;
+    object-fit:cover;
+    background:#111;
+}
+
+.product-body{
+    padding:16px;
+}
+
+.verified{
+    display:inline-block;
+    color:#000;
+    background:#d4af37;
+    padding:5px 8px;
+    border-radius:5px;
+    font-size:11px;
+    font-weight:bold;
+}
+
+.product h3{
+    margin:12px 0 8px;
+}
+
+.product p{
+    color:#bbb;
+    line-height:1.5;
+    margin-bottom:8px;
+}
+
+.price{
+    color:#d4af37;
+    font-size:22px;
+    font-weight:bold;
+    margin:15px 0;
+}
+
+.actions{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+}
+
+button{
+    font-family:inherit;
+}
+
+.buy,
+.gold-btn{
+    background:#d4af37;
+    color:#000;
+    border:0;
+    padding:11px 15px;
+    border-radius:7px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.buy:hover,
+.gold-btn:hover{
+    background:#f0cf55;
+}
+
+.delete{
+    background:#1b1b1b;
+    color:#ff6b6b;
+    border:1px solid #ff6b6b;
+    padding:11px 15px;
+    border-radius:7px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.form-card{
+    background:#0b0b0b;
+    border:1px solid #333;
+    border-radius:14px;
+    padding:20px;
+    margin-bottom:20px;
+}
+
+.form-card h2{
+    color:#d4af37;
+    margin-bottom:15px;
+}
+
+label{
+    display:block;
+    color:#ddd;
+    margin:12px 0 6px;
+}
+
+input,
+textarea,
+select{
+    width:100%;
+    background:#111;
+    color:#fff;
+    border:1px solid #444;
+    border-radius:7px;
+    padding:12px;
+    outline:none;
+}
+
+input:focus,
+textarea:focus,
+select:focus{
+    border-color:#d4af37;
+}
+
+textarea{
+    min-height:110px;
+    resize:vertical;
+}
+
+.full{
+    width:100%;
+    margin-top:12px;
+}
+
+.search-box{
+    display:flex;
+    gap:8px;
+    margin-bottom:20px;
+}
+
+.search-box input{
+    flex:1;
+}
+
+.empty{
+    text-align:center;
+    color:#aaa;
+    padding:30px;
+}
+
+.admin-badge{
+    display:inline-block;
+    background:#d4af37;
+    color:#000;
+    padding:8px 12px;
+    border-radius:6px;
+    font-weight:bold;
+    margin:10px 0;
+}
+
+footer{
+    text-align:center;
+    padding:40px 20px;
+    margin-top:40px;
+    border-top:1px solid #333;
+}
+
+footer h2{
+    color:#d4af37;
+    margin-bottom:8px;
+}
+
+.message{
+    padding:12px;
+    border:1px solid #444;
+    border-radius:8px;
+    margin-bottom:12px;
+}
+
+.success{
+    border-color:#d4af37;
+    color:#d4af37;
+}
+
+.error{
+    border-color:#ff6b6b;
+    color:#ff6b6b;
+}
+
+.star{
+    color:#555;
+    font-size:28px;
+    cursor:pointer;
+}
+
+.star.selected{
+    color:#d4af37;
+}
+
+.java-box{
+    position:fixed;
+    right:18px;
+    bottom:18px;
+    width:60px;
+    height:60px;
+    border-radius:50%;
+    background:#d4af37;
+    color:#000;
+    border:2px solid #000;
+    font-weight:bold;
+    cursor:pointer;
+    z-index:90;
+    box-shadow:0 0 15px #d4af37;
+}
+
+.notification{
+    position:fixed;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%);
+    width:min(320px,90%);
+    background:#000;
+    border:1px solid #d4af37;
+    border-radius:12px;
+    padding:25px;
+    text-align:center;
+    z-index:200;
+    display:none;
+    box-shadow:0 0 30px rgba(212,175,55,.35);
+}
+
+.notification h3{
+    color:#d4af37;
+    margin-bottom:15px;
+}
+
+.notification p{
+    color:#fff;
+    line-height:1.5;
+}
+
+@media(max-width:600px){
+
+    .dashboard{
+        grid-template-columns:1fr;
+    }
+
+    .hero h1{
+        font-size:30px;
+    }
+
+    nav{
+        overflow-x:auto;
+        justify-content:flex-start;
+    }
+
+    .search-box{
+        flex-direction:column;
+    }
+
+}
+
+</style>
+
+</head><body>
+
+<header>
+
+    <div class="logo">
+        ABBA AUTHENTICS
+    </div>
+
+    <div class="tagline">
+        Verify products. Know what's original.
+    </div>
+
+</header>
+
+
+<nav>
+
+    <button
+        class="nav-btn active"
+        onclick="showPage('home')"
+    >
+        HOME
+    </button>
+
+    <button
+        class="nav-btn"
+        onclick="showPage('search')"
+    >
+        SEARCH
+    </button>
+
+    <button
+        class="nav-btn"
+        onclick="showPage('account')"
+    >
+        ACCOUNT
+    </button>
+
+    <button
+        class="nav-btn"
+        onclick="showPage('post')"
+    >
+        POST
+    </button>
+
+    <button
+        class="nav-btn"
+        onclick="showPage('settings')"
+    >
+        ⚙️
+    </button>
+
+</nav>
+
+
+<main>
+
+
+<!-- HOME -->
+
+<section
+    id="home"
+    class="page active"
+>
+
+    <div class="hero">
+
+        <h1>
+            ABBA AUTHENTICS
+        </h1>
+
+        <p>
+            Verify products and know
+            which products are original.
+        </p>
+
+    </div>
+
+
+    <div class="dashboard">
+
+        <div class="stat">
+
+            <strong
+                id="productCount"
+            >
+                0
+            </strong>
+
+            Products
+
+        </div>
+
+
+        <div class="stat">
+
+            <strong>
+                ✓
+            </strong>
+
+            Verified
+
+        </div>
+
+
+        <div class="stat">
+
+            <strong>
+                24/7
+            </strong>
+
+            Support
+
+        </div>
+
+    </div>
+
+
+    <h2 class="section-title">
+        Latest Products
+    </h2>
+
+
+    <div
+        id="homeProducts"
+        class="products"
+    >
+
+        <div class="empty">
+            Loading products...
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- SEARCH -->
+
+<section
+    id="search"
+    class="page"
+>
+
+    <h2 class="section-title">
+        Search Products
+    </h2>
+
+
+    <div class="search-box">
+
+        <input
+            id="searchInput"
+            type="search"
+            placeholder="Search products..."
+            oninput="searchProducts()"
+        >
+
+        <button
+            class="gold-btn"
+            onclick="searchProducts()"
+        >
+            SEARCH
+        </button>
+
+    </div>
+
+
+    <div
+        id="searchProducts"
+        class="products"
+    ></div>
+
+</section>
+
+
+
+<!-- ACCOUNT -->
+
+<section
+    id="account"
+    class="page"
+>
+
+    <div class="form-card">
+
+        <h2 id="welcome">
+            WELCOME, GUEST
+        </h2>
+
+
+        <p id="accountName">
+            GUEST
+        </p>
+
+
+        <p id="accountEmail">
+            Not logged in
+        </p>
+
+
+        <div id="adminStatus"></div>
+
+
+        <button
+            id="loginButton"
+            class="gold-btn full"
+            onclick="openLogin()"
+        >
+            LOGIN
+        </button>
+
+
+        <button
+            id="logoutButton"
+            class="delete full"
+            style="display:none"
+            onclick="logout()"
+        >
+            LOGOUT
+        </button>
+
+    </div>
+
+
+    <div class="form-card">
+
+        <h2>
+            Customer Complaint
+        </h2>
+
+
+        <label>
+            Name
+        </label>
+
+        <input
+            id="complaintName"
+            placeholder="Your name"
+        >
+
+
+        <label>
+            Phone / Contact
+        </label>
+
+        <input
+            id="complaintContact"
+            placeholder="Phone number"
+        >
+
+
+        <label>
+            Complaint
+        </label>
+
+        <textarea
+            id="complaintText"
+            placeholder="Write your complaint..."
+        ></textarea>
+
+
+        <button
+            class="gold-btn full"
+            onclick="submitComplaint()"
+        >
+            SEND COMPLAINT
+        </button>
+
+    </div>
+
+
+    <div class="form-card">
+
+        <h2>
+            Customer Reviews
+        </h2>
+
+
+        <div id="ratingStars">
+
+            <span
+                class="star"
+                onclick="setRating(1)"
+            >
+                ★
+            </span>
+
+            <span
+                class="star"
+                onclick="setRating(2)"
+            >
+                ★
+            </span>
+
+            <span
+                class="star"
+                onclick="setRating(3)"
+            >
+                ★
+            </span>
+
+            <span
+                class="star"
+                onclick="setRating(4)"
+            >
+                ★
+            </span>
+
+            <span
+                class="star"
+                onclick="setRating(5)"
+            >
+                ★
+            </span>
+
+        </div>
+
+
+        <textarea
+            id="reviewText"
+            placeholder="Write your review..."
+        ></textarea>
+
+
+        <button
+            class="gold-btn full"
+            onclick="submitReview()"
+        >
+            SUBMIT REVIEW
+        </button>
+
+
+        <div
+            id="reviewsList"
+        ></div>
+
+    </div>
+
+</section>
+
+
+
+<!-- POST -->
+
+<section
+    id="post"
+    class="page"
+>
+
+    <div
+        id="notAdmin"
+        class="form-card"
+    >
+
+        <h2>
+            Admin Post
+        </h2>
+
+        <p>
+            Only the authorized administrator
+            can publish products.
+        </p>
+
+    </div>
+
+
+    <div
+        id="adminPost"
+        class="form-card"
+        style="display:none"
+    >
+
+        <h2>
+            Publish Product
+        </h2>
+
+
+        <div
+            id="uploadMessage"
+        ></div>
+
+
+        <form id="productForm">
+
+
+            <label>
+                Product Name
+            </label>
+
+            <input
+                id="productName"
+                required
+            >
+
+
+            <label>
+                Description
+            </label>
+
+            <textarea
+                id="productDescription"
+                required
+            ></textarea>
+
+
+            <label>
+                Price
+            </label>
+
+            <input
+                id="productPrice"
+                type="number"
+                min="0"
+                required
+            >
+
+
+            <label>
+                Category
+            </label>
+
+            <input
+                id="productCategory"
+            >
+
+
+            <label>
+                WhatsApp Number
+            </label>
+
+            <input
+                id="productWhatsapp"
+                value="09061530541"
+                placeholder="09061530541"
+                required
+            >
+
+
+            <label>
+                Product Image
+            </label>
+
+            <input
+                id="imageFile"
+                type="file"
+                accept="image/*"
+                required
+            >
+
+
+            <button
+                type="submit"
+                class="gold-btn full"
+            >
+                UPLOAD & PUBLISH
+            </button>
+
+
+        </form>
+
+    </div>
+
+</section>
+
+
+
+<!-- SETTINGS -->
+
+<section
+    id="settings"
+    class="page"
+>
+
+    <h2 class="section-title">
+        Settings
+    </h2>
+
+
+    <div class="form-card">
+
+        <h2>
+            Appearance
+        </h2>
+
+
+        <label>
+            Theme
+        </label>
+
+
+        <select
+            id="themeSelect"
+            onchange="changeTheme()"
+        >
+
+            <option value="dark">
+                Black & Gold
+            </option>
+
+            <option value="light">
+                Light
+            </option>
+
+        </select>
+
+    </div>
+
+
+    <div class="form-card">
+
+        <h2>
+            WhatsApp
+        </h2>
+
+
+        <p>
+            Default WhatsApp number
+        </p>
+
+
+        <input
+            id="defaultWhatsapp"
+            value="09061530541"
+        >
+
+
+        <button
+            class="gold-btn full"
+            onclick="saveWhatsapp()"
+        >
+            SAVE NUMBER
+        </button>
+
+    </div>
+
+
+    <div class="form-card">
+
+        <h2>
+            JAVA 🤖
+        </h2>
+
+
+        <p>
+            JAVA is the Abba Authentics
+            limited AI assistant.
+        </p>
+
+    </div>
+
+
+    <div class="form-card">
+
+        <h2>
+            About
+        </h2<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+
+const SUPABASE_URL =
+"https://eoccjsybttiwcxfaxeqg.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_kjuHflL01uvHLsy4IpYSIw_MMnsCXXD";
+
+const db =
+window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
+
+
+let currentUser = null;
+let admin = false;
+let products = [];
+let rating = 0;
+
+
+/* PAGE NAVIGATION */
+
+function showPage(page){
+
+    document
+    .querySelectorAll(".page")
+    .forEach(function(section){
+
+        section.classList.remove("active");
+
+    });
+
+
+    const selected =
+        document.getElementById(page);
+
+
+    if(selected){
+
+        selected.classList.add("active");
+
+    }
+
+
+    document
+    .querySelectorAll(".nav-btn")
+    .forEach(function(button){
+
+        button.classList.remove("active");
+
+    });
+
+
+    const pages = {
+        home:0,
+        search:1,
+        account:2,
+        post:3,
+        settings:4
+    };
+
+
+    const buttons =
+        document.querySelectorAll(".nav-btn");
+
+
+    if(buttons[pages[page]]){
+
+        buttons[pages[page]]
+        .classList.add("active");
+
+    }
+
+
+    window.scrollTo(0,0);
+}
+
+
+/* LOGIN WINDOW */
+
+function openLogin(){
+
+    document
+    .getElementById("loginModal")
+    .style.display = "block";
+
+}
+
+
+function closeLogin(){
+
+    document
+    .getElementById("loginModal")
+    .style.display = "none";
+
+}
+
+
+/* LOGIN */
+
+async function login(){
+
+    const email =
+        document
+        .getElementById("loginEmail")
+        .value
+        .trim();
+
+
+    const password =
+        document
+        .getElementById("loginPassword")
+        .value;
+
+
+    const message =
+        document
+        .getElementById("loginMessage");
+
+
+    if(!email || !password){
+
+        message.innerHTML =
+        '<div class="message error">' +
+        'Enter your email and password.' +
+        '</div>';
+
+        return;
+    }
+
+
+    const result =
+        await db.auth.signInWithPassword({
+
+            email:email,
+
+            password:password
+
+        });
+
+
+    if(result.error){
+
+        message.innerHTML =
+        '<div class="message error">' +
+        escapeHTML(
+            result.error.message
+        ) +
+        '</div>';
+
+        return;
+    }
+
+
+    currentUser =
+        result.data.user;
+
+
+    await checkAdmin();
+
+
+    updateAccount();
+
+
+    closeLogin();
+
+
+    showNotification(
+
+        admin
+        ?
+        "Login successful.<br>ADMIN found 👑"
+        :
+        "Login successful.<br>Customer account"
+
+    );
+
+}
+
+
+/* CHECK ADMIN */
+
+async function checkAdmin(){
+
+    admin = false;
+
+
+    if(!currentUser){
+
+        updateAdminArea();
+
+        return;
+    }
+
+
+    const result =
+        await db
+        .from("admins")
+        .select("user_id")
+        .eq(
+            "user_id",
+            currentUser.id
+        )
+        .maybeSingle();
+
+
+    if(
+        !result.error &&
+        result.data &&
+        result.data.user_id ===
+        currentUser.id
+    ){
+
+        admin = true;
+
+    }
+
+
+    updateAdminArea();
+
+}
+
+
+/* ADMIN AREA */
+
+function updateAdminArea(){
+
+    const post =
+        document.getElementById(
+            "adminPost"
+        );
+
+
+    const notAdmin =
+        document.getElementById(
+            "notAdmin"
+        );
+
+
+    if(!post || !notAdmin){
+
+        return;
+
+    }
+
+
+    if(admin){
+
+        post.style.display =
+            "block";
+
+        notAdmin.style.display =
+            "none";
+
+    }else{
+
+        post.style.display =
+            "none";
+
+        notAdmin.style.display =
+            "block";
+
+    }
+
+}
+
+
+/* ACCOUNT */
+
+function updateAccount(){
+
+    const name =
+        document.getElementById(
+            "accountName"
+        );
+
+
+    const email =
+        document.getElementById(
+            "accountEmail"
+        );
+
+
+    const status =
+        document.getElementById(
+            "adminStatus"
+        );
+
+
+    const loginButton =
+        document.getElementById(
+            "loginButton"
+        );
+
+
+    const logoutButton =
+        document.getElementById(
+            "logoutButton"
+        );
+
+
+    const welcome =
+        document.getElementById(
+            "welcome"
+        );
+
+
+    if(!name){
+
+        return;
+
+    }
+
+
+    if(!currentUser){
+
+        name.textContent =
+            "GUEST";
+
+
+        email.textContent =
+            "Not logged in";
+
+
+        status.innerHTML =
+            "";
+
+
+        loginButton.style.display =
+            "block";
+
+
+        logoutButton.style.display =
+            "none";
+
+
+        welcome.textContent =
+            "WELCOME, GUEST";
+
+
+        return;
+
+    }
+
+
+    const username =
+        (
+            currentUser.email ||
+            "USER"
+        )
+        .split("@")[0]
+        .toUpperCase();
+
+
+    name.textContent =
+        username;
+
+
+    email.textContent =
+        currentUser.email;
+
+
+    loginButton.style.display =
+        "none";
+
+
+    logoutButton.style.display =
+        "block";
+
+
+    status.innerHTML = admin
+
+        ?
+
+        '<span class="admin-badge">' +
+        '👑 ADMIN ACCOUNT' +
+        '</span>'
+
+        :welcome.textContent =
+    "WELCOME, " +
+    username;
+
+}
+
+
+/* LOGOUT */
+
+async function logout(){
+
+    await db.auth.signOut();
+
+    currentUser = null;
+
+    admin = false;
+
+    updateAccount();
+
+    updateAdminArea();
+
+    showNotification(
+        "You have been logged out."
+    );
+
+    showPage("home");
+
+}
+
+
+/* NOTIFICATION */
+
+function showNotification(text){
+
+    const box =
+        document.getElementById(
+            "notification"
+        );
+
+    const message =
+        document.getElementById(
+            "notificationText"
+        );
+
+    message.innerHTML = text;
+
+    box.style.display =
+        "block";
+
+    setTimeout(function(){
+
+        box.style.display =
+            "none";
+
+    },3000);
+
+}
+
+
+/* ESCAPE HTML */
+
+function escapeHTML(value){
+
+    return String(value || "")
+
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}/* LOAD PRODUCTS */
+
+async function loadProducts(){
+
+    const result =
+        await db
+        .from("products")
+        .select("*")
+        .order(
+            "created_at",
+            { ascending:false }
+        );
+
+
+    if(result.error){
+
+        console.error(
+            result.error
+        );
+
+        products = [];
+
+        renderProducts();
+
+        return;
+    }
+
+
+    products =
+        result.data || [];
+
+
+    renderProducts();
+
+}
+
+
+/* RENDER PRODUCTS */
+
+function renderProducts(){
+
+    const home =
+        document.getElementById(
+            "homeProducts"
+        );
+
+
+    const search =
+        document.getElementById(
+            "searchProducts"
+        );
+
+
+    const count =
+        document.getElementById(
+            "productCount"
+        );
+
+
+    if(count){
+
+        count.textContent =
+            products.length;
+
+    }
+
+
+    if(!products.length){
+
+        if(home){
+
+            home.innerHTML =
+            '<div class="empty">' +
+            'No products published yet.' +
+            '</div>';
+
+        }
+
+        if(search){
+
+            search.innerHTML =
+            '<div class="empty">' +
+            'No products found.' +
+            '</div>';
+
+        }
+
+        return;
+
+    }
+
+
+    const html =
+        products
+        .map(function(product){
+
+            return productCard(product);
+
+        })
+        .join("");
+
+
+    if(home){
+
+        home.innerHTML = html;
+
+    }
+
+
+    if(search){
+
+        search.innerHTML = html;
+
+    }
+
+}
+
+
+/* PRODUCT CARD */
+
+function productCard(product){
+
+    const name =
+        escapeHTML(
+            product.name
+        );
+
+
+    const description =
+        escapeHTML(
+            product.description
+        );
+
+
+    const category =
+        escapeHTML(
+            product.category ||
+            "General"
+        );
+
+
+    const image =
+        escapeHTML(
+            product.image_url ||
+            ""
+        );
+
+
+    const price =
+        Number(
+            product.prize ||
+            product.price ||
+            0
+        );
+
+
+    const whatsapp =
+        escapeHTML(
+            product.whatsapp ||
+            "09061530541"
+        );
+
+
+    const deleteButton =
+        admin
+
+        ?
+
+        '<button class="delete" ' +
+        'onclick="deleteProduct(\'' +
+        product.id +
+        '\')">' +
+        'DELETE' +
+        '</button>'
+
+        :
+
+        "";
+
+
+    return `
+
+        <div class="product">
+
+            ${
+                image
+
+                ?
+
+                `<img
+                    src="${image}"
+                    alt="${name}"
+                    loading="lazy"
+                >`
+
+                :
+
+                `<div
+                    style="
+                        height:220px;
+                        display:flex;
+                        align-items:center;
+                        justify-content:center;
+                        color:#d4af37;
+                        background:#111;
+                    "
+                >
+                    ABBA AUTHENTICS
+                </div>`
+            }
+
+
+            <div class="product-body">
+
+                <span class="verified">
+                    ✓ VERIFIED PRODUCT
+                </span>
+
+
+                <h3>
+                    ${name}
+                </h3>
+
+
+                <p>
+                    ${description}
+                </p>
+
+
+                <p>
+                    Category:
+                    ${category}
+                </p>
+
+
+                <div class="price">
+                    ₦${price.toLocaleString()}
+                </div>
+
+
+                <div class="actions">
+
+                    <button
+                        class="buy"
+                        onclick="openProductWhatsApp(
+                            '${whatsapp}',
+                            '${name}'
+                        )"
+                    >
+                        WHATSAPP
+                    </button>
+
+
+                    ${deleteButton}
+
+                </div>
+
+            </div>
+
+        </div>
+
+    `;
+
+}
+
+
+/* SEARCH */
+
+function searchProducts(){
+
+    const input =
+        document
+        .getElementById(
+            "searchInput"
+        );
+
+
+    const container =
+        document
+        .getElementById(
+            "searchProducts"
+        );
+
+
+    if(!input || !container){
+
+        return;
+
+    }
+
+
+    const query =
+        input.value
+        .trim()
+        .toLowerCase();
+
+
+    const results =
+        products.filter(
+            function(product){
+
+                return (
+
+                    String(
+                        product.name || ""
+                    )
+                    .toLowerCase()
+                    .includes(query)
+
+                    ||
+
+                    String(
+                        product.description || ""
+                    )
+                    .toLowerCase()
+                    .includes(query)
+
+                    ||
+
+                    String(
+                        product.category || ""
+                    )
+                    .toLowerCase()
+                    .includes(query)
+
+                );
+
+            }
+        );
+
+
+    if(!results.length){
+
+        container.innerHTML =
+        '<div class="empty">' +
+        'No matching products found.' +
+        '</div>';
+
+        return;
+
+    }
+
+
+    container.innerHTML =
+        results
+        .map(function(product){
+
+            return productCard(product);
+
+        })
+        .join("");
+
+}
+
+
+/* WHATSAPP */
+
+function cleanWhatsapp(number){
+
+    let value =
+        String(number || "")
+        .replace(/\D/g,"");
+
+
+    if(value.startsWith("234")){
+
+        return value;
+
+    }
+
+
+    if(value.startsWith("0")){
+
+        return "234" +
+            value.substring(1);
+
+    }
+
+
+    return value;
+
+}
+
+
+function openProductWhatsApp(
+    number,
+    productName
+){
+
+    const phone =
+        cleanWhatsapp(number);
+
+
+    const message =
+        encodeURIComponent(
+            "Hello Abba Authentics, " +
+            "I am interested in " +
+            productName
+        );
+
+
+    window.open(
+        "https://wa.me/" +
+        phone +
+        "?text=" +
+        message,
+        "_blank"
+    );
+
+}
+
+
+function contactWhatsApp(){
+
+    const number =
+        document
+        .getElementById(
+            "defaultWhatsapp"
+        )
+        .value;
+
+
+    const phone =
+        cleanWhatsapp(number);
+
+
+    window.open(
+        "https://wa.me/" +
+        phone,
+        "_blank"
+    );
+
+}/* PRODUCT UPLOAD */
+
+document
+.getElementById("productForm")
+.addEventListener(
+    "submit",
+    async function(event){
+
+        event.preventDefault();
+
+
+        if(!admin){
+
+            showNotification(
+                "Admin permission required."
+            );
+
+            return;
+
+        }
+
+
+        const name =
+            document
+            .getElementById(
+                "productName"
+            )
+            .value
+            .trim();
+
+
+        const description =
+            document
+            .getElementById(
+                "productDescription"
+            )
+            .value
+            .trim();
+
+
+        const price =
+            document
+            .getElementById(
+                "productPrice"
+            )
+            .value;
+
+
+        const category =
+            document
+            .getElementById(
+                "productCategory"
+            )
+            .value
+            .trim();
+
+
+        const whatsapp =
+            document
+            .getElementById(
+                "productWhatsapp"
+            )
+            .value
+            .trim();
+
+
+        const file =
+            document
+            .getElementById(
+                "imageFile"
+            )
+            .files[0];
+
+
+        const message =
+            document
+            .getElementById(
+                "uploadMessage"
+            );
+
+
+        if(!file){
+
+            message.innerHTML =
+            '<div class="message error">' +
+            'Please choose a product image.' +
+            '</div>';
+
+            return;
+
+        }
+
+
+        message.innerHTML =
+        '<div class="message">' +
+        'Uploading product...' +
+        '</div>';
+
+
+        try{
+
+
+            const extension =
+                file.name
+                .split(".")
+                .pop()
+                .toLowerCase();
+
+
+            const fileName =
+                Date.now() +
+                "-" +
+                Math.random()
+                .toString(36)
+                .substring(2) +
+                "." +
+                extension;
+
+
+            const upload =
+                await db.storage
+                .from("products")
+                .upload(
+                    fileName,
+                    file,
+                    {
+                        upsert:false
+                    }
+                );
+
+
+            if(upload.error){
+
+                throw upload.error;
+
+            }
+
+
+            const imageResult =
+                db.storage
+                .from("products")
+                .getPublicUrl(
+                    fileName
+                );
+
+
+            const imageUrl =
+                imageResult
+                .data
+                .publicUrl;
+
+
+            const insert =
+                await db
+                .from("products")
+                .insert({
+
+                    name:name,
+
+                    description:
+                        description,
+
+                    prize:
+                        Number(price),
+
+                    image_url:
+                        imageUrl,
+
+                    category:
+                        category,
+
+                    whatsapp:
+                        whatsapp,
+
+                    created_at:
+                        new Date()
+                        .toISOString()
+
+                });
+
+
+            if(insert.error){
+
+                throw insert.error;
+
+            }
+
+
+            document
+            .getElementById(
+                "productForm"
+            )
+            .reset();
+
+
+            document
+            .getElementById(
+                "productWhatsapp"
+            )
+            .value =
+                document
+                .getElementById(
+                    "defaultWhatsapp"
+                )
+                .value;
+
+
+            message.innerHTML =
+            '<div class="message success">' +
+            'Product published successfully ✓' +
+            '</div>';
+
+
+            showNotification(
+                "Product published successfully."
+            );
+
+
+            await loadProducts();
+
+
+        }catch(error){
+
+            console.error(error);
+
+
+            message.innerHTML =
+            '<div class="message error">' +
+            'Upload failed: ' +
+            escapeHTML(
+                error.message
+            ) +
+            '</div>';
+
+        }
+
+    }
+);
+
+
+/* DELETE PRODUCT */
+
+async function deleteProduct(id){
+
+    if(!admin){
+
+        showNotification(
+            "Admin permission required."
+        );
+
+        return;
+
+    }
+
+
+    const confirmDelete =
+        confirm(
+            "Delete this product?"
+        );
+
+
+    if(!confirmDelete){
+
+        return;
+
+    }
+
+
+    const result =
+        await db
+        .from("products")
+        .delete()
+        .eq("id",id);
+
+
+    if(result.error){
+
+        showNotification(
+            "Delete failed: " +
+            result.error.message
+        );
+
+        return;
+
+    }
+
+
+    showNotification(
+        "Product deleted successfully."
+    );
+
+
+    await loadProducts();
+
+}
+
+
+/* COMPLAINT */
+
+async function submitComplaintconst name =
+    document
+    .getElementById(
+        "complaintName"
+    )
+    .value
+    .trim();
+
+const contact =
+    document
+    .getElementById(
+        "complaintContact"
+    )
+    .value
+    .trim();
+
+const complaint =
+    document
+    .getElementById(
+        "complaintText"
+    )
+    .value
+    .trim();
+
+if(!name || !complaint){
+
+    showNotification(
+        "Please complete the complaint."
+    );
+
+    return;
+}
+
+const result =
+    await db
+    .from("complaints")
+    .insert({
+
+        name:name,
+        contact:contact,
+        complaint:complaint
+
+    });
+
+if(result.error){
+
+    showNotification(
+        "Complaint could not be sent."
+    );
+
+    return;
+}
+
+document
+.getElementById(
+    "complaintName"
+)
+.value = "";
+
+document
+.getElementById(
+    "complaintContact"
+)
+.value = "";
+
+document
+.getElementById(
+    "complaintText"
+)
+.value = "";
+
+showNotification(
+    "Complaint submitted successfully."
+);
+
+} /* SETTINGS */
+
+function saveWhatsapp(){
+
+    const number =
+        document
+        .getElementById(
+            "defaultWhatsapp"
+        )
+        .value
+        .trim();
+
+    if(!number){
+
+        showNotification(
+            "Enter a WhatsApp number."
+        );
+
+        return;
+    }
+
+    localStorage.setItem(
+        "abbaWhatsapp",
+        number
+    );
+
+    showNotification(
+        "WhatsApp number saved."
+    );
+
+}
+
+
+function loadSettings(){
+
+    const saved =
+        localStorage.getItem(
+            "abbaWhatsapp"
+        );
+
+    if(saved){
+
+        document
+        .getElementById(
+            "defaultWhatsapp"
+        )
+        .value = saved;
+
+        document
+        .getElementById(
+            "productWhatsapp"
+        )
+        .value = saved;
+
+    }
+
+}
+
+
+function changeTheme(){
+
+    const theme =
+        document
+        .getElementById(
+            "themeSelect"
+        )
+        .value;
+
+
+    if(theme === "light"){
+
+        document.body.style.background =
+            "#f4f4f4";
+
+        document.body.style.color =
+            "#111";
+
+    }else{
+
+        document.body.style.background =
+            "#050505";
+
+        document.body.style.color =
+            "#fff";
+
+    }
+
+
+    localStorage.setItem(
+        "abbaTheme",
+        theme
+    );
+
+}
+
+
+/* JAVA */
+
+function openJava(){
+
+    document
+    .getElementById(
+        "javaModal"
+    )
+    .style.display = "block";
+
+}
+
+
+function closeJava(){
+
+    document
+    .getElementById(
+        "javaModal"
+    )
+    .style.display = "none";
+
+}
+
+
+function askJava(){
+
+    const input =
+        document
+        .getElementById(
+            "javaQuestion"
+        );
+
+
+    const answer =
+        document
+        .getElementById(
+            "javaAnswer"
+        );
+
+
+    const question =
+        input.value
+        .trim()
+        .toLowerCase();
+
+
+    if(!question){
+
+        answer.innerHTML =
+        '<div class="message error">' +
+        'Please ask JAVA a question.' +
+        '</div>';
+
+        return;
+
+    }
+
+
+    let response =
+        "I'm JAVA, the Abba Authentics assistant. " +
+        "I can answer questions about Abba Authentics, " +
+        "products, verification, buying, WhatsApp, " +
+        "accounts and website features.";
+
+
+    if(
+        question.includes("what is abba") ||
+        question.includes("what is abba authentics")
+    ){
+
+        response =
+        "Abba Authentics helps customers " +
+        "verify products and know which products " +
+        "are original.";
+
+    }
+
+
+    else if(
+        question.includes("verify") ||
+        question.includes("original")
+    ){
+
+        response =
+        "Check the products listed on Abba Authentics. " +
+        "For questions about a particular product, " +
+        "you can contact the seller through its " +
+        "WhatsApp button.";
+
+    }
+
+
+    else if(
+        question.includes("buy") ||
+        question.includes("purchase")
+    ){
+
+        response =
+        "Choose the product you want and tap " +
+        "WHATSAPP. JAVA will open WhatsApp with " +
+        "the seller's product contact.";
+
+    }
+
+
+    else if(
+        question.includes("post") ||
+        question.includes("upload")
+    ){
+
+        response =
+        "Only the authorized administrator can " +
+        "publish products on Abba Authentics.";
+
+    }
+
+
+    else if(
+        question.includes("whatsapp") ||
+        question.includes("contact")
+    ){
+
+        response =
+        "Open the product and tap WHATSAPP. " +
+        "The number attached to that product " +
+        "will be contacted.";
+
+    }
+
+
+    else if(
+        question.includes("hello") ||
+        question.includes("hi") ||
+        question.includes("hey")
+    ){
+
+        response =
+        "Hello 👋 I'm JAVA. How can I help " +
+        "you with Abba Authentics?";
+
+    }
+
+
+    answer.innerHTML =
+    '<div class="message success">' +
+    '<strong>JAVA:</strong><br><br>' +
+    escapeHTML(response) +
+    '</div>';
+
+}
+
+
+/* REVIEWS DISPLAY */
+
+async function loadReviews(){
+
+    const result =
+        await db
+        .from("reviews")
+        .select("*")
+        .order(
+            "created_at",
+            { ascending:false }
+        )
+        .limit(20);
+
+
+    const container =
+        document
+        .getElementById(
+            "reviewsList"
+        );
+
+
+    if(!container){
+
+        return;
+
+    }
+
+
+    if(result.error){
+
+        container.innerHTML = "";
+
+        return;
+
+    }
+
+
+    if(!result.data.length){
+
+        container.innerHTML =
+        '<p style="color:#aaa;margin-top:15px">' +
+        'No reviews yet.' +
+        '</p>';
+
+        return;
+
+    }
+
+
+    container.innerHTML =
+        result.data
+        .map(function(review){
+
+            return `
+
+                <div class="message"
+                     style="margin-top:12px">
+
+                    <div style="color:#d4af37">
+                        ${"★".repeat(
+                            Number(review.rating) || 0
+                        )}
+                    </div>
+
+                    <div style="margin-top:6px">
+                        ${escapeHTML(
+                            review.review
+                        )}
+                    </div>
+
+                </div>
+
+            `;
+
+        })
+        .join("");
+
+}
+
+
+/* INITIAL SETTINGS */
+
+function applySavedSettings(){
+
+    const savedTheme =
+        localStorage.getItem(
+            "abbaTheme"
+        );
+
+
+    if(savedTheme){
+
+        const select =
+            document
+            .getElementById(
+                "themeSelect"
+            );
+
+        if(select){
+
+            select.value =
+                savedTheme;
+
+        }
+
+    }
+
+
+    const savedWhatsapp =
+        localStorage.getItem(
+            "abbaWhatsapp"
+        );
+
+
+    if(savedWhatsapp){
+
+        const input =
+            document
+            .getElementById(
+                "defaultWhatsapp"
+            );
+
+        if(input){
+
+            input.value =
+                savedWhatsapp;
+
+        }
+
+    }
+
+} /* START APPLICATION */
+
+async function startApp(){
+
+    try{
+
+        const sessionResult =
+            await db.auth.getSession();
+
+
+        if(
+            sessionResult.data &&
+            sessionResult.data.session
+        ){
+
+            currentUser =
+                sessionResult
+                .data
+                .session
+                .user;
+
+            await checkAdmin();
+
+        }
+
+
+        updateAccount();
+
+        updateAdminArea();
+
+        loadSettings();
+
+        applySavedSettings();
+
+        await loadProducts();
+
+        await loadReviews();
+
+
+        db.auth.onAuthStateChange(
+            async function(
+                event,
+                session
+            ){
+
+                if(session){
+
+                    currentUser =
+                        session.user;
+
+                    await checkAdmin();
+
+                }else{
+
+                    currentUser = null;
+
+                    admin = false;
+
+                }
+
+
+                updateAccount();
+
+                updateAdminArea();
+
+            }
+        );
+
+
+    }catch(error){
+
+        console.error(
+            "Startup error:",
+            error
+        );
+
+    }
+
+}
+
+
+/* SERVICE WORKER */
+
+if(
+    "serviceWorker"
+    in navigator
+){
+
+    window.addEventListener(
+        "load",
+        function(){
+
+            navigator
+            .serviceWorker
+            .register("sw.js")
+            .catch(
+                function(error){
+
+                    console.log(
+                        "Service worker:",
+                        error
+                    );
+
+                }
+            );
+
+        }
+    );
+
+}
+
+
+/* START */
+
+startApp();
+
+
+</script>
+
+</body>
+
+</html>
