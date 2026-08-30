@@ -1,0 +1,12 @@
+{
+  "name": "Abba Authentics",
+  "short_name": "Abba",
+  "description": "Verify products and know which products are original.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#d4af37",
+  "orientation": "portrait",
+  "icons": []
+}
