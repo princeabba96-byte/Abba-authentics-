@@ -690,74 +690,34 @@ document.getElementById(
 
 }
 
-
 async function login(){
 
-const email=
-document.getElementById(
-"loginEmail"
-).value.trim();
+    const email = document.getElementById("loginEmail").value.trim();
+    const password = document.getElementById("loginPassword").value;
 
-const password=
-document.getElementById(
-"loginPassword"
-).value;
+    if(!email || !password){
+        notify("Please enter your email and password.");
+        return;
+    }
 
-if(!email||!password){
+    const { data, error } =
+        await supabaseClient.auth.signInWithPassword({
+            email: email,
+            password: password
+        });
 
-notify(
-"Please enter your email and password."
-);
+    if(error){
+        notify("LOGIN FAILED: " + error.message);
+        return;
+    }
 
-return;
-}
+    currentUser = data.user;
 
-try{
+    notify("✅ LOGIN SUCCESSFUL!");
 
-const result=
-await supabaseClient.auth
-.signInWithPassword({
-email:email,
-password:password
-});
+    closeLogin();
 
-if(result.error){
-
-notify(
-"Login failed:<br>"+
-result.error.message
-);
-
-return;
-}
-
-currentUser=result.data.user;
-
-isAdmin=
-email.toLowerCase()
-.includes("admin");
-
-updateAccount();
-
-closeLogin();
-
-notify(
-"Login successful.<br><br>"+
-(isAdmin
-?"ADMIN found 👑"
-:"Customer account")
-);
-
-}catch(error){
-
-console.error(error);
-
-notify(
-"Login connection failed."
-);
-
-}
-
+    updateAccount();
 }
 
 
