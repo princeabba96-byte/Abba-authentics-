@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Abba Authentics Login Test</title>
+
+<style>
+body{
+font-family:Arial,sans-serif;
+background:#000;
+color:#fff;
+padding:25px;
+max-width:500px;
+margin:auto;
+}
+
+h1{
+color:#d4af37;
+}
+
+input{
+width:100%;
+box-sizing:border-box;
+padding:14px;
+margin:8px 0;
+border-radius:8px;
+border:1px solid #555;
+background:#111;
+color:#fff;
+}
+
+button{
+width:100%;
+padding:14px;
+margin-top:10px;
+border:0;
+border-radius:8px;
+background:#d4af37;
+color:#000;
+font-weight:bold;
+}
+
+#result{
+margin-top:20px;
+padding:15px;
+border:1px solid #333;
+border-radius:8px;
+word-wrap:break-word;
+}
+</style>
+</head>
+
+<body>
+
+<h1>Abba Authentics</h1>
+<h2>Login Connection Test</h2>
+
+<input
+id="email"
+type="email"
+placeholder="Enter your email">
+
+<input
+id="password"
+type="password"
+placeholder="Enter your password">
+
+<button onclick="testLogin()">
+TEST LOGIN
+</button>
+
+<div id="result">
+Waiting for test...
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+
+const SUPABASE_URL =
+"https://eoccjsybttiwcxfaxeqg.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_AARFSH7pm5iQIatNs5HKZg_qGqvHFE6";
+
+const client =
+supabase.createClient(
+SUPABASE_URL,
+SUPABASE_KEY
+);
+
+async function testLogin(){
+
+const email =
+document.getElementById("email")
+.value.trim();
+
+const password =
+document.getElementById("password")
+.value;
+
+const resultBox =
+document.getElementById("result");
+
+if(!email || !password){
+
+resultBox.innerHTML =
+"⚠️ Enter both email and password.";
+
+return;
+
+}
+
+resultBox.innerHTML =
+"⏳ Testing login...";
+
+try{
+
+const result =
+await client.auth.signInWithPassword({
+
+email:email,
+password:password
+
+});
+
+if(result.error){
+
+resultBox.innerHTML =
+"❌ SUPABASE REPLIED:<br><br>" +
+result.error.message;
+
+console.log(result.error);
+
+return;
+
+}
+
+resultBox.innerHTML =
+"✅ LOGIN WORKS!<br><br>" +
+"Email: " +
+result.data.user.email;
+
+console.log(result.data);
+
+}catch(error){
+
+resultBox.innerHTML =
+"❌ BROWSER ERROR:<br><br>" +
+(error.message || error);
+
+console.error(error);
+
+}
+
+}
+
+</script>
+
+</body>
+</html>
