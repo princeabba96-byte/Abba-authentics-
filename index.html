@@ -869,23 +869,6 @@ function closeLogin(){
 }
 
 
-async function login(){
-
- const email =
- document.getElementById(
-  "loginEmail"
- ).value.trim();
-
- const password =
- document.getElementById(
-  "loginPassword"
- ).value;
-
- if(!email || !password){
-
-  notify(
-   "Please enter your email and password."
-  );
 
   return;
  }
@@ -906,8 +889,77 @@ async function login(){
    result.error.message
   );
 
+  async function login(){
+
+ const email =
+  document.getElementById("loginEmail")
+  .value.trim();
+
+ const password =
+  document.getElementById("loginPassword")
+  .value;
+
+ if(!email || !password){
+
+  notify("Please enter your email and password.");
+
   return;
  }
+
+ try{
+
+  const { data, error } =
+   await supabaseClient.auth
+   .signInWithPassword({
+    email: email,
+    password: password
+   });
+
+  if(error){
+
+   notify(
+    "Login failed:<br>" +
+    error.message
+   );
+
+   return;
+  }
+
+  currentUser = data.user;
+
+  await checkAdmin();
+
+  updateAccount();
+
+  closeLogin();
+
+  if(isAdmin){
+
+   notify(
+    "Login successful.<br><br>" +
+    "ADMIN found"
+   );
+
+  }else{
+
+   notify(
+    "Login successful.<br><br>" +
+    "Customer account"
+   );
+
+  }
+
+ }catch(error){
+
+  console.error(error);
+
+  notify(
+   "Connection error. Please try again."
+  );
+
+ }
+
+}
 
 
  currentUser =
