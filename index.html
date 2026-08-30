@@ -1327,7 +1327,12 @@ currentUser.email
 
 }catch(error){
 
-console.log(error);
+console.log("LOGIN ERROR:",error);
+
+notify(
+"LOGIN ERROR:<br>" +
+(error.message || error)
+);
 
 }
 
