@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Abba Authentics Test</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+</head>
+
+<body style="font-family:Arial;background:#000;color:#fff;padding:20px">
+
+<h2>Abba Authentics Connection Test</h2>
+
+<p id="status">Testing...</p>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+
+const SUPABASE_URL =
+"https://eoccjsybttiwcxfaxeqg.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_AARFSH7pm5iQIatNs5HKZg_qGqvHFE6";
+
+const client =
+supabase.createClient(
+SUPABASE_URL,
+SUPABASE_KEY
+);
+
+async function test(){
+
+const status =
+document.getElementById("status");
+
+try{
+
+const result =
+await client.auth.getSession();
+
+if(result.error){
+
+status.innerHTML =
+"❌ ERROR:<br>" +
+result.error.message;
+
+}else{
+
+status.innerHTML =
+"✅ SUPABASE CONNECTION WORKS!<br><br>" +
+"Auth responded successfully.";
+
+}
+
+}catch(error){
+
+status.innerHTML =
+"❌ FAILED TO FETCH:<br>" +
+(error.message || error);
+
+}
+
+}
+
+test();
+
+</script>
+
+</body>
+</html>
