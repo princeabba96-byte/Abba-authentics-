@@ -783,13 +783,7 @@ logoutBtn.style.display=
 "none";
 
 return;
-const adminPost =
-document.getElementById("adminPost");
 
-if(adminPost){
-    adminPost.style.display =
-    isAdmin ? "block" : "none";
-}
 }
 
 name.textContent=
@@ -809,7 +803,13 @@ loginBtn.style.display=
 
 logoutBtn.style.display=
 "inline-block";
+const adminPost =
+document.getElementById("adminPost");
 
+if(adminPost){
+    adminPost.style.display =
+    isAdmin ? "block" : "none";
+}
 }
 
 
