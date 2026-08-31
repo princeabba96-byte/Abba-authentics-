@@ -16,6 +16,50 @@
 <button onclick="alert('HOME WORKS')">
 HOME TEST
 </button>
+<script>
+const SUPABASE_URL = "https://eoccjsybttiwcxfaxeqg.supabase.co";
+const SUPABASE_KEY = "YOUR_PUBLISHABLE_KEY_HERE";
 
+const ADMIN_EMAIL = "princeabba96@gmail.com";
+
+let currentUser = null;
+
+function isAdmin() {
+  return currentUser &&
+    currentUser.email &&
+    currentUser.email.toLowerCase() === ADMIN_EMAIL;
+}
+
+async function checkLogin() {
+
+  if (typeof supabase === "undefined") {
+    console.log("Supabase library not connected yet.");
+    return;
+  }
+
+  const client = supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+  const result = await client.auth.getSession();
+
+  if (result.data.session) {
+    currentUser = result.data.session.user;
+    console.log("Logged in:", currentUser.email);
+
+    if (isAdmin()) {
+      console.log("ADMIN ACCOUNT");
+    } else {
+      console.log("CUSTOMER ACCOUNT");
+    }
+  } else {
+    currentUser = null;
+    console.log("Not logged in");
+  }
+}
+
+checkLogin();
+</script>
 </body>
 </html>
