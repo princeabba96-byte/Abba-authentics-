@@ -1,0 +1,3363 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+>
+
+<meta
+  name="theme-color"
+  content="#080808"
+>
+
+<title>ABBA AUTHENTICS</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+
+/* =========================
+   BASIC
+========================= */
+
+*{
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  margin:0;
+  background:#080808;
+  color:#ffffff;
+  font-family:Arial,Helvetica,sans-serif;
+  padding-bottom:75px;
+}
+
+button,
+input,
+textarea,
+select{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+
+/* =========================
+   HEADER
+========================= */
+
+header{
+  position:sticky;
+  top:0;
+  z-index:50;
+  text-align:center;
+  padding:17px 10px;
+  background:#080808;
+  border-bottom:1px solid #292929;
+}
+
+.logo{
+  color:#d4af37;
+  font-size:25px;
+  font-weight:900;
+  letter-spacing:1px;
+}
+
+.tagline{
+  color:#999999;
+  font-size:12px;
+  margin-top:5px;
+}
+
+
+/* =========================
+   PAGES
+========================= */
+
+.page{
+  display:none;
+  max-width:950px;
+  margin:auto;
+  padding:18px;
+}
+
+.page.active{
+  display:block;
+}
+
+
+/* =========================
+   HERO
+========================= */
+
+.hero{
+  background:linear-gradient(
+    145deg,
+    #181818,
+    #090909
+  );
+
+  border:1px solid #303030;
+  border-radius:20px;
+  padding:30px 20px;
+  margin-bottom:18px;
+}
+
+.hero small{
+  color:#d4af37;
+  font-weight:bold;
+  letter-spacing:1px;
+}
+
+.hero h1{
+  font-size:40px;
+  margin:12px 0;
+}
+
+.gold{
+  color:#d4af37;
+}
+
+.muted{
+  color:#999999;
+  line-height:1.6;
+}
+
+
+/* =========================
+   CARDS
+========================= */
+
+.card{
+  background:#111111;
+  border:1px solid #292929;
+  border-radius:17px;
+  padding:17px;
+  margin:16px 0;
+}
+
+
+/* =========================
+   BUTTONS
+========================= */
+
+.btn{
+  width:100%;
+  border:0;
+  border-radius:11px;
+  padding:13px;
+  margin-top:10px;
+  font-weight:bold;
+}
+
+.goldBtn{
+  background:#d4af37;
+  color:#050505;
+}
+
+.goldBtn:hover{
+  background:#f0cf63;
+}
+
+.darkBtn{
+  background:#202020;
+  color:#ffffff;
+  border:1px solid #444444;
+}
+
+.whatsappBtn{
+  background:#25d366;
+  color:#001b08;
+}
+
+.dangerBtn{
+  background:#491919;
+  color:#ffffff;
+  border:1px solid #762b2b;
+}
+
+
+/* =========================
+   FORMS
+========================= */
+
+label{
+  display:block;
+  color:#dddddd;
+  font-size:13px;
+  margin-top:10px;
+}
+
+input,
+textarea,
+select{
+  width:100%;
+  background:#080808;
+  color:#ffffff;
+  border:1px solid #444444;
+  border-radius:10px;
+  padding:13px;
+  margin:7px 0 13px;
+}
+
+textarea{
+  min-height:100px;
+  resize:vertical;
+}
+
+
+/* =========================
+   PRODUCT GRID
+========================= */
+
+.grid{
+  display:grid;
+  grid-template-columns:
+    repeat(2,minmax(0,1fr));
+  gap:12px;
+}
+
+
+/* =========================
+   PRODUCT CARD
+========================= */
+
+.product{
+  background:#111111;
+  border:1px solid #292929;
+  border-radius:15px;
+  overflow:hidden;
+}
+
+.product img,
+.noImage{
+  width:100%;
+  height:165px;
+  object-fit:cover;
+  display:block;
+}
+
+.noImage{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#777777;
+  background:#181818;
+}
+
+.productBody{
+  padding:12px;
+}
+
+.productName{
+  font-weight:bold;
+  margin:8px 0;
+}
+
+.price{
+  color:#d4af37;
+  font-size:17px;
+  font-weight:bold;
+}
+
+.category{
+  color:#888888;
+  font-size:11px;
+  margin-top:6px;
+}
+
+.productDescription{
+  color:#aaaaaa;
+  font-size:12px;
+  line-height:1.5;
+  margin-top:7px;
+}
+
+
+/* =========================
+   VERIFIED BADGE
+========================= */
+
+.verifiedBadge{
+  display:inline-block;
+  padding:5px 9px;
+  border-radius:20px;
+  background:#0b2b16;
+  color:#28d45c;
+  border:1px solid #28d45c;
+  font-size:10px;
+  font-weight:900;
+}
+
+
+/* =========================
+   MESSAGES
+========================= */
+
+.empty{
+  grid-column:1/-1;
+  text-align:center;
+  padding:40px 10px;
+  color:#888888;
+}
+
+.message{
+  padding:12px;
+  margin-top:12px;
+  border-radius:10px;
+  background:#191919;
+  line-height:1.5;
+  font-size:13px;
+}
+
+.success{
+  border:1px solid #276438;
+}
+
+.error{
+  border:1px solid #6a2929;
+}
+
+.hidden{
+  display:none !important;
+}
+
+
+/* =========================
+   MOBILE NAVIGATION
+========================= */
+
+.bottomNav{
+  position:fixed;
+  left:0;
+  right:0;
+  bottom:0;
+  z-index:100;
+  height:70px;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  background:#090909;
+  border-top:1px solid #292929;
+}
+
+.navBtn{
+  position:relative;
+  background:none;
+  border:0;
+  color:#777777;
+  font-size:10px;
+  font-weight:bold;
+}
+
+.navBtn.active{
+  color:#d4af37;
+}
+
+.navBtn.active::after{
+  content:"";
+  position:absolute;
+  left:20%;
+  right:20%;
+  bottom:0;
+  height:3px;
+  background:#d4af37;
+}
+
+.gear{
+  font-size:21px;
+}
+
+
+/* =========================
+   MODALS
+========================= */
+
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:200;
+  background:rgba(0,0,0,.92);
+  padding:18px;
+  overflow:auto;
+}
+
+.modal.show{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.modalBox{
+  width:100%;
+  max-width:500px;
+  background:#101010;
+  border:1px solid #383838;
+  border-radius:18px;
+  padding:18px;
+  max-height:90vh;
+  overflow:auto;
+}
+
+.modalTop{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.closeBtn{
+  background:none;
+  border:0;
+  color:#ffffff;
+  font-size:30px;
+}
+
+
+/* =========================
+   JAVA BLACK + GOLD
+========================= */
+
+#javaModal .modalBox{
+  background:#050505;
+  border:2px solid #d4af37;
+  box-shadow:
+    0 0 35px
+    rgba(212,175,55,.20);
+}
+
+.javaTitle{
+  color:#d4af37;
+  letter-spacing:2px;
+}
+
+#javaInformation{
+  color:#eeeeee;
+  line-height:1.7;
+  border-left:3px solid #d4af37;
+  padding-left:12px;
+}
+
+
+/* =========================
+   REVIEWS
+========================= */
+
+.review{
+  background:#0b0b0b;
+  border:1px solid #292929;
+  border-radius:13px;
+  padding:13px;
+  margin-top:10px;
+}
+
+.stars{
+  color:#d4af37;
+  font-size:18px;
+}
+
+.reviewName{
+  font-weight:bold;
+  margin-top:6px;
+}
+
+.reviewText{
+  color:#aaaaaa;
+  line-height:1.5;
+  margin-top:7px;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:520px){
+
+  .hero h1{
+    font-size:32px;
+  }
+
+  .product img,
+  .noImage{
+    height:135px;
+  }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+  <div class="logo">
+    ABBA AUTHENTICS
+  </div>
+
+  <div class="tagline">
+    AUTHENTIC • TRUSTED • SIMPLE
+  </div>
+
+</header>
+<!-- =========================
+     HOME PAGE
+========================= -->
+
+<section
+  id="homePage"
+  class="page active"
+>
+
+  <div class="hero">
+
+    <small>
+      VERIFY • DISCOVER • CONNECT
+    </small>
+
+    <h1>
+      ABBA
+      <span class="gold">
+        AUTHENTICS
+      </span>
+    </h1>
+
+    <p class="muted">
+      Verify products, discover
+      authentic items and connect
+      directly with sellers.
+    </p>
+
+    <button
+      class="btn goldBtn"
+      onclick="showPage('productsPage')"
+    >
+      🛍️ Browse Products
+    </button>
+
+  </div>
+
+
+  <div class="card">
+
+    <h2>
+      Latest Products
+    </h2>
+
+    <p class="muted">
+      Products published by the
+      administrator appear here.
+    </p>
+
+  </div>
+
+
+  <div
+    id="homeProducts"
+    class="grid"
+  >
+
+    <div class="empty">
+      Loading products...
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================
+     PRODUCTS PAGE
+========================= -->
+
+<section
+  id="productsPage"
+  class="page"
+>
+
+  <div class="card">
+
+    <h2>
+      🛍️ Products
+    </h2>
+
+    <p class="muted">
+      Search for products on
+      ABBA AUTHENTICS.
+    </p>
+
+    <input
+      id="searchInput"
+      type="search"
+      placeholder="🔍 Search products..."
+      oninput="renderProducts()"
+    >
+
+  </div>
+
+
+  <div
+    id="productsGrid"
+    class="grid"
+  >
+
+    <div class="empty">
+      Loading products...
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================
+     ACCOUNT PAGE
+========================= -->
+
+<section
+  id="accountPage"
+  class="page"
+>
+
+  <div
+    id="loggedOutBox"
+    class="card"
+  >
+
+    <h2>
+      👤 Account
+    </h2>
+
+    <p class="muted">
+      Login or create an account
+      to use account features.
+    </p>
+
+    <button
+      class="btn goldBtn"
+      onclick="openAuth()"
+    >
+      Login / Create Account
+    </button>
+
+  </div>
+
+
+  <div
+    id="loggedInBox"
+    class="hidden"
+  >
+
+    <div class="card">
+
+      <h2>
+        My Account
+      </h2>
+
+      <p
+        id="accountEmail"
+        class="muted"
+      ></p>
+
+      <div
+        id="accountRole"
+      ></div>
+
+      <button
+        class="btn dangerBtn"
+        onclick="logout()"
+      >
+        Logout
+      </button>
+
+    </div>
+
+
+    <!-- =====================
+         ADMIN PANEL
+    ====================== -->
+
+    <div
+      id="adminBox"
+      class="card hidden"
+    >
+
+      <h2>
+        👑 Administrator
+      </h2>
+
+      <p class="muted">
+        Only the administrator can
+        publish products.
+      </p>
+
+      <label>
+        Product Name
+      </label>
+
+      <input
+        id="productName"
+        type="text"
+        placeholder="Enter product name"
+      >
+
+      <label>
+        Price (₦)
+      </label>
+
+      <input
+        id="productPrice"
+        type="number"
+        min="0"
+        placeholder="50000"
+      >
+
+      <label>
+        Product Picture
+      </label>
+
+      <input
+        id="productImage"
+        type="file"
+        accept="image/*"
+        onchange="previewImage(event)"
+      >
+
+      <img
+        id="imagePreview"
+        class="hidden"
+        style="
+          width:100%;
+          max-height:230px;
+          object-fit:contain;
+          border-radius:10px;
+          margin-bottom:10px;
+        "
+        alt="Product preview"
+      >
+
+      <label>
+        Seller WhatsApp Number
+      </label>
+
+      <input
+        id="productWhatsapp"
+        type="tel"
+        value="09061530541"
+      >
+
+      <label>
+        Category
+      </label>
+
+      <input
+        id="productCategory"
+        type="text"
+        placeholder="Shoes, phone, clothes..."
+      >
+
+      <label>
+        Description
+      </label>
+
+      <textarea
+        id="productDescription"
+        placeholder="Describe the product..."
+      ></textarea>
+
+      <button
+        class="btn goldBtn"
+        onclick="addProduct()"
+      >
+        📤 Publish Product
+      </button>
+
+      <div
+        id="postMessage"
+      ></div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================
+     SETTINGS PAGE
+========================= -->
+
+<section
+  id="settingsPage"
+  class="page"
+>
+
+  <div class="card">
+
+    <h2>
+      ⚙️ Settings
+    </h2>
+
+    <p class="muted">
+      Manage your
+      ABBA AUTHENTICS experience.
+    </p>
+
+    <button
+      class="btn darkBtn"
+      onclick="showPage('reviewsPage')"
+    >
+      ⭐ Reviews
+    </button>
+
+    <button
+      class="btn darkBtn"
+      onclick="openComplaint()"
+    >
+      📩 Customer Service / Complaint
+    </button>
+
+    <button
+      class="btn darkBtn"
+      onclick="showPage('privacyPage')"
+    >
+      🔒 Privacy Policy
+    </button>
+
+    <button
+      class="btn darkBtn"
+      onclick="showPage('termsPage')"
+    >
+      📜 Terms & Conditions
+    </button>
+
+    <button
+      class="btn goldBtn"
+      onclick="openAssistant()"
+    >
+      🤖 Ask JAVA
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- =========================
+     REVIEWS PAGE
+========================= -->
+
+<section
+  id="reviewsPage"
+  class="page"
+>
+
+  <div class="card">
+
+    <h2>
+      ⭐ Customer Reviews
+    </h2>
+
+    <p class="muted">
+      Customers can leave reviews
+      after logging in.
+    </p>
+
+    <label>
+      Your Name
+    </label>
+
+    <input
+      id="reviewName"
+      type="text"
+      placeholder="Your name"
+    >
+
+    <label>
+      Rating
+    </label>
+
+    <select
+      id="reviewRating"
+    >
+
+      <option value="5">
+        ★★★★★ Excellent
+      </option>
+
+      <option value="4">
+        ★★★★ Very Good
+      </option>
+
+      <option value="3">
+        ★★★ Good
+      </option>
+
+      <option value="2">
+        ★★ Needs Improvement
+      </option>
+
+      <option value="1">
+        ★ Poor
+      </option>
+
+    </select>
+
+    <label>
+      Your Review
+    </label>
+
+    <textarea
+      id="reviewText"
+      placeholder="Write your review..."
+    ></textarea>
+
+    <button
+      class="btn goldBtn"
+      onclick="submitReview()"
+    >
+      ⭐ Submit Review
+    </button>
+
+    <div
+      id="reviewMessage"
+    ></div>
+
+  </div>
+
+
+  <div class="card">
+
+    <h3>
+      Reviews from Customers
+    </h3>
+
+    <div
+      id="reviewsList"
+    >
+
+      <div class="empty">
+        Loading reviews...
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <button
+    class="btn darkBtn"
+    onclick="showPage('settingsPage')"
+  >
+    ← Back to Settings
+  </button>
+
+</section>
+<!-- =========================
+     PRIVACY PAGE
+========================= -->
+
+<section
+  id="privacyPage"
+  class="page"
+>
+
+  <div class="card">
+
+    <h2>🔒 Privacy Policy</h2>
+
+    <p class="muted">
+      ABBA AUTHENTICS uses account
+      information to provide website
+      features.
+    </p>
+
+    <p class="muted">
+      Product listings may contain
+      product names, prices, pictures,
+      descriptions and seller
+      WhatsApp numbers.
+    </p>
+
+    <p class="muted">
+      Never publish passwords, PINs
+      or verification codes on the
+      website.
+    </p>
+
+    <button
+      class="btn darkBtn"
+      onclick="showPage('settingsPage')"
+    >
+      ← Back to Settings
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- =========================
+     TERMS PAGE
+========================= -->
+
+<section
+  id="termsPage"
+  class="page"
+>
+
+  <div class="card">
+
+    <h2>📜 Terms & Conditions</h2>
+
+    <p class="muted">
+      Customers should carefully
+      check product information and
+      communicate with sellers before
+      making payments.
+    </p>
+
+    <p class="muted">
+      ABBA AUTHENTICS may remove
+      listings that violate website
+      rules or contain misleading
+      information.
+    </p>
+
+    <p class="muted">
+      Never share your password,
+      PIN or verification code with
+      anyone.
+    </p>
+
+    <button
+      class="btn darkBtn"
+      onclick="showPage('settingsPage')"
+    >
+      ← Back to Settings
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- =========================
+     LOGIN MODAL
+========================= -->
+
+<div
+  id="authModal"
+  class="modal"
+>
+
+  <div class="modalBox">
+
+    <div class="modalTop">
+
+      <h2>👤 Account</h2>
+
+      <button
+        class="closeBtn"
+        onclick="closeAuth()"
+      >
+        ×
+      </button>
+
+    </div>
+
+    <p class="muted">
+      Login to your ABBA AUTHENTICS
+      account or create a new one.
+    </p>
+
+    <label>Email</label>
+
+    <input
+      id="authEmail"
+      type="email"
+      placeholder="Enter your email"
+      autocomplete="email"
+    >
+
+    <label>Password</label>
+
+    <input
+      id="authPassword"
+      type="password"
+      placeholder="Enter your password"
+      autocomplete="current-password"
+    >
+
+    <button
+      class="btn goldBtn"
+      onclick="login()"
+    >
+      Login
+    </button>
+
+    <button
+      class="btn darkBtn"
+      onclick="signup()"
+    >
+      Create Account
+    </button>
+
+    <div
+      id="authMessage"
+    ></div>
+
+  </div>
+
+</div>
+
+
+<!-- =========================
+     JAVA MODAL
+========================= -->
+
+<div
+  id="javaModal"
+  class="modal"
+>
+
+  <div class="modalBox">
+
+    <div class="modalTop">
+
+      <h2 class="javaTitle">
+        🤖 JAVA
+      </h2>
+
+      <button
+        class="closeBtn"
+        onclick="closeJava()"
+      >
+        ×
+      </button>
+
+    </div>
+
+    <p
+      id="javaInformation"
+    >
+      Hello! I'm JAVA.
+      Ask me anything about
+      ABBA AUTHENTICS.
+    </p>
+
+    <label>
+      Ask JAVA
+    </label>
+
+    <input
+      id="javaQuestion"
+      type="text"
+      placeholder="Type your question..."
+      onkeydown="
+        if(event.key === 'Enter'){
+          askJAVA();
+        }
+      "
+    >
+
+    <button
+      class="btn goldBtn"
+      onclick="askJAVA()"
+    >
+      Ask JAVA
+    </button>
+
+    <button
+      class="btn darkBtn"
+      onclick="closeJava()"
+    >
+      Close
+    </button>
+
+  </div>
+
+</div>
+
+
+<!-- =========================
+     MOBILE NAVIGATION
+========================= -->
+
+<nav class="bottomNav">
+
+  <button
+    id="navHome"
+    class="navBtn active"
+    onclick="showPage('homePage')"
+  >
+    🏠
+    <br>
+    HOME
+  </button>
+
+  <button
+    id="navProducts"
+    class="navBtn"
+    onclick="showPage('productsPage')"
+  >
+    🛍️
+    <br>
+    PRODUCTS
+  </button>
+
+  <button
+    id="navAccount"
+    class="navBtn"
+    onclick="showPage('accountPage')"
+  >
+    👤
+    <br>
+    ACCOUNT
+  </button>
+
+  <button
+    id="navSettings"
+    class="navBtn"
+    onclick="showPage('settingsPage')"
+  >
+    <span class="gear">⚙️</span>
+    <br>
+    SETTINGS
+  </button>
+
+</nav>
+
+
+<!-- =========================
+     JAVA NOTIFICATION
+========================= -->
+
+<div
+  id="toast"
+  style="
+    display:none;
+    position:fixed;
+    left:14px;
+    right:14px;
+    bottom:84px;
+    z-index:500;
+    background:#050505;
+    color:#ffffff;
+    border:1px solid #d4af37;
+    border-radius:14px;
+    padding:14px;
+    box-shadow:0 10px 30px rgba(0,0,0,.5);
+  "
+>
+
+  <strong style="color:#d4af37;">
+    JAVA
+  </strong>
+
+  <br>
+
+  <span id="toastText"></span>
+
+</div>
+
+
+<!-- =========================
+     JAVASCRIPT
+========================= -->
+
+<script>
+
+const SUPABASE_URL =
+  "https://eoccjsybttiwcxfaxeq.supabase.co";
+
+
+const SUPABASE_KEY =
+  "sb_publishable_AARFSH7pm5iQIatNs5HKZg_qGqvHFE6";
+
+
+const PRODUCTS_BUCKET =
+  "Products";
+
+
+const ADMIN_EMAIL =
+  "princeabba96@gmail.com";
+
+
+const CUSTOMER_SERVICE_WHATSAPP =
+  "09061530541";
+
+
+const db =
+  supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+
+let currentUser = null;
+
+let products = [];
+
+
+/* =========================
+   SAFE HTML
+========================= */
+
+function escapeHTML(value){
+
+  return String(
+    value ?? ""
+  )
+  .replace(/&/g,"&amp;")
+  .replace(/</g,"&lt;")
+  .replace(/>/g,"&gt;")
+  .replace(/"/g,"&quot;")
+  .replace(/'/g,"&#039;");
+
+}
+
+
+/* =========================
+   WHATSAPP NUMBER
+========================= */
+
+function normalizeWhatsApp(number){
+
+  let value =
+    String(number || "")
+    .replace(/\D/g,"");
+
+
+  if(value.startsWith("0")){
+
+    value =
+      "234" +
+      value.slice(1);
+
+  }
+
+
+  return value;
+
+}
+
+
+/* =========================
+   ADMIN CHECK
+========================= */
+
+function isAdmin(){
+
+  return (
+
+    currentUser &&
+
+    String(
+      currentUser.email || ""
+    )
+    .trim()
+    .toLowerCase() ===
+    ADMIN_EMAIL.toLowerCase()
+
+  );
+
+}
+
+
+/* =========================
+   JAVA TOAST
+========================= */
+
+function showToast(message){
+
+  const toast =
+    document.getElementById(
+      "toast"
+    );
+
+  const text =
+    document.getElementById(
+      "toastText"
+    );
+
+
+  text.textContent =
+    message;
+
+
+  toast.style.display =
+    "block";
+
+
+  clearTimeout(
+    window.javaToastTimer
+  );
+
+
+  window.javaToastTimer =
+    setTimeout(
+      function(){
+
+        toast.style.display =
+          "none";
+
+      },
+      4000
+    );
+
+}
+
+
+/* =========================
+   NAVIGATION
+========================= */
+
+function showPage(pageId){
+
+  document
+    .querySelectorAll(".page")
+    .forEach(
+      function(page){
+
+        page.classList.remove(
+          "active"
+        );
+
+      }
+    );
+
+
+  const page =
+    document.getElementById(
+      pageId
+    );
+
+
+  if(!page){
+
+    return;
+
+  }
+
+
+  page.classList.add(
+    "active"
+  );
+
+
+  document
+    .querySelectorAll(".navBtn")
+    .forEach(
+      function(button){
+
+        button.classList.remove(
+          "active"
+        );
+
+      }
+    );
+
+
+  const navMap = {
+
+    homePage:"navHome",
+
+    productsPage:"navProducts",
+
+    accountPage:"navAccount",
+
+    settingsPage:"navSettings"
+
+  };
+
+
+  const nav =
+    document.getElementById(
+      navMap[pageId]
+    );
+
+
+  if(nav){
+
+    nav.classList.add(
+      "active"
+    );
+
+  }
+
+
+  window.scrollTo(
+    0,
+    0
+  );
+
+
+  if(
+    pageId ===
+    "reviewsPage"
+  ){
+
+    loadReviews();
+
+  }
+
+}
+/* =========================
+   JAVA ASSISTANT
+========================= */
+
+const javaAnswers = [
+
+  {
+    keys: [
+      "what is abba",
+      "what is abba authentics",
+      "what is this website",
+      "about the website"
+    ],
+
+    answer:
+      "ABBA AUTHENTICS is a product verification and shopping platform that helps customers discover products and connect with sellers."
+  },
+
+  {
+    keys: [
+      "how buy",
+      "how do i buy",
+      "how to buy",
+      "buy product",
+      "purchase",
+      "checkout"
+    ],
+
+    answer:
+      "Open PRODUCTS, choose the product you want and tap WhatsApp Seller. WhatsApp will open so you can contact the seller directly."
+  },
+
+  {
+    keys: [
+      "customer service",
+      "complaint",
+      "contact",
+      "help"
+    ],
+
+    answer:
+      "Open SETTINGS and select Customer Service / Complaint. You will be taken to WhatsApp to contact ABBA AUTHENTICS."
+  },
+
+  {
+    keys: [
+      "review",
+      "reviews",
+      "leave a review",
+      "write a review"
+    ],
+
+    answer:
+      "Open SETTINGS → Reviews. Log in, enter your name, choose a rating, write your review and tap Submit Review."
+  },
+
+  {
+    keys: [
+      "who can post",
+      "who can publish",
+      "post products",
+      "publish products",
+      "upload product"
+    ],
+
+    answer:
+      "Only the administrator account can publish products on ABBA AUTHENTICS."
+  },
+
+  {
+    keys: [
+      "who can delete",
+      "delete product",
+      "remove product"
+    ],
+
+    answer:
+      "Only the administrator is allowed to delete products."
+  },
+
+  {
+    keys: [
+      "verified",
+      "green check",
+      "green badge",
+      "what does verified mean"
+    ],
+
+    answer:
+      "The green ✓ VERIFIED badge marks products displayed as verified listings on ABBA AUTHENTICS. Customers should still check product and seller details before paying."
+  },
+
+  {
+    keys: [
+      "account",
+      "login",
+      "log in",
+      "sign up",
+      "signup",
+      "create account"
+    ],
+
+    answer:
+      "Tap ACCOUNT at the bottom of the website. From there you can log in or create an account."
+  },
+
+  {
+    keys: [
+      "search",
+      "find product",
+      "find products"
+    ],
+
+    answer:
+      "Tap PRODUCTS and use the search box to find a product by name, category or description."
+  }
+
+];
+
+
+/* =========================
+   JAVA RESPONSE
+========================= */
+
+function javaRespond(question){
+
+  const q =
+    String(
+      question || ""
+    )
+    .toLowerCase()
+    .trim();
+
+
+  if(!q){
+
+    return (
+      "Hello! I'm JAVA, your ABBA " +
+      "AUTHENTICS assistant. Ask me " +
+      "about products, buying, reviews, " +
+      "accounts, verification, customer " +
+      "service or admin permissions."
+    );
+
+  }
+
+
+  for(
+    const item of javaAnswers
+  ){
+
+    const found =
+      item.keys.some(
+        function(key){
+
+          return q.includes(key);
+
+        }
+      );
+
+
+    if(found){
+
+      return item.answer;
+
+    }
+
+  }
+
+
+  return (
+    "I'm JAVA, the ABBA AUTHENTICS " +
+    "assistant. I can help you with " +
+    "buying products, searching, reviews, " +
+    "accounts, verification, customer " +
+    "service and admin permissions."
+  );
+
+}
+
+
+/* =========================
+   OPEN JAVA
+========================= */
+
+function openAssistant(){
+
+  const box =
+    document.getElementById(
+      "javaInformation"
+    );
+
+
+  box.textContent =
+    javaRespond("");
+
+
+  document
+    .getElementById(
+      "javaModal"
+    )
+    .classList
+    .add("show");
+
+}
+
+
+/* =========================
+   ASK JAVA
+========================= */
+
+function askJAVA(){
+
+  const input =
+    document.getElementById(
+      "javaQuestion"
+    );
+
+
+  const question =
+    input.value.trim();
+
+
+  if(!question){
+
+    input.focus();
+
+    return;
+
+  }
+
+
+  document
+    .getElementById(
+      "javaInformation"
+    )
+    .textContent =
+      javaRespond(question);
+
+
+  input.value = "";
+
+}
+
+
+/* =========================
+   CLOSE JAVA
+========================= */
+
+function closeJava(){
+
+  document
+    .getElementById(
+      "javaModal"
+    )
+    .classList
+    .remove("show");
+
+}
+
+
+/* =========================
+   AUTH MODAL
+========================= */
+
+function openAuth(){
+
+  document
+    .getElementById(
+      "authModal"
+    )
+    .classList
+    .add("show");
+
+}
+
+
+function closeAuth(){
+
+  document
+    .getElementById(
+      "authModal"
+    )
+    .classList
+    .remove("show");
+
+}
+
+
+/* =========================
+   LOGIN
+========================= */
+
+async function login(){
+
+  const email =
+    document
+      .getElementById(
+        "authEmail"
+      )
+      .value
+      .trim();
+
+
+  const password =
+    document
+      .getElementById(
+        "authPassword"
+      )
+      .value;
+
+
+  const message =
+    document.getElementById(
+      "authMessage"
+    );
+
+
+  if(!email || !password){
+
+    message.innerHTML =
+      '<div class="message error">' +
+      'Please enter your email and password.' +
+      '</div>';
+
+    return;
+
+  }
+
+
+  message.innerHTML =
+    '<div class="message">' +
+    'Logging in...' +
+    '</div>';
+
+
+  const result =
+    await db.auth.signInWithPassword({
+
+      email: email,
+
+      password: password
+
+    });
+
+
+  if(result.error){
+
+    message.innerHTML =
+      '<div class="message error">' +
+      escapeHTML(
+        result.error.message
+      ) +
+      '</div>';
+
+    return;
+
+  }
+
+
+  currentUser =
+    result.data.user;
+
+
+  updateAccountUI();
+
+  closeAuth();
+
+  showPage(
+    "accountPage"
+  );
+
+
+  showToast(
+    "Login successful."
+  );
+
+}
+
+
+/* =========================
+   CREATE ACCOUNT
+========================= */
+
+async function signup(){
+
+  const email =
+    document
+      .getElementById(
+        "authEmail"
+      )
+      .value
+      .trim();
+
+
+  const password =
+    document
+      .getElementById(
+        "authPassword"
+      )
+      .value;
+
+
+  const message =
+    document.getElementById(
+      "authMessage"
+    );
+
+
+  if(!email || !password){
+
+    message.innerHTML =
+      '<div class="message error">' +
+      'Please enter your email and password.' +
+      '</div>';
+
+    return;
+
+  }
+
+
+  if(password.length < 6){
+
+    message.innerHTML =
+      '<div class="message error">' +
+      'Password must be at least 6 characters.' +
+      '</div>';
+
+    return;
+
+  }
+
+
+  message.innerHTML =
+    '<div class="message">' +
+    'Creating your account...' +
+    '</div>';
+
+
+  const result =
+    await db.auth.signUp({
+
+      email: email,
+
+      password: password
+
+    });
+
+
+  if(result.error){
+
+    message.innerHTML =
+      '<div class="message error">' +
+      escapeHTML(
+        result.error.message
+      ) +
+      '</div>';
+
+    return;
+
+  }
+
+
+  currentUser =
+    result.data.user || null;
+
+
+  updateAccountUI();
+
+  closeAuth();
+
+
+  showToast(
+    "Account created successfully. Check your email if confirmation is required."
+  );
+
+}
+/* =========================
+   LOGOUT
+========================= */
+
+async function logout(){
+
+  await db.auth.signOut();
+
+  currentUser = null;
+
+  updateAccountUI();
+
+  showPage("homePage");
+
+  showToast(
+    "You have been logged out."
+  );
+
+}
+
+
+/* =========================
+   ACCOUNT UI
+========================= */
+
+function updateAccountUI(){
+
+  const loggedOut =
+    document.getElementById(
+      "loggedOutBox"
+    );
+
+  const loggedIn =
+    document.getElementById(
+      "loggedInBox"
+    );
+
+  const adminBox =
+    document.getElementById(
+      "adminBox"
+    );
+
+  const emailBox =
+    document.getElementById(
+      "accountEmail"
+    );
+
+  const roleBox =
+    document.getElementById(
+      "accountRole"
+    );
+
+
+  if(!loggedOut || !loggedIn){
+
+    return;
+
+  }
+
+
+  if(currentUser){
+
+    loggedOut.classList.add(
+      "hidden"
+    );
+
+    loggedIn.classList.remove(
+      "hidden"
+    );
+
+
+    if(emailBox){
+
+      emailBox.textContent =
+        currentUser.email || "";
+
+    }
+
+
+    if(isAdmin()){
+
+      if(adminBox){
+
+        adminBox.classList.remove(
+          "hidden"
+        );
+
+      }
+
+
+      if(roleBox){
+
+        roleBox.innerHTML =
+          '<span class="verifiedBadge">' +
+          '✓ ADMINISTRATOR' +
+          '</span>';
+
+      }
+
+    }else{
+
+      if(adminBox){
+
+        adminBox.classList.add(
+          "hidden"
+        );
+
+      }
+
+
+      if(roleBox){
+
+        roleBox.textContent =
+          "Customer account";
+
+      }
+
+    }
+
+  }else{
+
+    loggedOut.classList.remove(
+      "hidden"
+    );
+
+    loggedIn.classList.add(
+      "hidden"
+    );
+
+
+    if(adminBox){
+
+      adminBox.classList.add(
+        "hidden"
+      );
+
+    }
+
+  }
+
+}
+
+
+/* =========================
+   LOAD PRODUCTS
+========================= */
+
+async function loadProducts(){
+
+  const result =
+    await db
+      .from("products")
+      .select("*")
+      .order(
+        "created_at",
+        {
+          ascending:false
+        }
+      );
+
+
+  if(result.error){
+
+    console.error(
+      result.error
+    );
+
+    products = [];
+
+    renderProducts();
+
+    return;
+
+  }
+
+
+  products =
+    result.data || [];
+
+
+  renderProducts();
+
+}
+
+
+/* =========================
+   RENDER PRODUCTS
+========================= */
+
+function renderProducts(){
+
+  const searchBox =
+    document.getElementById(
+      "searchInput"
+    );
+
+
+  const search =
+    (
+      searchBox?.value || ""
+    )
+    .trim()
+    .toLowerCase();
+
+
+  const filtered =
+    products.filter(
+      function(product){
+
+        const text = [
+
+          product.name,
+
+          product.category,
+
+          product.description
+
+        ]
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase();
+
+
+        return text.includes(
+          search
+        );
+
+      }
+    );
+
+
+  const productsGrid =
+    document.getElementById(
+      "productsGrid"
+    );
+
+
+  const homeGrid =
+    document.getElementById(
+      "homeProducts"
+    );
+
+
+  if(productsGrid){
+
+    productsGrid.innerHTML =
+      filtered.length
+
+        ? filtered
+            .map(
+              productCard
+            )
+            .join("")
+
+        : '<div class="empty">' +
+          'No products found.' +
+          '</div>';
+
+  }
+
+
+  if(homeGrid){
+
+    const latest =
+      filtered.slice(
+        0,
+        6
+      );
+
+
+    homeGrid.innerHTML =
+      latest.length
+
+        ? latest
+            .map(
+              productCard
+            )
+            .join("")
+
+        : '<div class="empty">' +
+          'No products yet.' +
+          '</div>';
+
+  }
+
+}
+
+
+/* =========================
+   PRODUCT CARD
+========================= */
+
+function productCard(product){
+
+  const id =
+    String(
+      product.id ?? ""
+    );
+
+
+  const name =
+    escapeHTML(
+      product.name ||
+      "Unnamed product"
+    );
+
+
+  const category =
+    escapeHTML(
+      product.category ||
+      ""
+    );
+
+
+  const description =
+    escapeHTML(
+      product.description ||
+      "Authentic product."
+    );
+
+
+  const image =
+    product.image_url ||
+    "";
+
+
+  let price =
+    "Contact seller";
+
+
+  if(
+    product.price !== null &&
+    product.price !== undefined &&
+    product.price !== ""
+  ){
+
+    const number =
+      Number(
+        product.price
+      );
+
+
+    if(
+      Number.isFinite(
+        number
+      )
+    ){
+
+      price =
+        "₦" +
+        number.toLocaleString();
+
+    }
+
+  }
+
+
+  let deleteButton = "";
+
+
+  if(isAdmin()){
+
+    deleteButton =
+      '<button ' +
+      'class="btn dangerBtn" ' +
+      'onclick="deleteProduct(event, \'' +
+      escapeHTML(id) +
+      '\')">' +
+      '🗑️ Delete Product' +
+      '</button>';
+
+  }
+
+
+  const imageHTML =
+    image
+
+      ? '<img ' +
+        'src="' +
+        escapeHTML(image) +
+        '" ' +
+        'alt="' +
+        name +
+        '" ' +
+        'loading="lazy">'
+
+      : '<div class="noImage">' +
+        'No image' +
+        '</div>';
+
+
+  return (
+
+    '<article class="product">' +
+
+      imageHTML +
+
+      '<div class="productBody">' +
+
+        '<span class="verifiedBadge">' +
+        '✓ VERIFIED' +
+        '</span>' +
+
+        '<div class="productName">' +
+        name +
+        '</div>' +
+
+        '<div class="price">' +
+        price +
+        '</div>' +
+
+        '<div class="category">' +
+        category +
+        '</div>' +
+
+        '<div class="productDescription">' +
+        description +
+        '</div>' +
+
+        '<button ' +
+        'class="btn whatsappBtn" ' +
+        'onclick="openProductWhatsApp(\'' +
+        escapeHTML(id) +
+        '\')">' +
+        '💬 WhatsApp Seller' +
+        '</button>' +
+
+        deleteButton +
+
+      '</div>' +
+
+    '</article>'
+
+  );
+
+}
+
+
+/* =========================
+   PRODUCT WHATSAPP
+========================= */
+
+function openProductWhatsApp(id){
+
+  const product =
+    products.find(
+      function(item){
+
+        return String(
+          item.id
+        ) === String(
+          id
+        );
+
+      }
+    );
+
+
+  if(!product){
+
+    showToast(
+      "Product could not be found."
+    );
+
+    return;
+
+  }
+
+
+  const number =
+    normalizeWhatsApp(
+      product.whatsapp_number ||
+      CUSTOMER_SERVICE_WHATSAPP
+    );
+
+
+  const message =
+    "Hello, I am interested in " +
+    (
+      product.name ||
+      "this product"
+    ) +
+    " on ABBA AUTHENTICS.";
+
+
+  window.location.href =
+    "https://wa.me/" +
+    number +
+    "?text=" +
+    encodeURIComponent(
+      message
+    );
+
+}
+
+
+/* =========================
+   IMAGE PREVIEW
+========================= */
+
+function previewImage(event){
+
+  const file =
+    event.target.files?.[0];
+
+
+  const preview =
+    document.getElementById(
+      "imagePreview"
+    );
+
+
+  if(!preview){
+
+    return;
+
+  }
+
+
+  if(!file){
+
+    preview.classList.add(
+      "hidden"
+    );
+
+    return;
+
+  }
+
+
+  const reader =
+    new FileReader();
+
+
+  reader.onload =
+    function(){
+
+      preview.src =
+        reader.result;
+
+      preview.classList.remove(
+        "hidden"
+      );
+
+    };
+
+
+  reader.readAsDataURL(
+    file
+  );
+
+}
+
+
+/* =========================
+   ADD PRODUCT
+========================= */
+
+async function addProduct(){
+
+  if(!isAdmin()){
+
+    showToast(
+      "Only the administrator can publish products."
+    );
+
+    return;
+
+  }
+
+
+  const name =
+    document
+      .getElementById(
+        "productName"
+      )
+      .value
+      .trim();
+
+
+  const priceText =
+    document
+      .getElementById(
+        "productPrice"
+      )
+      .value
+      .trim();
+
+
+  const whatsapp =
+    normalizeWhatsApp(
+      document
+        .getElementById(
+          "productWhatsapp"
+        )
+        .value
+    );
+
+
+  const category =
+    document
+      .getElementById(
+        "productCategory"
+      )
+      .value
+      .trim();
+
+
+  const description =
+    document
+      .getElementById(
+        "productDescription"
+      )
+      .value
+      .trim();
+
+
+  const file =
+    document
+      .getElementById(
+        "productImage"
+      )
+      .files?.[0];
+
+
+  const message =
+    document.getElementById(
+      "postMessage"
+    );
+
+
+  if(!name || !file){
+
+    message.innerHTML =
+      '<div class="message error">' +
+      'Product name and picture are required.' +
+      '</div>';
+
+    return;
+
+  }
+
+
+  let price = null;
+
+
+  if(priceText){
+
+    price =
+      Number(
+        priceText
+      );
+
+
+    if(
+      !Number.isFinite(price) ||
+      price < 0
+    ){
+
+      message.innerHTML =
+        '<div class="message error">' +
+        'Please enter a valid price.' +
+        '</div>';
+
+      return;
+
+    }
+
+  }
+
+
+  message.innerHTML =
+    '<div class="message">' +
+    'Publishing product...' +
+    '</div>';
+
+
+  try{
+
+    const extension =
+      (
+        file.name
+          .split(".")
+          .pop() ||
+        "jpg"
+      )
+      .toLowerCase()
+      .replace(
+        /[^a-z0-9]/g,
+        ""
+      ) ||
+      "jpg";
+
+
+    const filePath =
+      "products/" +
+      Date.now() +
+      "_" +
+      Math.random()
+        .toString(36)
+        .slice(2,9) +
+      "." +
+      extension;
+
+
+    const upload =
+      await db.storage
+        .from(
+          PRODUCTS_BUCKET
+        )
+        .upload(
+          filePath,
+          file,
+          {
+            cacheControl:
+              "3600",
+
+            upsert:
+              false,
+
+            contentType:
+              file.type
+          }
+        );
+
+
+    if(upload.error){
+
+      throw upload.error;
+
+    }
+
+
+    const publicURL =
+      db.storage
+        .from(
+          PRODUCTS_BUCKET
+        )
+        .getPublicUrl(
+          filePath
+        )
+        .data
+        .publicUrl;
+
+
+    const inserted =
+      await db
+        .from("products")
+        .insert({
+
+          name:name,
+
+          price:price,
+
+          image_url:
+            publicURL,
+
+          whatsapp_number:
+            whatsapp ||
+            normalizeWhatsApp(
+              CUSTOMER_SERVICE_WHATSAPP
+            ),
+
+          category:
+            category || null,
+
+          description:
+            description || null
+
+        })
+        .select()
+        .single();
+
+
+    if(inserted.error){
+
+      throw inserted.error;
+
+    }
+
+
+    products.unshift(
+      inserted.data
+    );
+
+
+    renderProducts();
+
+
+    clearProductForm();
+
+
+    message.innerHTML =
+      '<div class="message success">' +
+      'Product published successfully. ✓ VERIFIED' +
+      '</div>';
+
+
+    showToast(
+      "Product published successfully."
+    );
+
+  }catch(error){
+
+    console.error(
+      error
+    );
+
+
+    message.innerHTML =
+      '<div class="message error">' +
+      'Could not publish: ' +
+      escapeHTML(
+        error.message ||
+        "Unknown error"
+      ) +
+      '</div>';
+
+  }
+
+}
+
+
+/* =========================
+   CLEAR PRODUCT FORM
+========================= */
+
+function clearProductForm(){
+
+  [
+    "productName",
+    "productPrice",
+    "productCategory",
+    "productDescription"
+  ]
+  .forEach(
+    function(id){
+
+      const element =
+        document.getElementById(
+          id
+        );
+
+
+      if(element){
+
+        element.value = "";
+
+      }
+
+    }
+  );
+
+
+  const phone =
+    document.getElementById(
+      "productWhatsapp"
+    );
+
+
+  if(phone){
+
+    phone.value =
+      "09061530541";
+
+  }
+
+
+  const image =
+    document.getElementById(
+      "productImage"
+    );
+
+
+  if(image){
+
+    image.value = "";
+
+  }
+
+
+  const preview =
+    document.getElementById(
+      "imagePreview"
+    );
+
+
+  if(preview){
+
+    preview.src = "";
+
+    preview.classList.add(
+      "hidden"
+    );
+
+  }
+
+}
+/* =========================
+   DELETE PRODUCT
+========================= */
+
+async function deleteProduct(event, id){
+
+  if(event){
+    event.stopPropagation();
+  }
+
+
+  if(!isAdmin()){
+
+    showToast(
+      "Only the administrator can delete products."
+    );
+
+    return;
+  }
+
+
+  const confirmed = confirm(
+    "Are you sure you want to delete this product?"
+  );
+
+
+  if(!confirmed){
+    return;
+  }
+
+
+  showToast(
+    "Deleting product..."
+  );
+
+
+  const result = await db
+    .from("products")
+    .delete()
+    .eq("id", id);
+
+
+  if(result.error){
+
+    console.error(result.error);
+
+    showToast(
+      "Delete failed: " +
+      result.error.message
+    );
+
+    return;
+  }
+
+
+  products = products.filter(
+    function(product){
+
+      return String(product.id) !== String(id);
+
+    }
+  );
+
+
+  renderProducts();
+
+
+  showToast(
+    "Product deleted successfully."
+  );
+
+}
+
+
+/* =========================
+   LOAD REVIEWS
+========================= */
+
+async function loadReviews(){
+
+  const list =
+    document.getElementById(
+      "reviewsList"
+    );
+
+
+  if(!list){
+    return;
+  }
+
+
+  list.innerHTML =
+    '<div class="empty">' +
+    'Loading reviews...' +
+    '</div>';
+
+
+  const result = await db
+    .from("reviews")
+    .select(
+      "id,user_id,name,rating,review"
+    )
+    .order(
+      "id",
+      {
+        ascending:false
+      }
+    );
+
+
+  if(result.error){
+
+    console.error(result.error);
+
+    list.innerHTML =
+      '<div class="message error">' +
+      'Could not load reviews. Please check your Supabase reviews policy.' +
+      '</div>';
+
+    return;
+  }
+
+
+  const reviews =
+    result.data || [];
+
+
+  if(!reviews.length){
+
+    list.innerHTML =
+      '<div class="empty">' +
+      'No reviews yet.' +
+      '</div>';
+
+    return;
+  }
+
+
+  list.innerHTML =
+    reviews.map(
+      function(item){
+
+        let rating =
+          Number(item.rating) || 1;
+
+
+        rating = Math.max(
+          1,
+          Math.min(5, rating)
+        );
+
+
+        const stars =
+          "★".repeat(rating) +
+          "☆".repeat(5 - rating);
+
+
+        return (
+
+          '<div class="review">' +
+
+            '<div class="stars">' +
+            stars +
+            '</div>' +
+
+            '<div class="reviewName">' +
+            escapeHTML(
+              item.name ||
+              "Customer"
+            ) +
+            '</div>' +
+
+            '<div class="reviewText">' +
+            escapeHTML(
+              item.review ||
+              ""
+            ) +
+            '</div>' +
+
+          '</div>'
+
+        );
+
+      }
+    ).join("");
+
+}
+
+
+/* =========================
+   SUBMIT REVIEW
+========================= */
+
+async function submitReview(){
+
+  if(!currentUser){
+
+    showToast(
+      "Please login before submitting a review."
+    );
+
+    openAuth();
+
+    return;
+  }
+
+
+  const name =
+    document.getElementById(
+      "reviewName"
+    ).value.trim();
+
+
+  const rating =
+    Number(
+      document.getElementById(
+        "reviewRating"
+      ).value
+    );
+
+
+  const review =
+    document.getElementById(
+      "reviewText"
+    ).value.trim();
+
+
+  const message =
+    document.getElementById(
+      "reviewMessage"
+    );
+
+
+  if(!name || !review){
+
+    message.innerHTML =
+      '<div class="message error">' +
+      'Please enter your name and review.' +
+      '</div>';
+
+    return;
+  }
+
+
+  message.innerHTML =
+    '<div class="message">' +
+    'Submitting review...' +
+    '</div>';
+
+
+  const result =
+    await db
+      .from("reviews")
+      .insert({
+
+        user_id:
+          currentUser.id,
+
+        name:
+          name,
+
+        rating:
+          rating,
+
+        review:
+          review
+
+      });
+
+
+  if(result.error){
+
+    console.error(result.error);
+
+    message.innerHTML =
+      '<div class="message error">' +
+      'Review could not be saved: ' +
+      escapeHTML(
+        result.error.message
+      ) +
+      '</div>';
+
+    return;
+  }
+
+
+  document.getElementById(
+    "reviewName"
+  ).value = "";
+
+
+  document.getElementById(
+    "reviewText"
+  ).value = "";
+
+
+  message.innerHTML =
+    '<div class="message success">' +
+    'Review submitted successfully.' +
+    '</div>';
+
+
+  await loadReviews();
+
+
+  showToast(
+    "Your review has been submitted."
+  );
+
+}
+
+
+/* =========================
+   CUSTOMER SERVICE
+========================= */
+
+function openComplaint(){
+
+  const number =
+    normalizeWhatsApp(
+      CUSTOMER_SERVICE_WHATSAPP
+    );
+
+
+  const message =
+    "Hello ABBA AUTHENTICS, " +
+    "I need customer service " +
+    "assistance / I want to make " +
+    "a complaint.";
+
+
+  window.location.href =
+    "https://wa.me/" +
+    number +
+    "?text=" +
+    encodeURIComponent(message);
+
+}
+
+
+/* =========================
+   CLOSE MODALS
+========================= */
+
+document.addEventListener(
+  "click",
+  function(event){
+
+    const authModal =
+      document.getElementById(
+        "authModal"
+      );
+
+
+    const javaModal =
+      document.getElementById(
+        "javaModal"
+      );
+
+
+    if(event.target === authModal){
+
+      closeAuth();
+
+    }
+
+
+    if(event.target === javaModal){
+
+      closeJava();
+
+    }
+
+  }
+);
+
+
+/* =========================
+   ESCAPE KEY
+========================= */
+
+document.addEventListener(
+  "keydown",
+  function(event){
+
+    if(event.key === "Escape"){
+
+      closeAuth();
+
+      closeJava();
+
+    }
+
+  }
+);
+
+
+/* =========================
+   START WEBSITE
+========================= */
+
+async function startWebsite(){
+
+  showPage(
+    "homePage"
+  );
+
+
+  try{
+
+    const sessionResult =
+      await db.auth.getSession();
+
+
+    currentUser =
+      sessionResult.data.session?.user ||
+      null;
+
+
+    updateAccountUI();
+
+
+    await loadProducts();
+
+
+    await loadReviews();
+
+
+    db.auth.onAuthStateChange(
+      function(event, session){
+
+        currentUser =
+          session?.user ||
+          null;
+
+
+        updateAccountUI();
+
+        renderProducts();
+
+      }
+    );
+
+
+  }catch(error){
+
+    console.error(error);
+
+    showToast(
+      "Website could not finish loading."
+    );
+
+  }
+
+}
+
+
+/* =========================
+   START
+========================= */
+
+document.addEventListener(
+  "DOMContentLoaded",
+  startWebsite
+);
+
+</script>
+
+</body>
+
+</html>
