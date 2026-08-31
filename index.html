@@ -1148,62 +1148,96 @@ return`
 }
 
 
-function addProduct(){
+async function addProduct(){
 
-if(!isAdmin){
+    if(!isAdmin){
+        notify("Only the administrator can post products.");
+        return;
+    }
 
-notify(
-"Only the administrator can post products."
-);
+    const name =
+        document.getElementById("productName").value.trim();
 
-return;
+    const price =
+        document.getElementById("productPrice").value;
 
+    const imageFile =
+        document.getElementById("productImage").files[0];
+
+    const description =
+        document.getElementById("productDescription").value.trim();
+
+    const category =
+        document.getElementById("productCategory").value.trim();
+
+    if(!name){
+        notify("Enter a product name.");
+        return;
+    }
+
+    if(!imageFile){
+        notify("Please choose a product picture.");
+        return;
+    }
+
+    try{
+
+        notify("Uploading product picture...");
+
+        const fileName =
+            Date.now() + "_" +
+            imageFile.name.replace(/\s+/g,"_");
+
+        const { error: uploadError } =
+            await supabaseClient.storage
+            .from("product-images")
+            .upload(fileName,imageFile);
+
+        if(uploadError){
+            notify(
+                "Picture upload failed: " +
+                uploadError.message
+            );
+            return;
+        }
+
+        const { data: imageData } =
+            supabaseClient.storage
+            .from("product-images")
+            .getPublicUrl(fileName);
+
+        const image =
+            imageData.publicUrl;
+
+        products.push({
+            name:name,
+            price:price,
+            image:image,
+            description:description,
+            category:category
+        });
+
+        displayProducts();
+
+        document.getElementById("productName").value="";
+        document.getElementById("productPrice").value="";
+        document.getElementById("productImage").value="";
+        document.getElementById("productDescription").value="";
+        document.getElementById("productCategory").value="";
+
+        notify("✅ Product posted successfully!");
+
+    }catch(error){
+
+        console.error(error);
+
+        notify(
+            "❌ Product error: " +
+            (error.message || error)
+        );
+
+    }
 }
-
-const name=
-document.getElementById(
-"productName"
-).value.trim();
-
-const price=
-document.getElementById(
-"productPrice"
-).value;
-
-const image=
-document.getElementById(
-"productImage"
-).value.trim();
-
-const description=
-document.getElementById(
-"productDescription"
-).value.trim();
-
-if(!name){
-
-notify(
-"Enter a product name."
-);
-
-return;
-
-}
-
-products.push({
-
-name:name,
-price:price,
-image:image,
-description:description
-
-});
-
-displayProducts();
-
-notify(
-"Product added successfully."
-);
 
 }
 
