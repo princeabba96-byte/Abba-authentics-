@@ -2140,6 +2140,48 @@ document.addEventListener(
 
   }
 );
+/* =========================
+   NOTIFICATIONS
+========================= */
+
+async function enableNotifications(){
+
+  try{
+
+    if(
+      window.OneSignalDeferred
+    ){
+
+      OneSignalDeferred.push(
+        async function(OneSignal){
+
+          await OneSignal.Slidedown.promptPush();
+
+        }
+      );
+
+    }else{
+
+      alert(
+        "Notifications are still loading. Please wait a few seconds and try again."
+      );
+
+    }
+
+  }catch(error){
+
+    console.error(
+      "Notification error:",
+      error
+    );
+
+    alert(
+      "Notification permission could not be opened."
+    );
+
+  }
+
+}
 </script>
 
 </body>
