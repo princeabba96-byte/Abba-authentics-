@@ -1,0 +1,2464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ABBA AUTHENTICS</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+const SUPABASE_URL =
+"https://eoccjsybttiwcxfaxeqg.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_AARFSH7pm5iQIatNs5HKZg_qGqvHFE6";
+
+const db = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+
+const ADMIN_EMAIL = "princeabba96@gmail.com";
+const ADMIN_WHATSAPP = "09061530541";
+</script>
+
+<style>
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#06110a;
+  color:white;
+}
+
+button{
+  cursor:pointer;
+}
+
+input,textarea{
+  width:100%;
+  padding:13px;
+  margin:7px 0;
+  border-radius:10px;
+  border:1px solid #285238;
+  background:#0b1b11;
+  color:white;
+}
+
+button{
+  border:0;
+  border-radius:10px;
+  padding:12px 16px;
+  font-weight:bold;
+}
+
+.green{
+  background:#20d66b;
+  color:#031008;
+}
+
+.dark{
+  background:#163421;
+  color:white;
+}
+
+.red{
+  background:#a8323c;
+  color:white;
+}
+
+.hidden{
+  display:none!important;
+}
+
+.center{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+}
+
+.card{
+  background:#0d2014;
+  border:1px solid #285238;
+  border-radius:18px;
+  padding:20px;
+}
+
+.auth{
+  width:100%;
+  max-width:420px;
+}
+
+.logo{
+  width:75px;
+  height:75px;
+  border-radius:50%;
+  background:#20d66b;
+  color:#031008;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin:auto;
+  font-size:25px;
+  font-weight:900;
+}
+
+.title{
+  text-align:center;
+  color:#36e978;
+}
+
+.msg{
+  text-align:center;
+  margin:10px 0;
+}
+
+.error{
+  color:#ff6570;
+}
+
+.success{
+  color:#52ee8c;
+}
+
+#app{
+  min-height:100vh;
+  padding-bottom:70px;
+}
+
+.top{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:10px;
+  background:#07150c;
+  border-bottom:1px solid #23472f;
+  position:sticky;
+  top:0;
+  z-index:20;
+}
+
+.avatar{
+  width:48px;
+  height:48px;
+  border-radius:50%;
+  object-fit:cover;
+  border:2px solid #35e978;
+}
+
+.topInfo{
+  flex:1;
+}
+
+.accountType{
+  color:#45ed89;
+  font-size:12px;
+  font-weight:bold;
+}
+
+.name{
+  font-size:13px;
+}
+
+.nav{
+  display:flex;
+  gap:6px;
+  overflow-x:auto;
+  padding:9px;
+  background:#091910;
+  position:sticky;
+  top:69px;
+  z-index:19;
+}
+
+.nav button{
+  white-space:nowrap;
+  background:#12291a;
+  color:white;
+}
+
+.nav button.active{
+  background:#20d66b;
+  color:#031008;
+}
+
+main{
+  max-width:1050px;
+  margin:auto;
+  padding:18px;
+}
+
+.pageTitle{
+  color:#42eb86;
+}
+
+.dashboard{
+  padding:22px;
+  border-radius:18px;
+  background:linear-gradient(135deg,#104326,#0b2114);
+  border:1px solid #2d7046;
+}
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+  margin-top:15px;
+}
+
+.stat{
+  background:#07140b;
+  padding:15px;
+  border-radius:12px;
+  text-align:center;
+}
+
+.stat strong{
+  display:block;
+  font-size:23px;
+  color:#42eb86;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
+  gap:13px;
+}
+
+.product{
+  background:#0d2014;
+  border:1px solid #285238;
+  border-radius:15px;
+  overflow:hidden;
+  cursor:pointer;
+}
+
+.product img{
+  width:100%;
+  height:165px;
+  object-fit:cover;
+  background:#07110a;
+}
+
+.productBody{
+  padding:12px;
+}
+
+.price{
+  color:#45ed89;
+  font-weight:bold;
+  margin:6px 0;
+}
+
+.badge{
+  display:inline-block;
+  padding:5px 8px;
+  border-radius:20px;
+  font-size:10px;
+  font-weight:bold;
+  background:#25402e;
+  margin:3px;
+}
+
+.verified{
+  background:#087a3d;
+}
+
+.authenticated{
+  background:#176e8d;
+}
+
+.seller{
+  display:flex;
+  gap:13px;
+  align-items:center;
+  background:#0d2014;
+  border:1px solid #285238;
+  border-radius:15px;
+  padding:14px;
+  margin-bottom:10px;
+}
+
+.seller img{
+  width:65px;
+  height:65px;
+  border-radius:50%;
+  object-fit:cover;
+}
+
+.sellerInfo{
+  flex:1;
+}
+
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.75);
+  z-index:100;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:15px;
+}
+
+.modalBox{
+  width:100%;
+  max-width:600px;
+  max-height:90vh;
+  overflow:auto;
+  background:#0d2014;
+  border:1px solid #2b6841;
+  border-radius:18px;
+  padding:20px;
+}
+
+.close{
+  float:right;
+  width:35px;
+  height:35px;
+  padding:0;
+  border-radius:50%;
+  background:#25402e;
+  color:white;
+  font-size:20px;
+}
+
+.bigImage{
+  width:100%;
+  max-height:380px;
+  object-fit:contain;
+  border-radius:12px;
+}
+
+.footer{
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  background:#06110a;
+  border-top:1px solid #23472f;
+  text-align:center;
+  padding:9px;
+  font-size:11px;
+  color:#829b8b;
+}
+
+@media(max-width:600px){
+  .stats{
+    grid-template-columns:1fr;
+  }
+
+  .grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .product img{
+    height:140px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- LOGIN -->
+<section id="authScreen" class="center">
+
+<div class="card auth">
+
+<div class="logo">AA</div>
+
+<h1 class="title">ABBA AUTHENTICS</h1>
+
+<p style="text-align:center">
+Authenticity • Trust • Better Shopping
+</p>
+
+<div id="loginBox">
+
+<h2>Login</h2>
+
+<input
+id="loginEmail"
+type="email"
+placeholder="Gmail address">
+
+<input
+id="loginPassword"
+type="password"
+placeholder="Password">
+
+<button
+class="green"
+style="width:100%"
+onclick="login()">
+LOGIN
+</button>
+
+<button
+class="dark"
+style="width:100%;margin-top:7px"
+onclick="showSignup()">
+CREATE ACCOUNT
+</button>
+
+<div id="loginMsg" class="msg"></div>
+
+</div>
+
+
+<div id="signupBox" class="hidden">
+
+<h2>Create Account</h2>
+
+<input
+id="signupEmail"
+type="email"
+placeholder="Gmail address">
+
+<input
+id="signupPassword"
+type="password"
+placeholder="Create password">
+
+<input
+id="signupPassword2"
+type="password"
+placeholder="Repeat password">
+
+<button
+class="green"
+style="width:100%"
+onclick="signup()">
+SIGN UP
+</button>
+
+<button
+class="dark"
+style="width:100%;margin-top:7px"
+onclick="showLogin()">
+BACK TO LOGIN
+</button>
+
+<div id="signupMsg" class="msg"></div>
+
+<p style="font-size:12px;color:#8ea596">
+After signing up, check your Gmail for the Supabase
+verification email if email confirmation is enabled.
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- PROFILE SETUP -->
+
+<section id="profileSetup" class="center hidden">
+
+<div class="card auth">
+
+<div class="logo">AA</div>
+
+<h2 class="title">
+Complete Your Profile
+</h2>
+
+<input
+id="profileName"
+placeholder="Full name / Business name">
+
+<input
+id="profileLocation"
+placeholder="Location">
+
+<input
+id="profileWhatsapp"
+placeholder="WhatsApp number">
+
+<textarea
+id="profileAbout"
+placeholder="About you / business / category">
+</textarea>
+
+<input
+id="profilePicture"
+type="file"
+accept="image/*">
+
+<button
+class="green"
+style="width:100%"
+onclick="saveProfile()">
+SAVE PROFILE
+</button>
+
+<div id="profileMsg" class="msg"></div>
+
+</div>
+
+</section>
+
+
+<!-- APP -->
+
+<section id="app" class="hidden">
+
+<header class="top">
+
+<img id="topAvatar" class="avatar">
+
+<div class="topInfo">
+
+<div id="accountType" class="accountType">
+CUSTOMER ACCOUNT
+</div>
+
+<div id="topName" class="name"></div>
+
+</div>
+
+<button
+class="dark"
+onclick="openPage('account')">
+ACCOUNT
+</button>
+
+</header>
+
+
+<nav class="nav">
+
+<button
+data-page="home"
+onclick="openPage('home')">
+HOME
+</button>
+
+<button
+data-page="search"
+onclick="openPage('search')">
+SEARCH
+</button>
+
+<button
+data-page="products"
+onclick="openPage('products')">
+PRODUCTS
+</button>
+
+<button
+data-page="account"
+onclick="openPage('account')">
+ACCOUNT
+</button>
+
+<button
+data-page="settings"
+onclick="openPage('settings')">
+SETTINGS
+</button>
+
+<button
+data-page="java"
+onclick="openPage('java')">
+JAVA 🤖
+</button>
+
+<button
+id="adminButton"
+class="hidden"
+data-page="admin"
+onclick="openPage('admin')">
+ADMIN
+</button>
+
+</nav>
+
+
+<main>
+
+<!-- HOME -->
+
+<section id="page-home">
+
+<div class="dashboard">
+
+<h1 class="pageTitle">
+ABBA AUTHENTICS
+</h1>
+
+<p>
+Discover trusted sellers and products.
+</p>
+
+<div class="stats">
+
+<div class="stat">
+<strong id="purchaseCount">0</strong>
+Purchases
+</div>
+
+<div class="stat">
+<strong id="productCount">0</strong>
+Products
+</div>
+
+<div class="stat">
+<strong id="sellerCount">0</strong>
+Sellers
+</div>
+
+</div>
+
+</div>
+
+<h2 class="pageTitle">
+Latest Products
+</h2>
+
+<div id="homeProducts" class="grid"></div>
+
+</section>
+
+
+<!-- SEARCH -->
+
+<section id="page-search" class="hidden">
+
+<h1 class="pageTitle">
+SEARCH
+</h1>
+
+<input
+id="searchInput"
+placeholder="Search products, sellers or customers..."
+oninput="searchEverything()">
+
+<h2>Sellers / Customers</h2>
+
+<div id="sellerResults"></div>
+
+<h2>Products</h2>
+
+<div id="searchProducts" class="grid"></div>
+
+</section>
+
+
+<!-- PRODUCTS -->
+
+<section id="page-products" class="hidden">
+
+<h1 class="pageTitle">
+ALL PRODUCTS
+</h1>
+
+<div id="allProducts" class="grid"></div>
+
+</section>
+
+
+<!-- ACCOUNT -->
+
+<section id="page-account" class="hidden">
+
+<h1 class="pageTitle">
+MY ACCOUNT
+</h1>
+
+<div class="card">
+
+<img
+id="accountAvatar"
+class="avatar"
+style="width:90px;height:90px">
+
+<h2 id="accountName"></h2>
+
+<div id="accountBadge"></div>
+
+<p>
+<b>Email:</b>
+<span id="accountEmail"></span>
+</p>
+
+<p>
+<b>Location:</b>
+<span id="accountLocation"></span>
+</p>
+
+<p>
+<b>WhatsApp:</b>
+<span id="accountWhatsapp"></span>
+</p>
+
+<p>
+<b>About:</b>
+<span id="accountAbout"></span>
+</p>
+
+<hr>
+
+<button
+class="green"
+onclick="requestVerification()">
+REQUEST SELLER VERIFICATION
+</button>
+
+<div id="verificationMsg" class="msg"></div>
+
+</div>
+
+</section>
+
+
+<!-- SETTINGS -->
+
+<section id="page-settings" class="hidden">
+
+<h1 class="pageTitle">
+SETTINGS
+</h1>
+
+<div class="card">
+
+<h3>🔔 Notifications</h3>
+
+<p>
+Allow ABBA AUTHENTICS to send notifications.
+</p>
+
+<button
+class="green"
+onclick="enableNotifications()">
+ALLOW NOTIFICATIONS
+</button>
+
+</div>
+
+<br>
+
+<div class="card">
+
+<h3>Privacy</h3>
+
+<p>
+Keep your password and verification codes private.
+</p>
+
+<h3>Terms</h3>
+
+<p>
+Use ABBA AUTHENTICS responsibly and provide accurate
+seller information.
+</p>
+
+</div>
+
+<br>
+
+<button
+class="red"
+style="width:100%"
+onclick="logout()">
+LOG OUT
+</button>
+
+</section>
+
+
+<!-- JAVA -->
+
+<section id="page-java" class="hidden">
+
+<h1 class="pageTitle">
+JAVA 🤖
+</h1>
+
+<div class="card">
+
+<div id="javaChat">
+
+<p>
+<b>JAVA:</b>
+Hi! I'm JAVA. Ask me anything about ABBA AUTHENTICS.
+</p>
+
+</div>
+
+<input
+id="javaInput"
+placeholder="Ask JAVA..."
+onkeydown="if(event.key==='Enter')askJAVA()">
+
+<button
+class="green"
+style="width:100%"
+onclick="askJAVA()">
+ASK JAVA
+</button>
+
+</div>
+
+</section>
+
+
+<!-- ADMIN -->
+
+<section id="page-admin" class="hidden">
+
+<h1 class="pageTitle">
+ADMINISTRATOR
+</h1>
+
+<div class="card">
+
+<h2>Seller Verification Requests</h2>
+
+<div id="adminRequests"></div>
+
+</div>
+
+<br>
+
+<div class="card">
+
+<h2>Product Authentication</h2>
+
+<div id="adminProducts"></div>
+
+</div>
+
+</section>
+
+</main>
+
+</section>
+
+
+<div id="modal" class="modal hidden">
+
+<div id="modalBox" class="modalBox"></div>
+
+</div>
+
+
+<div class="footer">
+© ABBA AUTHENTICS
+</div>
+
+
+<script>
+
+/* =========================
+   GLOBAL VARIABLES
+========================= */
+
+let currentUser = null;
+let currentProfile = null;
+let products = [];
+let profiles = [];
+
+
+/* =========================
+   SHORTCUT
+========================= */
+
+function $(id){
+  return document.getElementById(id);
+}
+
+
+/* =========================
+   AUTH SCREEN
+========================= */
+
+function showSignup(){
+
+  $("loginBox").classList.add("hidden");
+
+  $("signupBox").classList.remove("hidden");
+
+}
+
+
+function showLogin(){
+
+  $("signupBox").classList.add("hidden");
+
+  $("loginBox").classList.remove("hidden");
+
+}
+
+
+/* =========================
+   SIGN UP
+========================= */
+
+async function signup(){
+
+  const email =
+    $("signupEmail").value.trim();
+
+  const password =
+    $("signupPassword").value;
+
+  const password2 =
+    $("signupPassword2").value;
+
+  const msg =
+    $("signupMsg");
+
+  msg.textContent = "";
+
+  if(!email.toLowerCase().endsWith("@gmail.com")){
+
+    msg.textContent =
+      "Please use a Gmail address.";
+
+    msg.className =
+      "msg error";
+
+    return;
+  }
+
+  if(password.length < 6){
+
+    msg.textContent =
+      "Password must be at least 6 characters.";
+
+    msg.className =
+      "msg error";
+
+    return;
+  }
+
+  if(password !== password2){
+
+    msg.textContent =
+      "Passwords do not match.";
+
+    msg.className =
+      "msg error";
+
+    return;
+  }
+
+
+  const {data,error} =
+    await db.auth.signUp({
+
+      email:email,
+
+      password:password,
+
+      options:{
+        emailRedirectTo:
+          window.location.href
+      }
+
+    });
+
+
+  if(error){
+
+    msg.textContent =
+      error.message;
+
+    msg.className =
+      "msg error";
+
+    return;
+  }
+
+
+  msg.textContent =
+    data.session
+      ? "Account created successfully."
+      : "Check your Gmail to verify your account.";
+
+  msg.className =
+    "msg success";
+
+}
+
+
+/* =========================
+   LOGIN
+========================= */
+
+async function login(){
+
+  const email =
+    $("loginEmail").value.trim();
+
+  const password =
+    $("loginPassword").value;
+
+  const msg =
+    $("loginMsg");
+
+
+  const {data,error} =
+    await db.auth.signInWithPassword({
+
+      email:email,
+
+      password:password
+
+    });
+
+
+  if(error){
+
+    msg.textContent =
+      "Invalid login credentials";
+
+    msg.className =
+      "msg error";
+
+    return;
+  }
+
+
+  await afterLogin(data.user);
+
+}
+
+
+/* =========================
+   AFTER LOGIN
+========================= */
+
+async function afterLogin(user){
+
+  currentUser = user;
+
+
+  const {data,error} =
+    await db
+      .from("profiles")
+      .select("*")
+      .eq("id",user.id)
+      .maybeSingle();
+
+
+  if(error){
+
+    console.error(error);
+
+  }
+
+
+  if(!data){
+
+    $("authScreen")
+      .classList.add("hidden");
+
+    $("profileSetup")
+      .classList.remove("hidden");
+
+    return;
+  }
+
+
+  currentProfile = data;
+
+  enterWebsite();
+
+}
+
+
+/* =========================
+   PROFILE
+========================= */
+
+async function saveProfile(){
+
+  const name =
+    $("profileName").value.trim();
+
+  const location =
+    $("profileLocation").value.trim();
+
+  const whatsapp =
+    $("profileWhatsapp").value.trim();
+
+  const about =
+    $("profileAbout").value.trim();
+
+  const file =
+    $("profilePicture").files[0];
+
+  const msg =
+    $("profileMsg");
+
+
+  if(!name){
+
+    msg.textContent =
+      "Please enter your name.";
+
+    msg.className =
+      "msg error";
+
+    return;
+  }
+
+
+  let picture = "";
+
+
+  if(file){
+
+    const ext =
+      file.name.split(".").pop();
+
+    const fileName =
+      currentUser.id +
+      "-" +
+      Date.now() +
+      "." +
+      ext;
+
+
+    const upload =
+      await db.storage
+        .from("profile-pictures")
+        .upload(
+          fileName,
+          file,
+          {upsert:true}
+        );
+
+
+    if(upload.error){
+
+      msg.textContent =
+        upload.error.message;
+
+      msg.className =
+        "msg error";
+
+      return;
+    }
+
+
+    picture =
+      db.storage
+        .from("profile-pictures")
+        .getPublicUrl(fileName)
+        .data.publicUrl;
+
+  }
+
+
+  const {data,error} =
+    await db
+      .from("profiles")
+      .upsert({
+
+        id:currentUser.id,
+
+        email:currentUser.email,
+
+        display_name:name,
+
+        profile_picture:picture,
+
+        location:location,
+
+        whatsapp:whatsapp,
+
+        seller_description:about
+
+      })
+      .select()
+      .single();
+
+
+  if(error){
+
+    msg.textContent =
+      error.message;
+
+    msg.className =
+      "msg error";
+
+    return;
+  }
+
+
+  currentProfile = data;
+
+  $("profileSetup")
+    .classList.add("hidden");
+
+  enterWebsite();
+
+}
+
+
+/* =========================
+   ENTER WEBSITE
+========================= */
+
+async function enterWebsite(){
+
+  $("authScreen")
+    .classList.add("hidden");
+
+  $("profileSetup")
+    .classList.add("hidden");
+
+  $("app")
+    .classList.remove("hidden");
+
+
+  const admin =
+    isAdmin();
+
+
+  $("accountType").textContent =
+    admin
+      ? "ADMINISTRATOR"
+      : "CUSTOMER ACCOUNT";
+
+
+  $("adminButton")
+    .classList.toggle(
+      "hidden",
+      !admin
+    );
+
+
+  const avatar =
+    currentProfile.profile_picture ||
+    makeAvatar(
+      currentProfile.display_name
+    );
+
+
+  $("topAvatar").src =
+    avatar;
+
+  $("accountAvatar").src =
+    avatar;
+
+
+  $("topName").textContent =
+    currentProfile.display_name ||
+    currentUser.email;
+
+
+  $("accountName").textContent =
+    currentProfile.display_name || "";
+
+
+  $("accountEmail").textContent =
+    currentUser.email || "";
+
+
+  $("accountLocation").textContent =
+    currentProfile.location ||
+    "Not provided";
+
+
+  $("accountWhatsapp").textContent =
+    currentProfile.whatsapp ||
+    "Not provided";
+
+
+  $("accountAbout").textContent =
+    currentProfile.seller_description ||
+    "Not provided";
+
+
+  $("accountBadge").innerHTML =
+    currentProfile.is_verified_seller
+      ? '<span class="badge verified">✓ VERIFIED SELLER</span>'
+      : '<span class="badge">SELLER NOT VERIFIED</span>';
+
+
+  await loadData();
+
+  openPage("home");
+
+}
+
+
+/* =========================
+   AVATAR
+========================= */
+
+function makeAvatar(name){
+
+  const letters =
+    (name || "AA")
+      .split(" ")
+      .map(x=>x[0])
+      .join("")
+      .substring(0,2)
+      .toUpperCase();
+
+
+  return "data:image/svg+xml;charset=UTF-8," +
+    encodeURIComponent(
+
+      `<svg xmlns="http://www.w3.org/2000/svg"
+      width="200" height="200">
+
+      <rect width="100%" height="100%"
+      fill="#193b29"/>
+
+      <text x="50%" y="55%"
+      text-anchor="middle"
+      font-size="70"
+      font-family="Arial"
+      fill="#45ed89">
+      ${letters}
+      </text>
+
+      </svg>`
+
+    );
+
+}
+
+
+/* =========================
+   ADMIN
+========================= */
+
+function isAdmin(){
+
+  return currentUser &&
+    currentUser.email &&
+    currentUser.email.toLowerCase()
+      === ADMIN_EMAIL.toLowerCase();
+
+}
+
+
+/* =========================
+   LOAD DATA
+========================= */
+
+async function loadData(){
+
+  const p =
+    await db
+      .from("products")
+      .select("*")
+      .order(
+        "created_at",
+        {ascending:false}
+      );
+
+
+  products =
+    p.data || [];
+
+
+  const s =
+    await db
+      .from("profiles")
+      .select("*");
+
+
+  profiles =
+    s.data || [];
+
+
+  $("productCount").textContent =
+    products.length;
+
+
+  $("sellerCount").textContent =
+    profiles.length;
+
+
+  renderProducts(
+    products,
+    "homeProducts"
+  );
+
+
+  renderProducts(
+    products,
+    "allProducts"
+  );
+
+
+  if(isAdmin()){
+
+    loadAdmin();
+
+  }
+
+}
+
+
+/* =========================
+   PRODUCT HELPERS
+========================= */
+
+function productName(p){
+
+  return p.name ||
+    p.product_name ||
+    "Unnamed product";
+
+}
+
+
+function productImage(p){
+
+  return p.image_url ||
+    p.image ||
+    p.product_image ||
+    makeAvatar(productName(p));
+
+}
+
+
+function sellerOf(p){
+
+  return profiles.find(
+    x=>x.id===p.seller_id
+  );
+
+}
+
+
+/* =========================
+   RENDER PRODUCTS
+========================= */
+
+function renderProducts(list,id){
+
+  const box = $(id);
+
+  if(!box)return;
+
+
+  if(!list.length){
+
+    box.innerHTML =
+      '<p>No products available yet.</p>';
+
+    return;
+  }
+
+
+  box.innerHTML =
+    list.map(p=>{
+
+      const seller =
+        sellerOf(p);
+
+
+      return `
+
+      <div class="product"
+      onclick="openProduct('${p.id}')">
+
+        <img
+        src="${productImage(p)}">
+
+        <div class="productBody">
+
+          <b>
+          ${productName(p)}
+          </b>
+
+          ${
+            p.price != null
+            ? `<div class="price">
+                ₦${p.price}
+               </div>`
+            : ""
+          }
+
+          <small>
+          Seller:
+          ${seller?.display_name || "Seller"}
+          </small>
+
+          <br>
+
+          ${
+            seller?.is_verified_seller
+            ?
+            '<span class="badge verified">✓ VERIFIED SELLER</span>'
+            :
+            ''
+          }
+
+          ${
+            p.authenticated
+            ?
+            '<span class="badge authenticated">✓ PRODUCT AUTHENTICATED</span>'
+            :
+            ''
+          }
+
+        <
+            :
+            ''
+          }
+
+        </div>
+
+      </div>
+
+      `;
+      
+    }).join("");
+
+}
+
+
+/* =========================
+   PAGE NAVIGATION
+========================= */
+
+function openPage(page){
+
+  document
+    .querySelectorAll("main > section")
+    .forEach(x =>
+      x.classList.add("hidden")
+    );
+
+  const selected =
+    $("page-" + page);
+
+  if(selected){
+    selected.classList.remove("hidden");
+  }
+
+  document
+    .querySelectorAll(".nav button")
+    .forEach(x =>
+      x.classList.remove("active")
+    );
+
+  const button =
+    document.querySelector(
+      `[data-page="${page}"]`
+    );
+
+  if(button){
+    button.classList.add("active");
+  }
+
+  if(page === "admin"){
+    loadAdmin();
+  }
+
+}
+
+
+/* =========================
+   SEARCH
+========================= */
+
+function searchEverything(){
+
+  const q =
+    $("searchInput")
+      .value
+      .trim()
+      .toLowerCase();
+
+  if(!q){
+
+    $("sellerResults").innerHTML =
+      "<p>Search for a seller or customer.</p>";
+
+    renderProducts(
+      [],
+      "searchProducts"
+    );
+
+    return;
+  }
+
+  const foundProfiles =
+    profiles.filter(p => {
+
+      return [
+
+        p.display_name,
+        p.email,
+        p.location,
+        p.seller_description,
+        p.whatsapp
+
+      ].some(value =>
+
+        String(value || "")
+          .toLowerCase()
+          .includes(q)
+
+      );
+
+    });
+
+
+  $("sellerResults").innerHTML =
+    foundProfiles.length
+
+    ?
+
+    foundProfiles.map(p => `
+
+      <div
+        class="seller"
+        onclick="openSeller('${p.id}')">
+
+        <img
+          src="${
+            p.profile_picture ||
+            makeAvatar(p.display_name)
+          }">
+
+        <div class="sellerInfo">
+
+          <b>
+            ${p.display_name || "Account"}
+          </b>
+
+          <br>
+
+          ${
+            p.is_verified_seller
+
+            ?
+
+            '<span class="badge verified">✓ VERIFIED SELLER</span>'
+
+            :
+
+            '<span class="badge">NOT VERIFIED</span>'
+          }
+
+          <br>
+
+          <small>
+            ${p.location || "Location not provided"}
+          </small>
+
+        </div>
+
+      </div>
+
+    `).join("")
+
+    :
+
+    "<p>No matching sellers.</p>";
+
+
+  const foundProducts =
+    products.filter(p => {
+
+      const seller =
+        sellerOf(p);
+
+      return [
+
+        productName(p),
+        p.company_name,
+        p.category,
+        p.description,
+        seller?.display_name,
+        seller?.location
+
+      ].some(value =>
+
+        String(value || "")
+          .toLowerCase()
+          .includes(q)
+
+      );
+
+    });
+
+
+  renderProducts(
+    foundProducts,
+    "searchProducts"
+  );
+
+}
+
+
+/* =========================
+   PRODUCT DETAILS
+========================= */
+
+function openProduct(id){
+
+  const p =
+    products.find(
+      x => String(x.id) === String(id)
+    );
+
+  if(!p)return;
+
+  const seller =
+    sellerOf(p);
+
+  $("modalBox").innerHTML = `
+
+    <button
+      class="close"
+      onclick="closeModal()">
+      ×
+    </button>
+
+    <img
+      class="bigImage"
+      src="${productImage(p)}">
+
+    <h2>
+      ${productName(p)}
+    </h2>
+
+    ${
+      p.price != null
+      ?
+      `<div class="price">
+        ₦${p.price}
+      </div>`
+      :
+      ""
+    }
+
+    <p>
+      ${p.description || "No description available."}
+    </p>
+
+    <p>
+      <b>Seller:</b>
+      ${seller?.display_name || "Seller"}
+    </p>
+
+    ${
+      seller?.is_verified_seller
+
+      ?
+
+      '<span class="badge verified">✓ VERIFIED SELLER</span>'
+
+      :
+
+      ''
+    }
+
+    <br>
+
+    ${
+      p.authenticated
+
+      ?
+
+      '<span class="badge authenticated">✓ PRODUCT AUTHENTICATED</span>'
+
+      :
+
+      '<span class="badge">PRODUCT NOT AUTHENTICATED</span>'
+    }
+
+    <br><br>
+
+    ${
+      seller
+
+      ?
+
+      `<button
+        class="dark"
+        onclick="openSeller('${seller.id}')">
+        VIEW SELLER
+      </button>`
+
+      :
+
+      ""
+    }
+
+    <button
+      class="green"
+      onclick="contactWhatsApp(
+        '${seller?.whatsapp || ADMIN_WHATSAPP}',
+        'Hello, I am interested in ${productName(p)} on ABBA AUTHENTICS.'
+      )">
+      CONTACT ON WHATSAPP
+    </button>
+
+  `;
+
+  $("modal")
+    .classList.remove("hidden");
+
+}
+
+
+/* =========================
+   SELLER PROFILE
+========================= */
+
+function openSeller(id){
+
+  const p =
+    profiles.find(
+      x => String(x.id) === String(id)
+    );
+
+  if(!p)return;
+
+  const sellerProducts =
+    products.filter(
+      x => x.seller_id === id
+    );
+
+  $("modalBox").innerHTML = `
+
+    <button
+      class="close"
+      onclick="closeModal()">
+      ×
+    </button>
+
+    <div style="text-align:center">
+
+      <img
+        class="avatar"
+        style="width:90px;height:90px"
+        src="${
+          p.profile_picture ||
+          makeAvatar(p.display_name)
+        }">
+
+      <h2>
+        ${p.display_name || "Seller"}
+      </h2>
+
+      ${
+        p.is_verified_seller
+
+        ?
+
+        '<span class="badge verified">✓ VERIFIED SELLER</span>'
+
+        :
+
+        '<span class="badge">NOT VERIFIED</span>'
+      }
+
+      <p>
+        Location:
+        ${p.location || "Not provided"}
+      </p>
+
+      <p>
+        ${p.seller_description || "No description."}
+      </p>
+
+      <p>
+        Products:
+        ${sellerProducts.length}
+      </p>
+
+      ${
+        p.whatsapp
+
+        ?
+
+        `<button
+          class="green"
+          onclick="contactWhatsApp(
+            '${p.whatsapp}',
+            'Hello, I found your profile on ABBA AUTHENTICS.'
+          )">
+          CONTACT SELLER ON WHATSAPP
+        </button>`
+
+        :
+
+        ""
+      }
+
+    </div>
+
+    <hr>
+
+    <h3>
+      Seller Products
+    </h3>
+
+    <div class="grid">
+
+      ${
+        sellerProducts.length
+
+        ?
+
+        sellerProducts.map(x => `
+
+          <div
+            class="product"
+            onclick="openProduct('${x.id}')">
+
+            <img
+              src="${productImage(x)}">
+
+            <div class="productBody">
+              <b>
+                ${productName(x)}
+              </b>
+            </div>
+
+          </div>
+
+        `).join("")
+
+        :
+
+        "<p>No products yet.</p>"
+      }
+
+    </div>
+
+  `;
+
+  $("modal")
+    .classList.remove("hidden");
+
+}
+
+
+function closeModal(){
+
+  $("modal")
+    .classList.add("hidden");
+
+}
+
+
+/* =========================
+   WHATSAPP
+========================= */
+
+function contactWhatsApp(number,text){
+
+  let n =
+    String(number || "")
+      .replace(/\D/g,"");
+
+  if(n.startsWith("0")){
+    n =
+      "234" +
+      n.substring(1);
+  }
+
+  window.open(
+    "https://wa.me/" +
+    n +
+    "?text=" +
+    encodeURIComponent(text),
+    "_blank"
+  );
+
+}
+<script>
+/* =========================
+   SELLER VERIFICATION
+========================= */
+
+async function requestSellerVerification(){
+
+  if(!currentUser){
+    showToast("Please login first.");
+    return;
+  }
+
+  const message =
+    prompt(
+      "Tell ABBA AUTHENTICS why you want to become a verified seller:"
+    ) || "";
+
+  try{
+
+    const { error } =
+      await db
+        .from("seller_verification_requests")
+        .insert({
+          user_id: currentUser.id,
+          status: "pending",
+          message: message
+        });
+
+    if(error) throw error;
+
+    showToast(
+      "Verification request sent ✓"
+    );
+
+  }catch(error){
+
+    console.error(error);
+
+    showToast(
+      "Could not send verification request."
+    );
+
+  }
+
+}
+
+
+/* =========================
+   NOTIFICATIONS
+========================= */
+
+async function enableNotifications(){
+
+  try{
+
+    if(typeof OneSignal === "undefined"){
+
+      showToast(
+        "Notification service is loading. Try again."
+      );
+
+      return;
+    }
+
+    await OneSignal.Notifications.requestPermission();
+
+    showToast(
+      "Notification permission requested 🔔"
+    );
+
+  }catch(error){
+
+    console.error(error);
+
+    showToast(
+      "Could not enable notifications."
+    );
+
+  }
+
+}
+
+
+/* =========================
+   JAVA ASSISTANT
+========================= */
+
+function toggleJAVA(){
+
+  const box = $("javaBox");
+
+  if(!box) return;
+
+  box.classList.toggle("show");
+
+}
+
+
+function askJAVA(){
+
+  const input = $("javaInput");
+
+  if(!input) return;
+
+  const question =
+    input.value.trim();
+
+  if(!question) return;
+
+  const answer =
+    getJAVAAnswer(question);
+
+  const chat =
+    $("javaChat");
+
+  if(chat){
+
+    chat.innerHTML +=
+      `
+      <div class="java-user">
+        ${escapeHTML(question)}
+      </div>
+
+      <div class="java-bot">
+        ${answer}
+      </div>
+      `;
+
+    chat.scrollTop =
+      chat.scrollHeight;
+
+  }
+
+  input.value = "";
+
+}
+
+
+function getJAVAAnswer(question){
+
+  const q =
+    question.toLowerCase();
+
+  if(
+    q.includes("hello") ||
+    q.includes("hi") ||
+    q.includes("hey")
+  ){
+
+    return "Hello 👋 I'm JAVA, your ABBA AUTHENTICS assistant. How can I help you?";
+
+  }
+
+  if(
+    q.includes("verified seller") ||
+    q.includes("seller verification")
+  ){
+
+    return "A seller can request verification from their account. The ABBA AUTHENTICS administrator reviews the request before verification is granted.";
+
+  }
+
+  if(
+    q.includes("product authenticated") ||
+    q.includes("authenticate product")
+  ){
+
+    return "PRODUCT AUTHENTICATED means that ABBA AUTHENTICS has specifically checked and authenticated that product. A verified seller does not automatically mean every product they sell is authenticated.";
+
+  }
+
+  if(
+    q.includes("whatsapp") ||
+    q.includes("contact seller")
+  ){
+
+    return "Open the seller or product profile and use the WhatsApp contact button to contact the seller.";
+
+  }
+
+  if(
+    q.includes("search")
+  ){
+
+    return "Use the SEARCH page to search for sellers, customers, products, businesses and other available information.";
+
+  }
+
+  if(
+    q.includes("account")
+  ){
+
+    return "Your ACCOUNT page contains your profile information, seller verification status and account options.";
+
+  }
+
+  return "I'm JAVA 🤖. I can help you understand ABBA AUTHENTICS, products, sellers, verification and how to use the website.";
+
+}
+
+
+/* =========================
+   ADMIN FUNCTIONS
+========================= */
+
+async function adminLoadRequests(){
+
+  if(!isAdmin) return;
+
+  const box =
+    $("adminRequests");
+
+  if(!box) return;
+
+  box.innerHTML =
+    "Loading verification requests...";
+
+  const { data, error } =
+    await db
+      .from("seller_verification_requests")
+      .select("*")
+      .eq("status","pending")
+      .order("created_at",{ascending:false});
+
+  if(error){
+
+    console.error(error);
+
+    box.innerHTML =
+      "Could not load requests.";
+
+    return;
+  }
+
+  if(!data || data.length === 0){
+
+    box.innerHTML =
+      "<p>No pending verification requests.</p>";
+
+    return;
+  }
+
+  box.innerHTML =
+    data.map(request => {
+
+      const seller =
+        profiles.find(
+          p => p.id === request.user_id
+        );
+
+      return `
+        <div class="admin-request">
+
+          <b>
+            ${escapeHTML(
+              seller?.display_name ||
+              seller?.email ||
+              "Unknown seller"
+            )}
+          </b>
+
+          <p>
+            ${escapeHTML(
+              request.message || "No message"
+            )}
+          </p>
+
+          <button
+            onclick="approveSeller('${request.id}','${request.user_id}')"
+          >
+            ✓ VERIFY SELLER
+          </button>
+
+          <button
+            onclick="rejectSeller('${request.id}')"
+          >
+            REJECT
+          </button>
+
+        </div>
+      `;
+
+    }).join("");
+
+}
+
+
+async function approveSeller(
+  requestId,
+  userId
+){
+
+  if(!isAdmin) return;
+
+  try{
+
+    const { error:updateError } =
+      await db
+        .from("profiles")
+        .update({
+          is_verified_seller:true
+        })
+        .eq("id",userId);
+
+    if(updateError)
+      throw updateError;
+
+    const { error:requestError } =
+      await db
+        .from("seller_verification_requests")
+        .update({
+          status:"approved"
+        })
+        .eq("id",requestId);
+
+    if(requestError)
+      throw requestError;
+
+    showToast(
+      "Seller verified ✓"
+    );
+
+    await loadData();
+
+    adminLoadRequests();
+
+  }catch(error){
+
+    console.error(error);
+
+    showToast(
+      "Could not verify seller."
+    );
+
+  }
+
+}
+
+
+async function rejectSeller(
+  requestId
+){
+
+  if(!isAdmin) return;
+
+  try{
+
+    const { error } =
+      await db
+        .from("seller_verification_requests")
+        .update({
+          status:"rejected"
+        })
+        .eq("id",requestId);
+
+    if(error) throw error;
+
+    showToast(
+      "Verification request rejected."
+    );
+
+    adminLoadRequests();
+
+  }catch(error){
+
+    console.error(error);
+
+    showToast(
+      "Could not reject request."
+    );
+
+  }
+
+}
+
+
+/* =========================
+   LOGOUT
+========================= */
+
+async function logout(){
+
+  try{
+
+    await db.auth.signOut();
+
+    location.reload();
+
+  }catch(error){
+
+    console.error(error);
+
+    showToast(
+      "Could not logout."
+    );
+
+  }
+
+}
+
+
+/* =========================
+   AUTH SESSION
+========================= */
+
+db.auth.onAuthStateChange(
+  async (event,session) => {
+
+    if(session?.user){
+
+      currentUser =
+        session.user;
+
+      isAdmin =
+        currentUser.email?.toLowerCase() ===
+        ADMIN_EMAIL.toLowerCase();
+
+      await loadData();
+
+      showApp();
+
+    }else{
+
+      currentUser = null;
+
+      isAdmin = false;
+
+      showLogin();
+
+    }
+
+  }
+);
+
+
+/* =========================
+   START APP
+========================= */
+
+(async function(){
+
+  try{
+
+    const {
+      data
+    } =
+      await db.auth.getSession();
+
+    if(data?.session?.user){
+
+      currentUser =
+        data.session.user;
+
+      isAdmin =
+        currentUser.email?.toLowerCase() ===
+        ADMIN_EMAIL.toLowerCase();
+
+      await loadData();
+
+      showApp();
+
+}else{
+
+  showLogin();
+
+}
+
+}catch(error){
+
+  console.error(error);
+
+  showLogin();
+
+}
+
+})();
+</script>
+</body>
+</html>
