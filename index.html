@@ -4557,49 +4557,39 @@ document.getElementById("loginForm").addEventListener("submit", async function(e
 });
 
 </script>
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-  const form = document.getElementById("loginForm");
 
-  if (!form) return;
+      <script>
+document.getElementById("loginForm").onsubmit = async function(e) {
+  e.preventDefault();
 
-  form.onsubmit = async function (e) {
-    e.preventDefault();
-    e.stopImmediatePropagation();
+  const email = document.getElementById("loginEmail").value.trim();
+  const password = document.getElementById("loginPassword").value;
+  const message = document.getElementById("loginMessage");
 
-    const email = document.getElementById("loginEmail").value.trim();
-    const password = document.getElementById("loginPassword").value;
-    const message = document.getElementById("loginMessage");
+  message.textContent = "Logging in...";
 
-    if (!email || !password) {
-      message.textContent = "Enter your email and password.";
-      return false;
-    }
+  const client = window.supabase.createClient(
+    "https://eoccjsybttiwcxfaxeq.supabase.co",
+    "sb_publishable_AARFSH7pm5iQIatNs5HKZg_qGqvHFE6"
+  );
 
-    message.textContent = "Logging in...";
+  const { error } = await client.auth.signInWithPassword({
+    email,
+    password
+  });
 
-    try {
-      const result = await db.auth.signInWithPassword({
-        email: email,
-        password: password
-      });
-
-      if (result.error) {
-        message.textContent = "Invalid login credentials";
-        return false;
-      }
-
-      document.getElementById("loginScreen").style.display = "none";
-      document.getElementById("app").classList.remove("hidden");
-      document.getElementById("app").style.display = "block";
-
-    } catch (error) {
-      message.textContent = "Login error. Please try again.";
-    }
-
+  if (error) {
+    message.textContent = error.message;
     return false;
-  };
-});
+  }
+
+  document.getElementById("loginScreen").style.display = "none";
+  document.getElementById("app").classList.remove("hidden");
+  document.getElementById("app").style.display = "block";
+
+  return false;
+};
+
 </script>
 
 </body>
