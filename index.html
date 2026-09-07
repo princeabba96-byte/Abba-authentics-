@@ -1,0 +1,4716 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ABBA AUTHENTICS</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f5f7fb;
+  color: #111;
+}
+
+button {
+  padding: 14px;
+  border: 0;
+  border-radius: 10px;
+  background: #0878ff;
+  color: white;
+  font-weight: bold;
+}
+
+input, select {
+  width: 100%;
+  padding: 14px;
+  margin: 8px 0;
+  box-sizing: border-box;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+}
+</style>
+</head>
+
+<body>
+
+<div id="app">
+
+  <h1>ABBA AUTHENTICS</h1>
+
+</div>
+
+</body>
+</html>
+<script>
+
+const SUPABASE_URL =
+"https://eoccjsybttiwcxfaxeqg.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_AARFSH7pm5iQIatNs5HKZg_qGqvHFE6";
+
+const db = supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+
+</script>
+<div id="auth">
+
+  <h2>Welcome Back 👋</h2>
+
+  <input
+    id="email"
+    type="email"
+    placeholder="Email address"
+  >
+
+  <input
+    id="password"
+    type="password"
+    placeholder="Password"
+  >
+
+  <button id="loginBtn">
+    SIGN IN
+  </button>
+
+  <p id="loginMsg"></p>
+
+  <hr>
+
+  <h3>New here?</h3>
+
+  <button id="showSignup">
+    CREATE ACCOUNT
+  </button>
+
+</div>
+<div id="signup" class="hidden">
+
+  <h2>Create Account</h2>
+
+  <input
+    id="name"
+    type="text"
+    placeholder="Full name"
+  >
+
+  <label>Profile Picture</label>
+
+  <input
+    id="photo"
+    type="file"
+    accept="image/*"
+  >
+
+  <input
+    id="signupEmail"
+    type="email"
+    placeholder="Email address"
+  >
+
+  <input
+    id="signupPassword"
+    type="password"
+    placeholder="Create password"
+  >
+
+  <select id="accountType">
+
+    <option value="customer">
+      Customer
+    </option>
+
+    <option value="seller">
+      Seller
+    </option>
+
+  </select>
+
+  <input
+    id="whatsapp"
+    type="tel"
+    placeholder="WhatsApp number"
+  >
+
+  <button id="signupBtn">
+    CREATE ACCOUNT
+  </button>
+
+  <p id="signupMsg"></p>
+
+  <button id="showLogin">
+    BACK TO SIGN IN
+  </button>
+
+</div>
+<div id="home" class="hidden">
+
+  <header>
+
+    <div>
+      <h2>ABBA AUTHENTICS</h2>
+      <p>Trusted products. Trusted sellers.</p>
+    </div>
+
+    <div>
+      <img
+        id="profilePhoto"
+        src=""
+        width="50"
+        height="50"
+        style="border-radius:50%;object-fit:cover;"
+      >
+
+      <strong id="profileName">
+        User
+      </strong>
+
+      <div
+        id="verifiedSeller"
+        class="hidden"
+        style="color:green;font-weight:bold;"
+      >
+        ✓ VERIFIED SELLER
+      </div>
+
+    </div>
+
+  </header>
+
+
+  <hr>
+
+
+  <section id="homePage">
+
+    <h2>Products</h2>
+
+    <div id="products">
+      <p>No products yet.</p>
+    </div>
+
+  </section>
+
+
+  <section id="searchPage" class="hidden">
+
+    <h2>Search</h2>
+
+    <input
+      id="search"
+      type="search"
+      placeholder="Search products or sellers..."
+    >
+
+    <div id="searchResults"></div>
+
+  </section>
+
+
+  <section id="accountPage" class="hidden">
+
+    <h2>My Account</h2>
+
+    <img
+      id="accountPhoto"
+      src=""
+      width="100"
+      height="100"
+      style="border-radius:50%;object-fit:cover;"
+    >
+
+    <h2 id="accountName"></h2>
+
+    <p id="accountEmail"></p>
+
+    <p id="accountWhatsapp"></p>
+
+    <p id="accountType"></p>
+
+  </section>
+
+
+  <section id="postPage" class="hidden">
+
+    <h2>Post Product</h2>
+
+    <input
+      id="productImage"
+      type="file"
+      accept="image/*"
+    >
+
+    <input
+      id="productTitle"
+      type="text"
+      placeholder="Product name"
+    >
+
+    <input
+      id="productWhatsapp"
+      type="tel"
+      placeholder="Seller WhatsApp"
+    >
+
+    <button id="postProduct">
+      POST PRODUCT
+    </button>
+
+    <p id="postMessage"></p>
+
+  </section>
+
+
+  <section id="settingsPage" class="hidden">
+
+    <h2>Settings</h2>
+
+    <button id="darkTheme">
+      🌙 Dark Theme
+    </button>
+
+    <br><br>
+
+    <button id="permanentReview">
+      ⭐ Permanent Review
+    </button>
+
+    <br><br>
+
+    <button id="complaint">
+      ⚠️ Complaint
+    </button>
+
+    <br><br>
+
+    <button id="terms">
+      📜 Terms & Conditions
+    </button>
+
+    <br><br>
+
+    <button id="privacy">
+      🔒 Privacy Policy
+    </button>
+
+    <br><br>
+
+    <button id="logout">
+      🚪 Log Out
+    </button>
+
+  </section>
+
+
+  <!-- JAVA -->
+
+  <button
+    id="java"
+    style="
+      position:fixed;
+      right:20px;
+      bottom:80px;
+      width:60px;
+      height:60px;
+      border-radius:50%;
+      background:#0878ff;
+      color:white;
+      font-weight:bold;
+    "
+  >
+    JAVA
+  </button>
+
+
+  <!-- BOTTOM NAVIGATION -->
+
+  <nav
+    style="
+      position:fixed;
+      bottom:0;
+      left:0;
+      right:0;
+      background:white;
+      display:flex;
+      justify-content:space-around;
+      padding:10px 5px;
+      box-shadow:0 -3px 15px rgba(0,0,0,.15);
+    "
+  >
+
+    <button data-page="homePage">
+      HOME
+    </button>
+
+    <button data-page="searchPage">
+      SEARCH
+    </button>
+
+    <button data-page="accountPage">
+      ACCOUNT
+    </button>
+
+    <button data-page="postPage">
+      POST
+    </button>
+
+    <button data-page="settingsPage">
+      SETTINGS
+    </button>
+
+  </nav>
+
+  </div>
+  <script>
+
+document.getElementById("showSignup").onclick = function() {
+
+  document.getElementById("auth").classList.add("hidden");
+
+  document.getElementById("signup").classList.remove("hidden");
+
+};
+
+
+document.getElementById("showLogin").onclick = function() {
+
+  document.getElementById("signup").classList.add("hidden");
+
+  document.getElementById("auth").classList.remove("hidden");
+
+};
+
+
+/* SIGN IN */
+
+document.getElementById("loginBtn").onclick = async function() {
+
+  const email =
+    document.getElementById("email").value.trim();
+
+  const password =
+    document.getElementById("password").value;
+
+  const msg =
+    document.getElementById("loginMsg");
+
+  msg.textContent = "Signing in...";
+
+
+  const { data, error } =
+    await db.auth.signInWithPassword({
+
+      email: email,
+
+      password: password
+
+    });
+
+
+  if (error) {
+
+    msg.textContent =
+      "Invalid login credentials.";
+
+    msg.style.color = "red";
+
+    return;
+
+  }
+
+
+  currentUser = data.user;
+
+  document.getElementById("auth").classList.add("hidden");
+
+  document.getElementById("signup").classList.add("hidden");
+
+  document.getElementById("home").classList.remove("hidden");
+
+  loadProfile();
+
+};
+
+
+/* SIGN UP */
+
+document.getElementById("signupBtn").onclick = async function() {
+
+  const name =
+    document.getElementById("name").value.trim();
+
+  const email =
+    document.getElementById("signupEmail").value.trim();
+
+  const password =
+    document.getElementById("signupPassword").value;
+
+  const type =
+    document.getElementById("accountType").value;
+
+  const whatsapp =
+    document.getElementById("whatsapp").value.trim();
+
+  const msg =
+    document.getElementById("signupMsg");
+
+  msg.textContent = "Creating account...";
+
+
+  const { data, error } =
+    await db.auth.signUp({
+
+      email: email,
+
+      password: password
+
+    });
+
+
+  if (error) {
+
+    msg.textContent = error.message;
+
+    msg.style.color = "red";
+
+    return;
+
+  }
+
+
+  const user = data.user;
+
+
+  await db
+    .from("profiles")
+    .insert({
+
+      id: user.id,
+
+      email: email,
+
+      display_name: name,
+
+      account_type: type,
+
+      whatsapp: whatsapp,
+
+      is_verified_seller: false
+
+    });
+
+
+  msg.textContent =
+    "Account created. Please sign in.";
+
+  msg.style.color = "green";
+
+};
+
+    </script>
+    <script>
+
+async function loadProfile() {
+
+  if (!currentUser) return;
+
+
+  const { data, error } =
+    await db
+      .from("profiles")
+      .select("*")
+      .eq("id", currentUser.id)
+      .single();
+
+
+  if (error) {
+
+    console.log(error);
+
+    return;
+
+  }
+
+
+  currentProfile = data;
+
+
+  document.getElementById("profileName")
+    .textContent =
+    data.display_name || "User";
+
+
+  document.getElementById("accountName")
+    .textContent =
+    data.display_name || "User";
+
+
+  document.getElementById("accountEmail")
+    .textContent =
+    data.email || currentUser.email;
+
+
+  document.getElementById("accountWhatsapp")
+    .textContent =
+    data.whatsapp || "No WhatsApp number";
+
+
+  document.getElementById("accountType")
+    .textContent =
+    data.account_type || "Customer";
+
+
+  /* PROFILE PHOTO */
+
+  if (data.profile_picture) {
+
+    document.getElementById("profilePhoto")
+      .src =
+      data.profile_picture;
+
+    document.getElementById("accountPhoto")
+      .src =
+      data.profile_picture;
+
+  }
+
+
+  /* VERIFIED SELLER */
+
+  if (
+    data.is_verified_seller === true
+  ) {
+
+    document.getElementById("verifiedSeller")
+      .classList.remove("hidden");
+
+  }
+
+}
+
+    </script>
+    <script>
+
+const pages = [
+  "homePage",
+  "searchPage",
+  "accountPage",
+  "postPage",
+  "settingsPage"
+];
+
+
+document.querySelectorAll(
+  "nav button[data-page]"
+).forEach(function(button) {
+
+  button.onclick = function() {
+
+    const page =
+      button.getAttribute("data-page");
+
+
+    pages.forEach(function(id) {
+
+      document
+        .getElementById(id)
+        .classList.add("hidden");
+
+    });
+
+
+    document
+      .getElementById(page)
+      .classList.remove("hidden");
+
+  };
+
+});
+
+    </script>
+    <script>
+
+let currentUser = null;
+
+let currentProfile = null;
+
+
+async function checkLogin() {
+
+  const { data } =
+    await db.auth.getSession();
+
+
+  if (data.session) {
+
+    currentUser =
+      data.session.user;
+
+    document
+      .getElementById("auth")
+      .classList.add("hidden");
+
+    document
+      .getElementById("signup")
+      .classList.add("hidden");
+
+    document
+      .getElementById("home")
+      .classList.remove("hidden");
+
+    loadProfile();
+
+  }
+
+}
+
+
+checkLogin();
+
+    </script>
+    <script>
+
+document.getElementById("postProduct").onclick =
+async function() {
+
+  const title =
+    document.getElementById("productTitle")
+      .value.trim();
+
+  const whatsapp =
+    document.getElementById("productWhatsapp")
+      .value.trim();
+
+  const message =
+    document.getElementById("postMessage");
+
+
+  if (!title || !whatsapp) {
+
+    message.textContent =
+      "Please fill in all fields.";
+
+    message.style.color = "red";
+
+    return;
+
+  }
+
+
+  if (!currentUser) {
+
+    message.textContent =
+      "Please sign in first.";
+
+    message.style.color = "red";
+
+    return;
+
+  }
+
+
+  message.textContent =
+    "Posting product...";
+
+
+  const { error } =
+    await db
+      .from("products")
+      .insert({
+
+        name: title,
+
+        seller_id: currentUser.id,
+
+        seller_whatsapp: whatsapp,
+
+        authenticated: false
+
+      });
+
+
+  if (error) {
+
+    message.textContent =
+      error.message;
+
+    message.style.color = "red";
+
+    return;
+
+  }
+
+
+  message.textContent =
+    "Product posted successfully!";
+
+  message.style.color = "green";
+
+
+  document.getElementById("productTitle")
+    .value = "";
+
+  document.getElementById("productWhatsapp")
+    .value = "";
+
+
+  loadProducts();
+
+};
+
+    </script>
+    <script>
+
+async function loadProducts() {
+
+  const box =
+    document.getElementById("products");
+
+
+  box.innerHTML =
+    "<p>Loading products...</p>";
+
+
+  const { data, error } =
+    await db
+      .from("products")
+      .select("*")
+      .order("created_at", {
+        ascending: false
+      });
+
+
+  if (error) {
+
+    box.innerHTML =
+      "<p>Could not load products.</p>";
+
+    console.log(error);
+
+    return;
+
+  }
+
+
+  if (!data || data.length === 0) {
+
+    box.innerHTML =
+      "<p>No products yet.</p>";
+
+    return;
+
+  }
+
+
+  box.innerHTML = "";
+
+
+  data.forEach(function(product) {
+
+    const item =
+      document.createElement("div");
+
+
+    item.style.padding = "15px";
+
+    item.style.margin = "10px 0";
+
+    item.style.background = "white";
+
+    item.style.borderRadius = "15px";
+
+    item.style.boxShadow =
+      "0 3px 12px rgba(0,0,0,.10)";
+
+
+    item.innerHTML = `
+
+      <h3>${product.name || "Product"}</h3>
+
+      <p>
+        ${product.authenticated
+          ? "🟢 ✓ AUTHENTICATED"
+          : "🟡 Pending authentication"}
+      </p>
+
+    `;
+
+
+    box.appendChild(item);
+
+  });
+
+}
+
+
+loadProducts();
+
+    </script>
+    <script>
+
+document.getElementById("search").oninput =
+async function() {
+
+  const word =
+    this.value.trim().toLowerCase();
+
+  const results =
+    document.getElementById("searchResults");
+
+
+  if (!word) {
+
+    results.innerHTML = "";
+
+    return;
+
+  }
+
+
+  const { data, error } =
+    await db
+      .from("products")
+      .select("*")
+      .ilike("name", "%" + word + "%");
+
+
+  if (error) {
+
+    results.innerHTML =
+      "<p>Search failed.</p>";
+
+    return;
+
+  }
+
+
+  if (!data || data.length === 0) {
+
+    results.innerHTML =
+      "<p>No products found.</p>";
+
+    return;
+
+  }
+
+
+  results.innerHTML = "";
+
+
+  data.forEach(function(product) {
+
+    const item =
+      document.createElement("div");
+
+
+    item.style.padding = "15px";
+
+    item.style.margin = "10px 0";
+
+    item.style.background = "white";
+
+    item.style.borderRadius = "15px";
+
+
+    item.innerHTML = `
+
+      <h3>${product.name}</h3>
+
+      <p>
+        ${
+          product.authenticated
+          ? "🟢 ✓ AUTHENTICATED"
+          : "🟡 Pending authentication"
+        }
+      </p>
+
+    `;
+
+
+    results.appendChild(item);
+
+  });
+
+};
+
+      </script>
+      <script>
+
+document.getElementById("logout").onclick =
+async function() {
+
+  await db.auth.signOut();
+
+  currentUser = null;
+
+  currentProfile = null;
+
+  document
+    .getElementById("home")
+    .classList.add("hidden");
+
+  document
+    .getElementById("auth")
+    .classList.remove("hidden");
+
+};
+
+
+document.getElementById("complaint").onclick =
+function() {
+
+  window.open(
+    "https://wa.me/2349061530541",
+    "_blank"
+  );
+
+};
+
+
+document.getElementById("terms").onclick =
+function() {
+
+  alert(
+    "ABBA AUTHENTICS Terms & Conditions\n\n" +
+    "Use ABBA AUTHENTICS responsibly. " +
+    "Product authentication is provided by ABBA AUTHENTICS."
+  );
+
+};
+
+
+document.getElementById("privacy").onclick =
+function() {
+
+  alert(
+    "ABBA AUTHENTICS Privacy Policy\n\n" +
+    "We respect your personal information " +
+    "and use it to provide our services."
+  );
+
+};
+
+      </script>
+      <script>
+
+document.getElementById("darkTheme").onclick =
+function() {
+
+  document.body.style.background = "#111827";
+
+  document.body.style.color = "white";
+
+
+  document.querySelectorAll(
+    "#home section, #home header, #products div, #searchResults div"
+  ).forEach(function(box) {
+
+    box.style.background = "#1f2937";
+
+    box.style.color = "white";
+
+  });
+
+
+  document.getElementById("darkTheme")
+    .textContent = "☀️ Light Theme";
+
+};
+
+
+      </script>
+      <script>
+
+const sellerRequest =
+document.createElement("button");
+
+sellerRequest.textContent =
+"✓ REQUEST SELLER VERIFICATION";
+
+sellerRequest.style.padding = "12px";
+
+sellerRequest.style.marginTop = "15px";
+
+sellerRequest.style.borderRadius = "10px";
+
+sellerRequest.style.background = "#0878ff";
+
+sellerRequest.style.color = "white";
+
+sellerRequest.style.fontWeight = "bold";
+
+
+document
+  .getElementById("accountPage")
+  .appendChild(sellerRequest);
+
+
+sellerRequest.onclick =
+async function() {
+
+  if (!currentUser) return;
+
+
+  const { error } =
+    await db
+      .from("seller_verification_requests")
+      .insert({
+
+        user_id: currentUser.id,
+
+        status: "pending",
+
+        message:
+          "I want to become a verified seller."
+
+      });
+
+
+  if (error) {
+
+    alert(
+      "Request could not be sent."
+    );
+
+    return;
+
+  }
+
+
+  alert(
+    "Your seller verification request has been sent. ✅"
+  );
+
+};
+
+      </script>
+      <script>
+
+const sellerInfo =
+document.createElement("div");
+
+sellerInfo.style.marginTop = "20px";
+
+sellerInfo.innerHTML = `
+
+  <h3>Seller Information</h3>
+
+  <p id="sellerLocation">
+    Location: Not added
+  </p>
+
+  <p id="sellerDescription">
+    Description: Not added
+  </p>
+
+`;
+
+
+document
+  .getElementById("accountPage")
+  .appendChild(sellerInfo);
+
+
+async function loadSellerInfo() {
+
+  if (!currentProfile) return;
+
+
+  document.getElementById("sellerLocation")
+    .textContent =
+    "Location: " +
+    (currentProfile.location || "Not added");
+
+
+  document.getElementById("sellerDescription")
+    .textContent =
+    "Description: " +
+    (currentProfile.seller_description || "Not added");
+
+}
+
+
+loadSellerInfo();
+
+      </script>
+      <script>
+
+async function uploadProductImage() {
+
+  const file =
+    document.getElementById("productImage").files[0];
+
+  if (!file) return null;
+
+
+  const fileName =
+    Date.now() + "-" + file.name;
+
+
+  const { error } =
+    await db.storage
+      .from("product-images")
+      .upload(fileName, file);
+
+
+  if (error) {
+
+    console.log(error);
+
+    return null;
+
+  }
+
+
+  const { data } =
+    db.storage
+      .from("product-images")
+      .getPublicUrl(fileName);
+
+
+  return data.publicUrl;
+
+}
+
+      </script>
+      <script>
+
+async function showProductDetails(product) {
+
+  let seller = null;
+
+
+  if (product.seller_id) {
+
+    const { data } =
+      await db
+        .from("profiles")
+        .select("*")
+        .eq("id", product.seller_id)
+        .single();
+
+    seller = data;
+
+  }
+
+
+  const sellerName =
+    seller?.display_name || "Seller";
+
+
+  const sellerPhoto =
+    seller?.profile_picture || "";
+
+
+  const whatsapp =
+    product.seller_whatsapp ||
+    seller?.whatsapp ||
+    "";
+
+
+  const box =
+    document.createElement("div");
+
+
+  box.style.position = "fixed";
+
+  box.style.inset = "0";
+
+  box.style.background = "white";
+
+  box.style.zIndex = "9999";
+
+  box.style.padding = "25px";
+
+  box.style.overflowY = "auto";
+
+
+  box.innerHTML = `
+
+    <button id="closeProduct">
+      ← BACK
+    </button>
+
+    <h1>${product.name}</h1>
+
+    ${
+      product.image_url
+      ? `<img src="${product.image_url}"
+          style="width:100%;max-height:350px;
+          object-fit:contain;border-radius:15px;">`
+      : ""
+    }
+
+    <h2>Seller</h2>
+
+    ${
+      sellerPhoto
+      ? `<img src="${sellerPhoto}"
+          width="70" height="70"
+          style="border-radius:50%;object-fit:cover;">`
+      : ""
+    }
+
+    <h3>${sellerName}</h3>
+
+    ${
+      seller?.is_verified_seller
+      ? `<p style="color:green;font-weight:bold;">
+          ✓ VERIFIED SELLER
+        </p>`
+      : ""
+    }
+
+    <p>
+      Location:
+      ${seller?.location || "Not added"}
+    </p>
+
+    <p>
+      ${seller?.seller_description || ""}
+    </p>
+
+    <button id="contactSeller">
+      CONTACT SELLER
+    </button>
+
+  `;
+
+
+  document.body.appendChild(box);
+
+
+  document.getElementById("closeProduct")
+    .onclick = function() {
+
+      box.remove();
+
+    };
+
+
+  document.getElementById("contactSeller")
+    .onclick = function() {
+
+      if (!whatsapp) {
+
+        alert("Seller has no WhatsApp number.");
+
+        return;
+
+      }
+
+
+      let number =
+        whatsapp.replace(/\D/g, "");
+
+
+      if (number.startsWith("0")) {
+
+        number =
+          "234" + number.substring(1);
+
+      }
+
+
+      window.open(
+        "https://wa.me/" + number,
+        "_blank"
+      );
+
+    };
+
+}
+
+      </script>
+      <script>
+
+const oldLoadProducts =
+  loadProducts;
+
+
+loadProducts = async function() {
+
+  await oldLoadProducts();
+
+
+  const box =
+    document.getElementById("products");
+
+
+  const cards =
+    box.children;
+
+
+  for (let i = 0; i < cards.length; i++) {
+
+    cards[i].style.cursor = "pointer";
+
+
+    cards[i].onclick = async function() {
+
+      const { data } =
+        await db
+          .from("products")
+          .select("*")
+          .order("created_at", {
+            ascending: false
+          });
+
+
+      if (data && data[i]) {
+
+        showProductDetails(data[i]);
+
+      }
+
+    };
+
+  }
+
+};
+
+loadProducts();
+
+    </script>
+    <script>
+
+const oldShowProductDetails =
+  showProductDetails;
+
+
+showProductDetails = async function(product) {
+
+  await oldShowProductDetails(product);
+
+
+  if (product.authenticated === true) {
+
+    const badge =
+      document.createElement("div");
+
+
+    badge.textContent =
+      "✓ AUTHENTICATED PRODUCT";
+
+
+    badge.style.position = "fixed";
+
+    badge.style.top = "15px";
+
+    badge.style.right = "15px";
+
+    badge.style.zIndex = "10000";
+
+    badge.style.background = "green";
+
+    badge.style.color = "white";
+
+    badge.style.padding = "10px 15px";
+
+    badge.style.borderRadius = "20px";
+
+    badge.style.fontWeight = "bold";
+
+
+    document.body.appendChild(badge);
+
+
+    setTimeout(function() {
+
+      badge.remove();
+
+    }, 4000);
+
+  }
+
+};
+
+    </script>
+    <script>
+
+const reviewBox =
+document.createElement("div");
+
+reviewBox.style.marginTop = "20px";
+
+
+reviewBox.innerHTML = `
+
+  <h3>⭐ Customer Reviews</h3>
+
+  <input
+    id="reviewText"
+    type="text"
+    placeholder="Write your review"
+  >
+
+  <select id="reviewRating">
+
+    <option value="5">⭐⭐⭐⭐⭐</option>
+
+    <option value="4">⭐⭐⭐⭐</option>
+
+    <option value="3">⭐⭐⭐</option>
+
+    <option value="2">⭐⭐</option>
+
+    <option value="1">⭐</option>
+
+  </select>
+
+  <button id="sendReview">
+    POST REVIEW
+  </button>
+
+  <div id="reviewsList"></div>
+
+`;
+
+
+document
+  .getElementById("accountPage")
+  .appendChild(reviewBox);
+
+
+document.getElementById("sendReview")
+  .onclick = async function() {
+
+    if (!currentUser) {
+
+      alert("Please sign in first.");
+
+      return;
+
+    }
+
+
+    const text =
+      document.getElementById("reviewText")
+        .value.trim();
+
+    const rating =
+      Number(
+        document.getElementById("reviewRating")
+          .value
+      );
+
+
+    if (!text) {
+
+      alert("Please write a review.");
+
+      return;
+
+    }
+
+
+    alert(
+      "Reviews will be connected to products next. ⭐"
+    );
+
+  };
+
+    </script>
+    <script>
+
+document.getElementById("java").onclick =
+function() {
+
+  const box =
+    document.createElement("div");
+
+
+  box.style.position = "fixed";
+
+  box.style.right = "15px";
+
+  box.style.bottom = "150px";
+
+  box.style.width = "280px";
+
+  box.style.background = "white";
+
+  box.style.padding = "20px";
+
+  box.style.borderRadius = "20px";
+
+  box.style.boxShadow =
+    "0 5px 25px rgba(0,0,0,.25)";
+
+  box.style.zIndex = "9999";
+
+
+  box.innerHTML = `
+
+    <h2>🤖 JAVA Assistant</h2>
+
+    <p>How can I help you?</p>
+
+    <br>
+
+    <button id="javaVerify">
+      ✓ Seller Verification
+    </button>
+
+    <br><br>
+
+    <button id="javaProduct">
+      🛍️ Product Authentication
+    </button>
+
+    <br><br>
+
+    <button id="javaContact">
+      💬 Contact Admin
+    </button>
+
+    <br><br>
+
+    <button id="javaClose">
+      CLOSE
+    </button>
+
+  `;
+
+
+  document.body.appendChild(box);
+
+
+  document.getElementById("javaClose")
+    .onclick = function() {
+
+      box.remove();
+
+    };
+
+
+  document.getElementById("javaVerify")
+    .onclick = function() {
+
+      alert(
+        "Go to ACCOUNT and request seller verification. ✓"
+      );
+
+    };
+
+
+  document.getElementById("javaProduct")
+    .onclick = function() {
+
+      alert(
+        "Products can be authenticated by ABBA AUTHENTICS."
+      );
+
+    };
+
+
+  document.getElementById("javaContact")
+    .onclick = function() {
+
+      window.open(
+        "https://wa.me/2349061530541",
+        "_blank"
+      );
+
+    };
+
+};
+
+  </script>
+  <script>
+
+const ADMIN_EMAIL =
+"princeabba96@gmail.com";
+
+
+function checkAdminPostAccess() {
+
+  const postButton =
+    document.getElementById("postProduct");
+
+
+  if (!currentUser) {
+
+    postButton.disabled = true;
+
+    return;
+
+  }
+
+
+  if (
+    currentUser.email === ADMIN_EMAIL
+  ) {
+
+    postButton.disabled = false;
+
+    postButton.textContent =
+      "POST PRODUCT";
+
+  } else {
+
+    postButton.disabled = true;
+
+    postButton.textContent =
+      "ADMIN ONLY";
+
+    document.getElementById("postMessage")
+      .textContent =
+      "Only ABBA AUTHENTICS admin can post products.";
+
+  }
+
+}
+
+
+checkAdminPostAccess();
+
+  </script>
+  <script>
+
+const authButton =
+document.createElement("button");
+
+
+authButton.textContent =
+"✓ AUTHENTICATE PRODUCT";
+
+
+authButton.style.padding = "12px";
+
+authButton.style.marginTop = "15px";
+
+authButton.style.background = "green";
+
+authButton.style.color = "white";
+
+authButton.style.borderRadius = "10px";
+
+authButton.style.fontWeight = "bold";
+
+
+document
+  .getElementById("postPage")
+  .appendChild(authButton);
+
+
+authButton.onclick =
+async function() {
+
+  if (!currentUser) {
+
+    alert("Please sign in.");
+
+    return;
+
+  }
+
+
+  if (
+    currentUser.email !== ADMIN_EMAIL
+  ) {
+
+    alert(
+      "Only ABBA AUTHENTICS admin can authenticate products."
+    );
+
+    return;
+
+  }
+
+
+  const name =
+    document.getElementById("productTitle")
+      .value.trim();
+
+
+  if (!name) {
+
+    alert(
+      "Enter the product name first."
+    );
+
+    return;
+
+  }
+
+
+  const { data, error } =
+    await db
+      .from("products")
+      .select("id")
+      .eq("name", name)
+      .order("created_at", {
+        ascending: false
+      })
+      .limit(1);
+
+
+  if (error || !data || !data.length) {
+
+    alert("Product not found.");
+
+    return;
+
+  }
+
+
+  const { error: updateError } =
+    await db
+      .from("products")
+      .update({
+        authenticated: true
+      })
+      .eq("id", data[0].id);
+
+
+  if (updateError) {
+
+    alert(
+      "Authentication failed."
+    );
+
+    return;
+
+  }
+
+
+  alert(
+    "✓ Product authenticated successfully!"
+  );
+
+
+  loadProducts();
+
+};
+
+  </script>
+  <style>
+
+#home header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px;
+  background: white;
+  border-radius: 18px;
+  margin-bottom: 15px;
+}
+
+#home h2 {
+  font-weight: 800;
+}
+
+#products {
+  padding-bottom: 90px;
+}
+
+#products > div {
+  transition: transform .2s ease;
+}
+
+#products > div:active {
+  transform: scale(.97);
+}
+
+#products h3 {
+  font-size: 20px;
+  margin-bottom: 8px;
+}
+
+nav button {
+  font-weight: 800;
+  font-size: 12px;
+  padding: 8px 5px;
+  background: transparent;
+}
+
+nav button:active {
+  transform: scale(.9);
+}
+
+#postProduct,
+#sendReview,
+#contactSeller {
+  background: #0878ff;
+  color: white;
+  padding: 12px 18px;
+  border-radius: 10px;
+  font-weight: bold;
+}
+
+input,
+select {
+  width: 100%;
+  padding: 13px;
+  margin: 7px 0;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+}
+
+  </style>
+  <script>
+
+const verificationStatus =
+document.createElement("p");
+
+verificationStatus.style.marginTop = "15px";
+
+verificationStatus.style.fontWeight = "bold";
+
+
+document
+  .getElementById("accountPage")
+  .appendChild(verificationStatus);
+
+
+async function loadVerificationStatus() {
+
+  if (!currentUser) return;
+
+
+  const { data } =
+    await db
+      .from("seller_verification_requests")
+      .select("status")
+      .eq("user_id", currentUser.id)
+      .order("created_at", {
+        ascending: false
+      })
+      .limit(1);
+
+
+  if (!data || data.length === 0) {
+
+    verificationStatus.textContent =
+      "Verification: Not requested";
+
+    verificationStatus.style.color =
+      "gray";
+
+    return;
+
+  }
+
+
+  const status =
+    data[0].status;
+
+
+  if (status === "approved") {
+
+    verificationStatus.textContent =
+      "✓ Verification: APPROVED";
+
+    verificationStatus.style.color =
+      "green";
+
+  } else {
+
+    verificationStatus.textContent =
+      "⏳ Verification: PENDING";
+
+    verificationStatus.style.color =
+      "orange";
+
+  }
+
+}
+
+
+loadVerificationStatus();
+
+        </script>
+        <script>
+
+async function loadProductReviews(
+  productId,
+  container
+) {
+
+  const { data, error } =
+    await db
+      .from("reviews")
+      .select("*")
+      .eq("product_id", productId)
+      .order("created_at", {
+        ascending: false
+      });
+
+
+  if (error) {
+
+    container.innerHTML =
+      "<p>Reviews unavailable.</p>";
+
+    return;
+
+  }
+
+
+  if (!data || data.length === 0) {
+
+    container.innerHTML =
+      "<p>No reviews yet.</p>";
+
+    return;
+
+  }
+
+
+  container.innerHTML = "";
+
+
+  data.forEach(function(review) {
+
+    const item =
+      document.createElement("div");
+
+
+    item.style.padding = "10px";
+
+    item.style.marginTop = "8px";
+
+    item.style.background = "#f5f7fb";
+
+    item.style.borderRadius = "10px";
+
+
+    item.innerHTML = `
+
+      <strong>
+        ${"⭐".repeat(review.rating)}
+      </strong>
+
+      <p>${review.comment}</p>
+
+    `;
+
+
+    container.appendChild(item);
+
+  });
+
+}
+
+        </script>
+        <script>
+
+const oldProductDetails =
+  showProductDetails;
+
+
+showProductDetails = async function(product) {
+
+  await oldProductDetails(product);
+
+
+  const page =
+    document.body.lastElementChild;
+
+
+  if (!page) return;
+
+
+  const reviews =
+    document.createElement("div");
+
+
+  reviews.style.marginTop = "25px";
+
+
+  reviews.innerHTML = `
+
+    <h2>⭐ Reviews</h2>
+
+    <div id="productReviews">
+      Loading reviews...
+    </div>
+
+  `;
+
+
+  page.appendChild(reviews);
+
+
+  loadProductReviews(
+    product.id,
+    document.getElementById("productReviews")
+  );
+
+};
+
+    </script>
+    <script>
+
+const oldPostProduct =
+  document.getElementById("postProduct").onclick;
+
+
+document.getElementById("postProduct").onclick =
+async function() {
+
+  if (!currentUser) {
+
+    alert("Please sign in.");
+
+    return;
+
+  }
+
+
+  const file =
+    document.getElementById("productImage")
+      .files[0];
+
+
+  if (!file) {
+
+    alert("Please select a product picture.");
+
+    return;
+
+  }
+
+
+  const message =
+    document.getElementById("postMessage");
+
+
+  message.textContent =
+    "Uploading picture...";
+
+
+  const imageUrl =
+    await uploadProductImage();
+
+
+  if (!imageUrl) {
+
+    message.textContent =
+      "Picture upload failed.";
+
+    message.style.color = "red";
+
+    return;
+
+  }
+
+
+  const title =
+    document.getElementById("productTitle")
+      .value.trim();
+
+
+  const whatsapp =
+    document.getElementById("productWhatsapp")
+      .value.trim();
+
+
+  if (!title || !whatsapp) {
+
+    message.textContent =
+      "Please fill in all fields.";
+
+    message.style.color = "red";
+
+    return;
+
+  }
+
+
+  const { error } =
+    await db
+      .from("products")
+      .insert({
+
+        name: title,
+
+        image_url: imageUrl,
+
+        seller_id: currentUser.id,
+
+        seller_whatsapp: whatsapp,
+
+        authenticated: false
+
+      });
+
+
+  if (error) {
+
+    message.textContent =
+      "Product could not be posted.";
+
+    message.style.color = "red";
+
+    console.log(error);
+
+    return;
+
+  }
+
+
+  message.textContent =
+    "✓ Product posted successfully!";
+
+  message.style.color = "green";
+
+
+  document.getElementById("productImage")
+    .value = "";
+
+  document.getElementById("productTitle")
+    .value = "";
+
+  document.getElementById("productWhatsapp")
+    .value = "";
+
+
+  loadProducts();
+
+};
+
+    </script>
+    <script>
+
+const showProducts =
+loadProducts;
+
+
+loadProducts = async function() {
+
+  const box =
+    document.getElementById("products");
+
+
+  box.innerHTML =
+    "<p>Loading products...</p>";
+
+
+  const { data, error } =
+    await db
+      .from("products")
+      .select("*")
+      .order("created_at", {
+        ascending: false
+      });
+
+
+  if (error) {
+
+    box.innerHTML =
+      "<p>Could not load products.</p>";
+
+    return;
+
+  }
+
+
+  if (!data || data.length === 0) {
+
+    box.innerHTML =
+      "<p>No products yet.</p>";
+
+    return;
+
+  }
+
+
+  box.innerHTML = "";
+
+
+  data.forEach(function(product) {
+
+    const card =
+      document.createElement("div");
+
+
+    card.style.padding = "15px";
+
+    card.style.marginBottom = "15px";
+
+    card.style.background = "white";
+
+    card.style.borderRadius = "18px";
+
+    card.style.cursor = "pointer";
+
+
+    card.innerHTML = `
+
+      ${
+        product.image_url
+        ? `<img src="${product.image_url}"
+            style="width:100%;height:220px;
+            object-fit:cover;border-radius:14px;">`
+        : ""
+      }
+
+      <h3 style="margin-top:10px;">
+        ${product.name || "Product"}
+      </h3>
+
+      <p style="color:green;font-weight:bold;">
+        ${
+          product.authenticated
+          ? "✓ AUTHENTICATED"
+          : "⏳ Awaiting authentication"
+        }
+      </p>
+
+    `;
+
+
+    card.onclick = function() {
+
+      showProductDetails(product);
+
+    };
+
+
+    box.appendChild(card);
+
+  });
+
+};
+
+loadProducts();
+
+    </script>
+    <script>
+
+function styleAccountPage() {
+
+  const page =
+    document.getElementById("accountPage");
+
+
+  page.style.padding = "20px";
+
+  page.style.paddingBottom = "100px";
+
+
+  const photo =
+    document.getElementById("accountPhoto");
+
+
+  photo.style.display = "block";
+
+  photo.style.margin = "15px auto";
+
+
+  const name =
+    document.getElementById("accountName");
+
+
+  name.style.textAlign = "center";
+
+  name.style.fontSize = "26px";
+
+
+  const email =
+    document.getElementById("accountEmail");
+
+
+  email.style.textAlign = "center";
+
+}
+
+
+styleAccountPage();
+
+    </script>
+    <script>
+
+const verifyMessage =
+document.createElement("textarea");
+
+verifyMessage.id =
+"verifyMessage";
+
+verifyMessage.placeholder =
+"Tell ABBA AUTHENTICS why you should be verified...";
+
+verifyMessage.style.width = "100%";
+
+verifyMessage.style.height = "100px";
+
+verifyMessage.style.marginTop = "10px";
+
+verifyMessage.style.padding = "12px";
+
+verifyMessage.style.borderRadius = "10px";
+
+verifyMessage.style.border =
+"1px solid #ddd";
+
+
+document
+  .getElementById("accountPage")
+  .appendChild(verifyMessage);
+
+
+const verifyButton =
+document.querySelector(
+  "#accountPage button"
+);
+
+
+verifyButton.onclick =
+async function() {
+
+  if (!currentUser) {
+
+    alert("Please sign in first.");
+
+    return;
+
+  }
+
+
+  const message =
+    verifyMessage.value.trim();
+
+
+  const { error } =
+    await db
+      .from("seller_verification_requests")
+      .insert({
+
+        user_id: currentUser.id,
+
+        status: "pending",
+
+        message:
+          message ||
+          "I want to become a verified seller."
+
+      });
+
+
+  if (error) {
+
+    alert("Request failed.");
+
+    return;
+
+  }
+
+
+  verifyMessage.value = "";
+
+
+  alert(
+    "✓ Verification request sent!"
+  );
+
+
+  loadVerificationStatus();
+
+};
+
+    </script>
+    <style>
+
+#home header {
+  background: linear-gradient(
+    135deg,
+    #0878ff,
+    #0055cc
+  );
+
+  color: white;
+
+  padding: 20px;
+
+  border-radius: 0 0 25px 25px;
+
+  box-shadow:
+    0 5px 18px rgba(0,0,0,.18);
+
+  animation: slideDown .5s ease;
+}
+
+
+#profilePhoto {
+  border: 3px solid white;
+}
+
+
+#verifiedSeller {
+  margin-top: 5px;
+
+  font-size: 12px;
+
+  background: white;
+
+  padding: 4px 8px;
+
+  border-radius: 20px;
+
+  width: max-content;
+}
+
+
+@keyframes slideDown {
+
+  from {
+
+    transform: translateY(-20px);
+
+    opacity: 0;
+
+  }
+
+  to {
+
+    transform: translateY(0);
+
+    opacity: 1;
+
+  }
+
+}
+
+  </style>
+  <script>
+
+const banner =
+document.createElement("div");
+
+banner.innerHTML = `
+
+  <h2>🛡️ ABBA AUTHENTICS</h2>
+
+  <p>
+    Buy with confidence.
+    Discover trusted products and sellers.
+  </p>
+
+`;
+
+
+banner.style.margin = "15px";
+
+banner.style.padding = "20px";
+
+banner.style.borderRadius = "20px";
+
+banner.style.background =
+"linear-gradient(135deg,#e8f2ff,#ffffff)";
+
+banner.style.boxShadow =
+"0 4px 15px rgba(0,0,0,.08)";
+
+
+const homePage =
+document.getElementById("homePage");
+
+
+homePage.insertBefore(
+  banner,
+  homePage.firstChild
+);
+
+  </script>
+  <style>
+
+#verifiedSeller {
+
+  color: white !important;
+
+  background: #16a34a !important;
+
+  padding: 6px 10px !important;
+
+  border-radius: 20px !important;
+
+  font-size: 11px !important;
+
+  box-shadow:
+    0 3px 8px rgba(0,0,0,.2);
+
+  animation: verifiedPulse 1.5s infinite;
+
+}
+
+
+@keyframes verifiedPulse {
+
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.04);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+
+}
+
+  </style>
+  <script>
+
+document.querySelectorAll(
+  "nav button[data-page]"
+).forEach(function(button) {
+
+  button.onclick = function() {
+
+    document.querySelectorAll(
+      "nav button[data-page]"
+    ).forEach(function(btn) {
+
+      btn.style.color = "#111";
+
+      btn.style.borderBottom =
+        "3px solid transparent";
+
+    });
+
+
+    button.style.color = "#0878ff";
+
+    button.style.borderBottom =
+      "3px solid #0878ff";
+
+  };
+
+});
+
+  </script>
+  <script>
+
+const profileCard =
+document.createElement("div");
+
+
+profileCard.style.marginTop = "20px";
+
+profileCard.style.padding = "20px";
+
+profileCard.style.background = "white";
+
+profileCard.style.borderRadius = "20px";
+
+profileCard.style.boxShadow =
+  "0 4px 15px rgba(0,0,0,.08)";
+
+
+profileCard.innerHTML = `
+
+  <h3>👤 My Seller Profile</h3>
+
+  <p id="profileCardName">
+    Name: Loading...
+  </p>
+
+  <p id="profileCardLocation">
+    Location: Loading...
+  </p>
+
+  <p id="profileCardDescription">
+    About: Loading...
+  </p>
+
+`;
+
+
+document
+  .getElementById("accountPage")
+  .appendChild(profileCard);
+
+
+function updateProfileCard() {
+
+  if (!currentProfile) return;
+
+
+  document.getElementById("profileCardName")
+    .textContent =
+    "Name: " +
+    (currentProfile.display_name || "Not added");
+
+
+  document.getElementById("profileCardLocation")
+    .textContent =
+    "Location: " +
+    (currentProfile.location || "Not added");
+
+
+  document.getElementById("profileCardDescription")
+    .textContent =
+    "About: " +
+    (currentProfile.seller_description || "Not added");
+
+}
+
+
+setTimeout(
+  updateProfileCard,
+  1000
+);
+
+  </script>
+  <script>
+
+const sellerSearch =
+document.createElement("input");
+
+
+sellerSearch.placeholder =
+"Search sellers by name...";
+
+
+sellerSearch.style.width = "100%";
+
+sellerSearch.style.padding = "13px";
+
+sellerSearch.style.marginTop = "10px";
+
+sellerSearch.style.borderRadius = "10px";
+
+sellerSearch.style.border =
+"1px solid #ddd";
+
+
+const sellerResults =
+document.createElement("div");
+
+
+sellerResults.id =
+"sellerResults";
+
+
+document
+  .getElementById("searchPage")
+  .appendChild(sellerSearch);
+
+
+document
+  .getElementById("searchPage")
+  .appendChild(sellerResults);
+
+
+sellerSearch.oninput =
+async function() {
+
+  const word =
+    this.value.trim();
+
+
+  sellerResults.innerHTML = "";
+
+
+  if (!word) return;
+
+
+  const { data, error } =
+    await db
+      .from("profiles")
+      .select("*")
+      .ilike(
+        "display_name",
+        "%" + word + "%"
+      );
+
+
+  if (error || !data.length) {
+
+    sellerResults.innerHTML =
+      "<p>No sellers found.</p>";
+
+    return;
+
+  }
+
+
+  data.forEach(function(seller) {
+
+    const card =
+      document.createElement("div");
+
+
+    card.style.padding = "15px";
+
+    card.style.marginTop = "10px";
+
+    card.style.background = "white";
+
+    card.style.borderRadius = "15px";
+
+
+    card.innerHTML = `
+
+      <h3>${seller.display_name}</h3>
+
+      ${
+        seller.is_verified_seller
+        ? `<p style="color:green;font-weight:bold;">
+             ✓ VERIFIED SELLER
+           </p>`
+        : ""
+      }
+
+      <p>
+        ${seller.location || "Location not added"}
+      </p>
+
+    `;
+
+
+    sellerResults.appendChild(card);
+
+  });
+
+};
+
+  </script>
+  <script>
+
+async function openSellerProfile(seller) {
+
+  const page =
+    document.createElement("div");
+
+
+  page.style.position = "fixed";
+
+  page.style.inset = "0";
+
+  page.style.background = "white";
+
+  page.style.zIndex = "10000";
+
+  page.style.padding = "25px";
+
+  page.style.overflowY = "auto";
+
+
+  page.innerHTML = `
+
+    <button id="closeSeller">
+      ← BACK
+    </button>
+
+    <br><br>
+
+    ${
+      seller.profile_picture
+      ? `<img src="${seller.profile_picture}"
+          width="100"
+          height="100"
+          style="border-radius:50%;
+          object-fit:cover;">`
+      : ""
+    }
+
+    <h1>
+      ${seller.display_name || "Seller"}
+    </h1>
+
+    ${
+      seller.is_verified_seller
+      ? `<p style="color:green;font-weight:bold;">
+          ✓ VERIFIED SELLER
+        </p>`
+      : ""
+    }
+
+    <p>
+      📍 ${seller.location || "Location not added"}
+    </p>
+
+    <p>
+      ${seller.seller_description || "No description yet."}
+    </p>
+
+    <button id="sellerWhatsApp">
+      💬 CONTACT SELLER
+    </button>
+
+  `;
+
+
+  document.body.appendChild(page);
+
+
+  document.getElementById("closeSeller")
+    .onclick = function() {
+
+      page.remove();
+
+    };
+
+
+  document.getElementById("sellerWhatsApp")
+    .onclick = function() {
+
+      let number =
+        (seller.whatsapp || "")
+        .replace(/\D/g, "");
+
+
+      if (number.startsWith("0")) {
+
+        number =
+          "234" + number.substring(1);
+
+      }
+
+
+      if (!number) {
+
+        alert(
+          "Seller has no WhatsApp number."
+        );
+
+        return;
+
+      }
+
+
+      window.open(
+        "https://wa.me/" + number,
+        "_blank"
+      );
+
+    };
+
+}
+
+    </script>
+    <script>
+
+const sellerCards =
+document.getElementById("sellerResults");
+
+
+sellerSearch.addEventListener(
+  "input",
+  async function() {
+
+    const word =
+      this.value.trim();
+
+
+    if (!word) return;
+
+
+    const { data } =
+      await db
+        .from("profiles")
+        .select("*")
+        .ilike(
+          "display_name",
+          "%" + word + "%"
+        );
+
+
+    if (!data) return;
+
+
+    sellerCards.innerHTML = "";
+
+
+    data.forEach(function(seller) {
+
+      const card =
+        document.createElement("div");
+
+
+      card.style.padding = "15px";
+
+      card.style.marginTop = "10px";
+
+      card.style.background = "white";
+
+      card.style.borderRadius = "15px";
+
+      card.style.cursor = "pointer";
+
+
+      card.innerHTML = `
+
+        <h3>
+          ${seller.display_name || "Seller"}
+        </h3>
+
+        ${
+          seller.is_verified_seller
+          ? `<p style="color:green;font-weight:bold;">
+               ✓ VERIFIED SELLER
+             </p>`
+          : ""
+        }
+
+        <p>
+          📍 ${seller.location || "Location not added"}
+        </p>
+
+        <p>
+          Tap to view profile →
+        </p>
+
+      `;
+
+
+      card.onclick = function() {
+
+        openSellerProfile(seller);
+
+      };
+
+
+      sellerCards.appendChild(card);
+
+    });
+
+  }
+
+);
+
+    </script>
+    <script>
+
+const dashboard =
+document.createElement("div");
+
+
+dashboard.style.display = "flex";
+
+dashboard.style.gap = "10px";
+
+dashboard.style.margin = "15px";
+
+
+dashboard.innerHTML = `
+
+  <div style="
+    flex:1;
+    background:white;
+    padding:15px;
+    border-radius:15px;
+    text-align:center;
+  ">
+
+    <h2 id="productCount">0</h2>
+
+    <p>Products</p>
+
+  </div>
+
+
+  <div style="
+    flex:1;
+    background:white;
+    padding:15px;
+    border-radius:15px;
+    text-align:center;
+  ">
+
+    <h2 id="sellerCount">0</h2>
+
+    <p>Verified Sellers</p>
+
+  </div>
+
+`;
+
+
+document
+  .getElementById("homePage")
+  .insertBefore(
+    dashboard,
+    document.getElementById("products")
+  );
+
+
+async function loadDashboard() {
+
+  const products =
+    await db
+      .from("products")
+      .select("id");
+
+
+  const sellers =
+    await db
+      .from("profiles")
+      .select("id")
+      .eq("is_verified_seller", true);
+
+
+  document.getElementById("productCount")
+    .textContent =
+    products.data?.length || 0;
+
+
+  document.getElementById("sellerCount")
+    .textContent =
+    sellers.data?.length || 0;
+
+}
+
+
+loadDashboard();
+
+    </script>
+    <script>
+
+document.getElementById("permanentReview")
+  .onclick = function() {
+
+    alert(
+      "⭐ PERMANENT REVIEW\n\n" +
+      "Your reviews stay attached to the product " +
+      "and remain visible to customers."
+    );
+
+  };
+
+    </script>
+    <script>
+
+function updateAccountStatus() {
+
+  if (!currentProfile) return;
+
+
+  const type =
+    currentProfile.account_type;
+
+
+  const status =
+    document.createElement("div");
+
+
+  status.style.marginTop = "15px";
+
+  status.style.padding = "12px";
+
+  status.style.borderRadius = "12px";
+
+  status.style.fontWeight = "bold";
+
+
+  if (type === "seller") {
+
+    status.textContent =
+      "🛍️ SELLER ACCOUNT";
+
+    status.style.background =
+      "#e8f5e9";
+
+    status.style.color =
+      "green";
+
+  } else {
+
+    status.textContent =
+      "👤 CUSTOMER ACCOUNT";
+
+    status.style.background =
+      "#e8f2ff";
+
+    status.style.color =
+      "#0878ff";
+
+  }
+
+
+  document
+    .getElementById("accountPage")
+    .appendChild(status);
+
+}
+
+
+setTimeout(
+  updateAccountStatus,
+  1200
+);
+
+    </script>
+    <script>
+
+async function uploadProfilePicture() {
+
+  if (!currentUser) return;
+
+
+  const file =
+    document.getElementById("photo").files[0];
+
+
+  if (!file) return;
+
+
+  const fileName =
+    currentUser.id + "-" + Date.now();
+
+
+  const { error } =
+    await db.storage
+      .from("profile-pictures")
+      .upload(fileName, file);
+
+
+  if (error) {
+
+    console.log(error);
+
+    return;
+
+  }
+
+
+  const { data } =
+    db.storage
+      .from("profile-pictures")
+      .getPublicUrl(fileName);
+
+
+  await db
+    .from("profiles")
+    .update({
+      profile_picture: data.publicUrl
+    })
+    .eq("id", currentUser.id);
+
+
+  return data.publicUrl;
+
+}
+
+    </script>
+    <script>
+
+const oldSignup =
+  document.getElementById("signupBtn").onclick;
+
+
+document.getElementById("signupBtn").onclick =
+async function() {
+
+  await oldSignup();
+
+
+  if (!currentUser) {
+
+    const { data } =
+      await db.auth.getUser();
+
+
+    if (data.user) {
+
+      currentUser = data.user;
+
+    }
+
+  }
+
+
+  if (currentUser) {
+
+    const photoUrl =
+      await uploadProfilePicture();
+
+
+    if (photoUrl) {
+
+      await loadProfile();
+
+    }
+
+  }
+
+};
+
+    </script>
+    <script>
+
+const authSearch =
+document.createElement("input");
+
+
+authSearch.placeholder =
+"Check product authentication...";
+
+
+authSearch.style.width = "100%";
+
+authSearch.style.padding = "13px";
+
+authSearch.style.marginTop = "15px";
+
+authSearch.style.borderRadius = "10px";
+
+authSearch.style.border =
+"1px solid #ddd";
+
+
+const authResult =
+document.createElement("div");
+
+
+authResult.style.marginTop = "10px";
+
+
+document
+  .getElementById("searchPage")
+  .appendChild(authSearch);
+
+
+document
+  .getElementById("searchPage")
+  .appendChild(authResult);
+
+
+authSearch.oninput =
+async function() {
+
+  const name =
+    this.value.trim();
+
+
+  if (!name) {
+
+    authResult.innerHTML = "";
+
+    return;
+
+  }
+
+
+  const { data } =
+    await db
+      .from("products")
+      .select("*")
+      .ilike(
+        "name",
+        "%" + name + "%"
+      );
+
+
+  authResult.innerHTML = "";
+
+
+  if (!data || data.length === 0) {
+
+    authResult.innerHTML =
+      "<p>No product found.</p>";
+
+    return;
+
+  }
+
+
+  data.forEach(function(product) {
+
+    const result =
+      document.createElement("div");
+
+
+    result.style.padding = "15px";
+
+    result.style.background = "white";
+
+    result.style.borderRadius = "15px";
+
+    result.style.marginTop = "10px";
+
+
+    result.innerHTML = `
+
+      <h3>${product.name}</h3>
+
+      ${
+        product.authenticated
+        ? `<p style="color:green;font-weight:bold;">
+             ✓ AUTHENTICATED BY ABBA AUTHENTICS
+           </p>`
+        : `<p style="color:orange;font-weight:bold;">
+             ⏳ NOT YET AUTHENTICATED
+           </p>`
+      }
+
+    `;
+
+
+    authResult.appendChild(result);
+
+  });
+
+};
+
+    </script>
+    <script>
+
+const oldLoadProducts2 =
+  loadProducts;
+
+
+loadProducts = async function() {
+
+  const box =
+    document.getElementById("products");
+
+
+  box.innerHTML =
+    "<p>Loading products...</p>";
+
+
+  const { data, error } =
+    await db
+      .from("products")
+      .select("*")
+      .order("created_at", {
+        ascending: false
+      });
+
+
+  if (error) {
+
+    box.innerHTML =
+      "<p>Could not load products.</p>";
+
+    return;
+
+  }
+
+
+  box.innerHTML = "";
+
+
+  for (const product of data || []) {
+
+    const card =
+      document.createElement("div");
+
+
+    let seller = null;
+
+
+    if (product.seller_id) {
+
+      const result =
+        await db
+          .from("profiles")
+          .select(
+            "display_name,profile_picture,is_verified_seller"
+          )
+          .eq("id", product.seller_id)
+          .single();
+
+
+      seller = result.data;
+
+    }
+
+
+    card.innerHTML = `
+
+      ${
+        product.image_url
+        ? `<img src="${product.image_url}"
+            style="width:100%;height:220px;
+            object-fit:cover;border-radius:14px;">`
+        : ""
+      }
+
+      <h3 style="margin-top:10px;">
+        ${product.name || "Product"}
+      </h3>
+
+      <p>
+        Seller:
+        ${seller?.display_name || "Seller"}
+      </p>
+
+      ${
+        seller?.is_verified_seller
+        ? `<p style="color:green;font-weight:bold;">
+            ✓ VERIFIED SELLER
+          </p>`
+        : ""
+      }
+
+      ${
+        product.authenticated
+        ? `<p style="color:green;font-weight:bold;">
+            ✓ AUTHENTICATED PRODUCT
+          </p>`
+        : `<p style="color:orange;">
+            ⏳ Awaiting authentication
+          </p>`
+      }
+
+    `;
+
+
+    card.style.padding = "15px";
+
+    card.style.marginBottom = "15px";
+
+    card.style.background = "white";
+
+    card.style.borderRadius = "18px";
+
+    card.style.cursor = "pointer";
+
+
+    card.onclick = function() {
+
+      showProductDetails(product);
+
+    };
+
+
+    box.appendChild(card);
+
+  }
+
+};
+
+
+loadProducts();
+
+</script>
+<script>
+
+const sellerRequestButton =
+document.createElement("button");
+
+
+sellerRequestButton.textContent =
+"👑 BECOME A VERIFIED SELLER";
+
+
+sellerRequestButton.style.width = "100%";
+
+sellerRequestButton.style.padding = "14px";
+
+sellerRequestButton.style.marginTop = "15px";
+
+sellerRequestButton.style.borderRadius = "12px";
+
+sellerRequestButton.style.background = "#0878ff";
+
+sellerRequestButton.style.color = "white";
+
+sellerRequestButton.style.fontWeight = "bold";
+
+
+document
+  .getElementById("accountPage")
+  .appendChild(sellerRequestButton);
+
+
+sellerRequestButton.onclick =
+async function() {
+
+  if (!currentUser) {
+
+    alert("Please sign in first.");
+
+    return;
+
+  }
+
+
+  if (
+    currentProfile?.account_type !== "seller"
+  ) {
+
+    alert(
+      "Only seller accounts can request seller verification."
+    );
+
+    return;
+
+  }
+
+
+  const { error } =
+    await db
+      .from("seller_verification_requests")
+      .insert({
+
+        user_id: currentUser.id,
+
+        status: "pending",
+
+        message:
+          "I want to become a verified seller."
+
+      });
+
+
+  if (error) {
+
+    alert(
+      "Unable to send verification request."
+    );
+
+    return;
+
+  }
+
+
+  alert(
+    "✓ Verification request sent to ABBA AUTHENTICS."
+  );
+
+
+  loadVerificationStatus();
+
+};
+
+</script>
+<script>
+
+const adminPanel =
+document.createElement("div");
+
+
+adminPanel.id =
+"adminPanel";
+
+
+adminPanel.style.marginTop =
+"25px";
+
+
+adminPanel.style.padding =
+"20px";
+
+
+adminPanel.style.background =
+"white";
+
+
+adminPanel.style.borderRadius =
+"18px";
+
+
+adminPanel.innerHTML = `
+
+  <h2>👑 Admin Panel</h2>
+
+  <p>
+    Seller verification requests
+  </p>
+
+  <div id="verificationRequests">
+    Loading...
+  </div>
+
+`;
+
+
+document
+  .getElementById("accountPage")
+  .appendChild(adminPanel);
+
+
+async function loadVerificationRequests() {
+
+  if (
+    !currentUser ||
+    currentUser.email !== ADMIN_EMAIL
+  ) {
+
+    adminPanel.style.display = "none";
+
+    return;
+
+  }
+
+
+  adminPanel.style.display = "block";
+
+
+  const { data } =
+    await db
+      .from("seller_verification_requests")
+      .select("*")
+      .eq("status", "pending")
+      .order("created_at", {
+        ascending: false
+      });
+
+
+  const box =
+    document.getElementById(
+      "verificationRequests"
+    );
+
+
+  box.innerHTML = "";
+
+
+  if (!data || data.length === 0) {
+
+    box.innerHTML =
+      "<p>No pending requests.</p>";
+
+    return;
+
+  }
+
+
+  data.forEach(function(request) {
+
+    const item =
+      document.createElement("div");
+
+
+    item.style.padding = "12px";
+
+    item.style.marginTop = "10px";
+
+    item.style.background = "#f5f7fb";
+
+    item.style.borderRadius = "12px";
+
+
+    item.innerHTML = `
+
+      <p>
+        Request ID:
+        ${request.user_id}
+      </p>
+
+      <button
+        class="approveSeller"
+        data-id="${request.user_id}"
+      >
+        ✓ APPROVE
+      </button>
+
+    `;
+
+
+    box.appendChild(item);
+
+  });
+
+
+  document.querySelectorAll(
+    ".approveSeller"
+  ).forEach(function(button) {
+
+    button.onclick =
+    async function() {
+
+      const userId =
+        this.dataset.id;
+
+
+      await db
+        .from("profiles")
+        .update({
+          is_verified_seller: true
+        })
+        .eq("id", userId);
+
+
+      await db
+        .from("seller_verification_requests")
+        .update({
+          status: "approved"
+        })
+        .eq("user_id", userId)
+        .eq("status", "pending");
+
+
+      alert(
+        "✓ Seller approved!"
+      );
+
+
+      loadVerificationRequests();
+
+    };
+
+  });
+
+}
+
+
+setTimeout(
+  loadVerificationRequests,
+  1500
+);
+
+</script>
+<script>
+
+async function improveAdminRequests() {
+
+  if (
+    !currentUser ||
+    currentUser.email !== ADMIN_EMAIL
+  ) return;
+
+
+  const { data } =
+    await db
+      .from("seller_verification_requests")
+      .select("*")
+      .eq("status", "pending")
+      .order("created_at", {
+        ascending: false
+      });
+
+
+  const box =
+    document.getElementById(
+      "verificationRequests"
+    );
+
+
+  box.innerHTML = "";
+
+
+  if (!data || data.length === 0) {
+
+    box.innerHTML =
+      "<p>No pending requests.</p>";
+
+    return;
+
+  }
+
+
+  for (const request of data) {
+
+    const { data: seller } =
+      await db
+        .from("profiles")
+        .select("*")
+        .eq("id", request.user_id)
+        .single();
+
+
+    const item =
+      document.createElement("div");
+
+
+    item.style.padding = "15px";
+
+    item.style.marginTop = "10px";
+
+    item.style.background = "#f5f7fb";
+
+    item.style.borderRadius = "15px";
+
+
+    item.innerHTML = `
+
+      <h3>
+        ${seller?.display_name || "Unknown Seller"}
+      </h3>
+
+      <p>
+        📧 ${seller?.email || ""}
+      </p>
+
+      <p>
+        📱 ${seller?.whatsapp || "No WhatsApp"}
+      </p>
+
+      <p>
+        📍 ${seller?.location || "No location"}
+      </p>
+
+      <p>
+        ${request.message || ""}
+      </p>
+
+      <button
+        class="approveSeller2"
+        data-id="${request.user_id}"
+      >
+        ✓ APPROVE SELLER
+      </button>
+
+    `;
+
+
+    box.appendChild(item);
+
+  }
+
+
+  document.querySelectorAll(
+    ".approveSeller2"
+  ).forEach(function(button) {
+
+    button.onclick =
+    async function() {
+
+      const userId =
+        this.dataset.id;
+
+
+      await db
+        .from("profiles")
+        .update({
+          is_verified_seller: true
+        })
+        .eq("id", userId);
+
+
+      await db
+        .from("seller_verification_requests")
+        .update({
+          status: "approved"
+        })
+        .eq("user_id", userId)
+        .eq("status", "pending");
+
+
+      alert(
+        "✓ Seller is now verified!"
+      );
+
+
+      improveAdminRequests();
+
+    };
+
+  });
+
+}
+
+
+setTimeout(
+  improveAdminRequests,
+  2000
+);
+
+      </script>
+      <script>
+
+function addReviewForm(product, page) {
+
+  const box =
+    document.createElement("div");
+
+
+  box.style.marginTop = "25px";
+
+  box.innerHTML = `
+
+    <h2>⭐ Leave a Review</h2>
+
+    <select id="newRating">
+
+      <option value="5">⭐⭐⭐⭐⭐</option>
+
+      <option value="4">⭐⭐⭐⭐</option>
+
+      <option value="3">⭐⭐⭐</option>
+
+      <option value="2">⭐⭐</option>
+
+      <option value="1">⭐</option>
+
+    </select>
+
+    <textarea
+      id="newReview"
+      placeholder="Write your review..."
+      style="
+        width:100%;
+        height:90px;
+        margin-top:10px;
+        padding:12px;
+        border-radius:10px;
+      "
+    ></textarea>
+
+    <br><br>
+
+    <button id="submitReview">
+      POST REVIEW
+    </button>
+
+  `;
+
+
+  page.appendChild(box);
+
+
+  document.getElementById("submitReview")
+    .onclick = async function() {
+
+      if (!currentUser) {
+
+        alert("Please sign in first.");
+
+        return;
+
+      }
+
+
+      const comment =
+        document.getElementById("newReview")
+          .value.trim();
+
+
+      const rating =
+        Number(
+          document.getElementById("newRating")
+            .value
+        );
+
+
+      if (!comment) {
+
+        alert("Please write a review.");
+
+        return;
+
+      }
+
+
+      const { error } =
+        await db
+          .from("reviews")
+          .insert({
+
+            product_id: product.id,
+
+            user_id: currentUser.id,
+
+            rating: rating,
+
+            comment: comment
+
+          });
+
+
+      if (error) {
+
+        alert("Review could not be posted.");
+
+        console.log(error);
+
+        return;
+
+      }
+
+
+      alert("✓ Review posted permanently!");
+
+
+      document.getElementById("newReview")
+        .value = "";
+
+
+      loadProductReviews(
+        product.id,
+        document.getElementById("productReviews")
+      );
+
+    };
+
+}
+
+      </script>
+      <script>
+
+const oldDetailsForReviews =
+  showProductDetails;
+
+
+showProductDetails = async function(product) {
+
+  await oldDetailsForReviews(product);
+
+
+  const page =
+    document.body.lastElementChild;
+
+
+  if (!page) return;
+
+
+  addReviewForm(
+    product,
+    page
+  );
+
+};
+
+      </script>
+      <script>
+
+async function showReviewers(
+  productId,
+  container
+) {
+
+  const { data } =
+    await db
+      .from("reviews")
+      .select("*")
+      .eq("product_id", productId)
+      .order("created_at", {
+        ascending: false
+      });
+
+
+  container.innerHTML = "";
+
+
+  if (!data || data.length === 0) {
+
+    container.innerHTML =
+      "<p>No reviews yet.</p>";
+
+    return;
+
+  }
+
+
+  for (const review of data) {
+
+    const { data: person } =
+      await db
+        .from("profiles")
+        .select("display_name,profile_picture")
+        .eq("id", review.user_id)
+        .single();
+
+
+    const item =
+      document.createElement("div");
+
+
+    item.style.padding = "12px";
+
+    item.style.marginTop = "10px";
+
+    item.style.background = "#f5f7fb";
+
+    item.style.borderRadius = "12px";
+
+
+    item.innerHTML = `
+
+      ${
+        person?.profile_picture
+        ? `<img src="${person.profile_picture}"
+            width="40"
+            height="40"
+            style="border-radius:50%;
+            object-fit:cover;">`
+        : ""
+      }
+
+      <strong>
+        ${person?.display_name || "Customer"}
+      </strong>
+
+      <p>
+        ${"⭐".repeat(review.rating)}
+      </p>
+
+      <p>
+        ${review.comment}
+      </p>
+
+    `;
+
+
+    container.appendChild(item);
+
+  }
+
+}
+
+  </script>
+  <script>
+
+async function updateProductDashboard() {
+
+  const { count } =
+    await db
+      .from("products")
+      .select("*", {
+        count: "exact",
+        head: true
+      });
+
+
+  const counter =
+    document.getElementById("productCount");
+
+
+  if (counter) {
+
+    counter.textContent =
+      count || 0;
+
+  }
+
+}
+
+
+updateProductDashboard();
+
+  </script>
+  <script>
+
+function createAuthBadge() {
+
+  const badge =
+    document.createElement("span");
+
+
+  badge.textContent =
+    " ✓ AUTHENTICATED";
+
+
+  badge.style.display =
+    "inline-block";
+
+
+  badge.style.marginTop =
+    "8px";
+
+
+  badge.style.padding =
+    "6px 10px";
+
+
+  badge.style.borderRadius =
+    "20px";
+
+
+  badge.style.background =
+    "#16a34a";
+
+
+  badge.style.color =
+    "white";
+
+
+  badge.style.fontWeight =
+    "bold";
+
+
+  return badge;
+
+}
+
+  </script>
+  <script>
+
+async function loadSellerProducts(
+  sellerId,
+  box
+) {
+
+  const { data } =
+    await db
+      .from("products")
+      .select("*")
+      .eq("seller_id", sellerId)
+      .order("created_at", {
+        ascending: false
+      });
+
+
+  box.innerHTML =
+    "<h2>🛍️ Products</h2>";
+
+
+  if (!data || data.length === 0) {
+
+    box.innerHTML +=
+      "<p>No products posted yet.</p>";
+
+    return;
+
+  }
+
+
+  data.forEach(function(product) {
+
+    const item =
+      document.createElement("div");
+
+
+    item.style.padding = "12px";
+
+    item.style.marginTop = "10px";
+
+    item.style.borderRadius = "12px";
+
+    item.style.background = "#f5f7fb";
+
+
+    item.innerHTML = `
+
+      ${
+        product.image_url
+        ? `<img
+            src="${product.image_url}"
+            style="
+              width:100%;
+              height:160px;
+              object-fit:cover;
+              border-radius:10px;
+            "
+          >`
+        : ""
+      }
+
+      <h3>
+        ${product.name || "Product"}
+      </h3>
+
+      ${
+        product.authenticated
+        ? `<p style="color:green;font-weight:bold;">
+            ✓ AUTHENTICATED PRODUCT
+          </p>`
+        : ""
+      }
+
+    `;
+
+
+    item.onclick = function() {
+
+      showProductDetails(product);
+
+    };
+
+
+    box.appendChild(item);
+
+  });
+
+}
+
+  </script>
+  <script>
+
+const oldOpenSellerProfile =
+  openSellerProfile;
+
+
+openSellerProfile = async function(seller) {
+
+  await oldOpenSellerProfile(seller);
+
+
+  const page =
+    document.body.lastElementChild;
+
+
+  if (!page) return;
+
+
+  const productsBox =
+    document.createElement("div");
+
+
+  productsBox.style.marginTop =
+    "25px";
+
+
+  page.appendChild(productsBox);
+
+
+  loadSellerProducts(
+    seller.id,
+    productsBox
+  );
+
+};
+
+  </script>
+  <script>
+
+document.getElementById("darkTheme").onclick =
+function() {
+
+  document.body.style.background =
+    "#111827";
+
+  document.body.style.color =
+    "white";
+
+  document.querySelectorAll(
+    "#homePage > div, #accountPage > div"
+  ).forEach(function(box) {
+
+    box.style.background =
+      "#1f2937";
+
+    box.style.color =
+      "white";
+
+  });
+
+  alert("🌙 Dark theme enabled.");
+
+};
+
+  </script>
+  <script>
+
+const lightButton =
+document.createElement("button");
+
+lightButton.textContent =
+"☀️ Light Theme";
+
+lightButton.style.padding =
+"12px";
+
+lightButton.style.marginTop =
+"10px";
+
+lightButton.style.borderRadius =
+"10px";
+
+document
+  .getElementById("settingsPage")
+  .appendChild(lightButton);
+
+
+lightButton.onclick =
+function() {
+
+  document.body.style.background =
+    "#f5f7fb";
+
+  document.body.style.color =
+    "#111";
+
+  document.querySelectorAll(
+    "#homePage > div, #accountPage > div"
+  ).forEach(function(box) {
+
+    box.style.background =
+      "white";
+
+    box.style.color =
+      "#111";
+
+  });
+
+};
+
+  </script>
+  <style>
+
+#products img {
+  display: block;
+  width: 100%;
+  border-radius: 16px;
+}
+
+#products h3 {
+  font-size: 21px;
+  font-weight: 800;
+}
+
+#products p {
+  margin-top: 6px;
+  font-weight: 600;
+}
+
+#products > div {
+  animation: cardIn .4s ease;
+}
+
+@keyframes cardIn {
+
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+}
+
+  </style>
+  <script>
+
+const editProfile =
+document.createElement("button");
+
+editProfile.textContent =
+"✏️ EDIT PROFILE";
+
+editProfile.style.width =
+"100%";
+
+editProfile.style.padding =
+"14px";
+
+editProfile.style.marginTop =
+"15px";
+
+editProfile.style.borderRadius =
+"12px";
+
+editProfile.style.background =
+"#0878ff";
+
+editProfile.style.color =
+"white";
+
+editProfile.style.fontWeight =
+"bold";
+
+
+document
+  .getElementById("accountPage")
+  .appendChild(editProfile);
+
+
+editProfile.onclick =
+function() {
+
+  if (!currentProfile) return;
+
+
+  const name =
+    prompt(
+      "Enter your name:",
+      currentProfile.display_name || ""
+    );
+
+
+  const location =
+    prompt(
+      "Enter your location:",
+      currentProfile.location || ""
+    );
+
+
+  const description =
+    prompt(
+      "Tell customers about yourself:",
+      currentProfile.seller_description || ""
+    );
+
+
+  if (name === null) return;
+
+
+  db.from("profiles")
+    .update({
+
+      display_name: name,
+
+      location:
+        location || "",
+
+      seller_description:
+        description || ""
+
+    })
+    .eq("id", currentUser.id)
+    .then(function() {
+
+      loadProfile();
+
+      alert("✓ Profile updated!");
+
+    });
+
+};
+
+  </script>
+  <script>
+
+const oldDetails2 =
+showProductDetails;
+
+
+showProductDetails = async function(product) {
+
+  await oldDetails2(product);
+
+
+  const page =
+    document.body.lastElementChild;
+
+
+  if (!page) return;
+
+
+  const reviewSection =
+    document.createElement("div");
+
+
+  reviewSection.style.marginTop =
+    "25px";
+
+
+  reviewSection.innerHTML = `
+
+    <h2>⭐ Customer Reviews</h2>
+
+    <div id="reviewDisplay">
+      Loading reviews...
+    </div>
+
+  `;
+
+
+  page.appendChild(reviewSection);
+
+
+  showReviewers(
+    product.id,
+    document.getElementById(
+      "reviewDisplay"
+    )
+  );
+
+};
+
+  </script>
+  <script>
+
+function updatePostAccess() {
+
+  const page =
+    document.getElementById("postPage");
+
+  if (!currentUser) return;
+
+
+  if (
+    currentUser.email === ADMIN_EMAIL
+  ) {
+
+    page.style.display = "block";
+
+  } else {
+
+    page.innerHTML = `
+
+      <h2>🔒 Admin Only</h2>
+
+      <p>
+        Only ABBA AUTHENTICS admin can
+        post products.
+      </p>
+
+    `;
+
+  }
+
+}
+
+
+setTimeout(
+  updatePostAccess,
+  1500
+);
+
+  </script>
+  <style>
+
+#contactSeller {
+  width: 100%;
+  padding: 15px;
+  margin-top: 15px;
+  background: #16a34a;
+  color: white;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+#sellerWhatsApp {
+  width: 100%;
+  padding: 15px;
+  margin-top: 15px;
+  background: #16a34a;
+  color: white;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+  </style>
+  <style>
+
+section {
+  animation: pageShow .35s ease;
+}
+
+button {
+  transition:
+    transform .15s ease,
+    opacity .15s ease;
+}
+
+button:active {
+  transform: scale(.95);
+  opacity: .8;
+}
+
+@keyframes pageShow {
+
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+}
+
+  </style>
+  <script>
+
+async function refreshDashboard() {
+
+  await updateProductDashboard();
+
+  await loadDashboard();
+
+}
+
+
+setInterval(
+  refreshDashboard,
+  30000
+);
+
+
+refreshDashboard();
+
+  </script>
