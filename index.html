@@ -1,0 +1,1819 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ABBA AUTHENTICS</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #050805;
+      color: white;
+      min-height: 100vh;
+    }
+
+    header {
+      background: #071007;
+      border-bottom: 1px solid #18c85b;
+      padding: 16px;
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .logo {
+      color: #19e567;
+      font-size: 25px;
+      font-weight: 900;
+      letter-spacing: 2px;
+    }
+
+    .tagline {
+      color: #aaa;
+      font-size: 12px;
+      margin-top: 5px;
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-around;
+      background: #0a120a;
+      padding: 10px 5px;
+      position: sticky;
+      top: 76px;
+      z-index: 9;
+    }
+
+    nav button {
+      background: none;
+      border: none;
+      color: #bbb;
+      padding: 8px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    nav button.active {
+      color: #19e567;
+      border-bottom: 2px solid #19e567;
+    }
+
+    main {
+      max-width: 1000px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    .page {
+      display: none;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #0b1c0e, #071007);
+      border: 1px solid #14652f;
+      border-radius: 18px;
+      padding: 30px 20px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .hero h1 {
+      color: #19e567;
+      font-size: 32px;
+      margin-bottom: 10px;
+    }
+
+    .hero p {
+      color: #bbb;
+      line-height: 1.6;
+    }
+
+    .dashboard {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 25px;
+    }
+
+    .stat {
+      background: #0b120b;
+      border: 1px solid #174c27;
+      border-radius: 14px;
+      padding: 18px 8px;
+      text-align: center;
+    }
+
+    .stat strong {
+      display: block;
+      color: #19e567;
+      font-size: 24px;
+    }
+
+    .stat span {
+      color: #aaa;
+      font-size: 12px;
+    }
+
+    .section-title {
+      margin: 25px 0 15px;
+      color: #19e567;
+    }
+
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 15px;
+    }
+
+    .product {
+      background: #0b120b;
+      border: 1px solid #183b22;
+      border-radius: 15px;
+      overflow: hidden;
+      transition: .2s;
+    }
+
+    .product:hover {
+      transform: translateY(-3px);
+      border-color: #19e567;
+    }
+
+    .product img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      background: #111;
+    }
+
+    .product-content {
+      padding: 12px;
+    }
+
+    .product h3 {
+      margin-bottom: 8px;
+    }
+
+    .verified {
+      display: inline-block;
+      background: #0d6b31;
+      color: white;
+      border-radius: 20px;
+      padding: 5px 9px;
+      font-size: 10px;
+      font-weight: bold;
+      margin-top: 6px;
+    }
+
+    .authenticated {
+      display: inline-block;
+      background: #087c3a;
+      color: white;
+      border-radius: 20px;
+      padding: 5px 9px;
+      font-size: 10px;
+      font-weight: bold;
+      margin-top: 6px;
+    }
+
+    .card {
+      background: #0b120b;
+      border: 1px solid #183b22;
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 15px;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 13px;
+      margin: 7px 0;
+      border-radius: 10px;
+      border: 1px solid #31543a;
+      background: #050805;
+      color: white;
+      outline: none;
+    }
+
+    input:focus, textarea:focus {
+      border-color: #19e567;
+    }
+
+    button.primary {
+      width: 100%;
+      padding: 13px;
+      border: none;
+      border-radius: 10px;
+      background: #19e567;
+      color: #031006;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 8px;
+    }
+
+    button.secondary {
+      padding: 11px 15px;
+      border: 1px solid #19e567;
+      border-radius: 10px;
+      background: transparent;
+      color: #19e567;
+      cursor: pointer;
+    }
+
+    .profile {
+      text-align: center;
+    }
+
+    .profile img {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #19e567;
+      margin-bottom: 10px;
+    }
+
+    .badge {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 6px 12px;
+      border-radius: 20px;
+      background: #151515;
+      color: #bbb;
+      font-size: 11px;
+    }
+
+    .admin {
+      color: #19e567;
+    }
+
+    #loginScreen {
+      position: fixed;
+      inset: 0;
+      background: #030603;
+      z-index: 100;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .login-box {
+      width: 100%;
+      max-width: 420px;
+      background: #0b120b;
+      border: 1px solid #19e567;
+      border-radius: 20px;
+      padding: 25px;
+      text-align: center;
+    }
+
+    .login-box h1 {
+      color: #19e567;
+      margin-bottom: 5px;
+    }
+
+    .login-box p {
+      color: #999;
+      margin-bottom: 18px;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .message {
+      padding: 10px;
+      border-radius: 8px;
+      margin-top: 10px;
+      font-size: 13px;
+    }
+
+    .error {
+      background: #351010;
+      color: #ff7070;
+    }
+
+    .success {
+      background: #0b3219;
+      color: #59ed8d;
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px 10px;
+      color: #777;
+      font-size: 12px;
+    }
+
+    @media(max-width:600px) {
+      .dashboard {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .hero h1 {
+        font-size: 25px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- LOGIN -->
+  <div id="loginScreen">
+    <div class="login-box">
+
+      <h1>ABBA AUTHENTICS</h1>
+      <p>Trusted sellers. Authentic products.</p>
+
+      <div id="loginForm">
+        <input id="loginEmail" type="email" placeholder="Gmail address">
+        <input id="loginPassword" type="password" placeholder="Password">
+        <button class="primary" onclick="login()">LOGIN</button>
+
+        <p style="margin-top:15px">
+          Don't have an account?
+          <button class="secondary" onclick="showSignup()">SIGN UP</button>
+        </p>
+      </div>
+
+      <div id="signupForm" class="hidden">
+        <input id="signupEmail" type="email" placeholder="Gmail address">
+        <input id="signupPassword" type="password" placeholder="Create password">
+        <button class="primary" onclick="signup()">CREATE ACCOUNT</button>
+
+        <p style="margin-top:15px">
+          Already have an account?
+          <button class="secondary" onclick="showLogin()">LOGIN</button>
+        </p>
+      </div>
+
+      <div id="authMessage"></div>
+    </div>
+  </div>
+
+  <!-- HEADER -->
+  <header>
+    <div class="logo">ABBA AUTHENTICS</div>
+    <div class="tagline">AUTHENTIC PRODUCTS • TRUSTED SELLERS</div>
+  </header>
+
+  <!-- NAVIGATION -->
+  <nav>
+    <button class="active" onclick="openPage('home',this)">HOME</button>
+    <button onclick="openPage('search',this)">SEARCH</button>
+    <button onclick="openPage('account',this)">ACCOUNT</button>
+    <button onclick="openPage('post',this)">POST</button>
+  </nav>
+
+  <main>
+
+    <!-- HOME -->
+    <section id="home" class="page active">
+
+      <div class="hero">
+        <h1>VERIFY BEFORE YOU BUY</h1>
+        <p>
+          ABBA AUTHENTICS helps customers discover trusted sellers
+          and identify products that have been personally authenticated.
+        </p>
+      </div>
+
+      <div class="dashboard">
+        <div class="stat">
+          <strong id="productCount">0</strong>
+          <span>PRODUCTS</span>
+        </div>
+
+        <div class="stat">
+          <strong id="sellerCount">0</strong>
+          <span>SELLERS</span>
+        </div>
+
+        <div class="stat">
+          <strong id="verifiedCount">0</strong>
+          <span>VERIFIED SELLERS</span>
+        </div>
+      </div>
+
+      <h2 class="section-title">LATEST PRODUCTS</h2>
+      <div id="homeProducts" class="products"></div>
+
+    </section>
+
+    <!-- SEARCH -->
+    <section id="search" class="page">
+
+      <h2 class="section-title">SEARCH ABBA AUTHENTICS</h2>
+
+      <input
+        id="searchInput"
+        type="search"
+        placeholder="Search products, sellers or businesses..."
+        oninput="searchEverything()"
+      >
+
+      <div id="searchResults" style="margin-top:15px"></div>
+
+    </section>
+
+    <!-- ACCOUNT -->
+    <section id="account" class="page">
+
+      <h2 class="section-title">MY ACCOUNT</h2>
+
+      <div class="card profile">
+
+        <img id="profilePicture"
+             src="https://via.placeholder.com/90">
+
+        <h2 id="profileName">Your Account</h2>
+
+        <div id="accountType" class="badge">
+          CUSTOMER ACCOUNT
+        </div>
+
+        <div id="verificationBadge"></div>
+
+        <p id="profileEmail"
+           style="color:#999;margin-top:10px">
+        </p>
+
+        <hr style="border-color:#183b22;margin:20px 0">
+
+        <input id="profileDisplayName"
+               placeholder="Name / Business name">
+
+        <input id="profileLocation"
+               placeholder="Location">
+
+        <input id="profileWhatsapp"
+               placeholder="WhatsApp number">
+
+        <textarea id="profileDescription"
+                  placeholder="About you / your business"></textarea>
+
+        <button class="primary"
+                onclick="saveProfile()">
+          SAVE PROFILE
+        </button>
+
+        <button class="secondary"
+                style="margin-top:10px"
+                onclick="requestVerification()">
+          REQUEST VERIFIED SELLER
+        </button>
+
+        <button class="primary"
+                style="margin-top:10px;background:#222;color:white"
+                onclick="logout()">
+          LOG OUT
+        </button>
+
+      </div>
+
+    </section>
+
+    <!-- POST -->
+    <section id="post" class="page">
+
+      <h2 class="section-title">POST PRODUCT</h2>
+
+      <div class="card">
+
+        <p style="color:#aaa;margin-bottom:15px">
+          Only authorized sellers/admins should post products.
+        </p>
+
+        <input id="productName"
+               placeholder="Product name">
+
+        <input id="productImage"
+               placeholder="Product image URL">
+
+        <input id="productPrice"
+               type="number"
+               placeholder="Price">
+
+        <textarea id="productDescription"
+                  placeholder="Product description"></textarea>
+
+        <button class="primary"
+                onclick="postProduct()">
+          POST PRODUCT
+        </button>
+
+        <div id="postMessage"></div>
+
+      </div>
+
+    </section>
+
+    <!-- JAVA -->
+    <section id="java" class="page">
+
+      <h2 class="section-title">JAVA ASSISTANT 🤖</h2>
+
+      <div class="card">
+
+        <p style="color:#aaa;margin-bottom:15px">
+          Ask JAVA about ABBA AUTHENTICS.
+        </p>
+
+        <input id="javaQuestion"
+               placeholder="Ask JAVA something...">
+
+        <button class="primary"
+                onclick="askJAVA()">
+          ASK JAVA
+        </button>
+
+        <div id="javaAnswer"
+             style="margin-top:15px;color:#19e567">
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <footer>
+    © 2026 ABBA AUTHENTICS<br>
+    Trusted sellers • Authentic products
+  </footer>
+
+<script>
+/* ==============================
+   SUPABASE
+================================ */
+
+const SUPABASE_URL =
+  "https://eoccjsybttiwcxfaxeq.supabase.co";
+
+const SUPABASE_KEY =
+  "sb_publishable_AARFSH7pm5iQIatNs5HKZg_qGqvHFE6";
+
+const db =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+const ADMIN_EMAIL =
+  "princeabba96@gmail.com";
+
+let currentUser = null;
+let currentProfile = null;
+
+
+/* ==============================
+   AUTH
+================================ */
+
+function showSignup() {
+  document.getElementById("loginForm")
+    .classList.add("hidden");
+
+  document.getElementById("signupForm")
+    .classList.remove("hidden");
+
+  clearMessage();
+}
+
+function showLogin() {
+  document.getElementById("signupForm")
+    .classList.add("hidden");
+
+  document.getElementById("loginForm")
+    .classList.remove("hidden");
+
+  clearMessage();
+}
+
+function showMessage(text,type="error") {
+  document.getElementById("authMessage").innerHTML =
+    `<div class="message ${type}">${text}</div>`;
+}
+
+function clearMessage() {
+  document.getElementById("authMessage").innerHTML = "";
+}
+
+async function signup() {
+
+  const email =
+    document.getElementById("signupEmail").value.trim();
+
+  const password =
+    document.getElementById("signupPassword").value;
+
+  if (!email || !password) {
+    showMessage("Enter your Gmail and password.");
+    return;
+  }
+
+  const { error } =
+    await db.auth.signUp({
+      email,
+      password
+    });
+
+  if (error) {
+    showMessage(error.message);
+    return;
+  }
+
+  showMessage(
+    "Account created! Check your email and confirm your account.",
+    "success"
+  );
+}
+
+async function login() {
+
+  const email =
+    document.getElementById("loginEmail").value.trim();
+
+  const password =
+    document.getElementById("loginPassword").value;
+
+  const { data, error } =
+    await db.auth.signInWithPassword({
+      email,
+      password
+    });
+
+  if (error) {
+    showMessage("Invalid login credentials.");
+    return;
+  }
+
+  currentUser = data.user;
+
+  document.getElementById("loginScreen")
+    .classList.add("hidden");
+
+  await loadProfile();
+}
+
+async function logout() {
+
+  await db.auth.signOut();
+
+  currentUser = null;
+  currentProfile = null;
+
+  location.reload();
+}
+
+
+/* ==============================
+   SESSION
+================================ */
+
+async function checkSession() {
+
+  const { data } =
+    await db.auth.getSession();
+
+  if (data.session) {
+
+    currentUser = data.session.user;
+
+    document.getElementById("loginScreen")
+      .classList.add("hidden");
+
+    await loadProfile();
+
+  } else {
+
+    document.getElementById("loginScreen")
+      .classList.remove("hidden");
+  }
+}
+
+
+/* ==============================
+   PROFILE
+================================ */
+
+async function loadProfile() {
+
+  if (!currentUser) return;
+
+  let { data, error } =
+    await db
+      .from("profiles")
+      .select("*")
+      .eq("id",currentUser.id)
+      .maybeSingle();
+
+  if (error) {
+    console.error(error);
+    return;
+  }
+
+  if (!data) {
+
+    const newProfile = {
+      id: currentUser.id,
+      email: currentUser.email,
+      account_type: "customer"
+    };
+
+    const result =
+      await db
+        .from("profiles")
+        .insert(newProfile)
+        .select()
+        .single();
+
+    data = result.data;
+  }
+
+  currentProfile = data;
+
+  displayProfile();
+  loadProducts();
+}
+
+
+function displayProfile() {
+
+  if (!currentProfile) return;
+
+  const name =
+    currentProfile.display_name ||
+    currentUser.email.split("@")[0];
+
+  document.getElementById("profileName")
+    .textContent = name;
+
+  document.getElementById("profileEmail")
+    .textContent = currentUser.email;
+
+  document.getElementById("profileDisplayName")
+    .value = currentProfile.display_name || "";
+
+  document.getElementById("profileLocation")
+    .value = currentProfile.location || "";
+
+  document.getElementById("profileWhatsapp")
+    .value = currentProfile.whatsapp || "";
+
+  document.getElementById("profileDescription")
+    .value = currentProfile.seller_description || "";
+
+  if (currentProfile.profile_picture) {
+
+    document.getElementById("profilePicture")
+      .src = currentProfile.profile_picture;
+  }
+
+  const type =
+    currentUser.email.toLowerCase() ===
+    ADMIN_EMAIL.toLowerCase()
+      ? "ADMINISTRATOR"
+      : "CUSTOMER ACCOUNT";
+
+  document.getElementById("accountType")
+    .textContent = type;
+
+  if (currentProfile.is_verified_seller) {
+
+    document.getElementById("verificationBadge")
+      .innerHTML =
+      `<div class="verified">✓ VERIFIED SELLER</div>`;
+
+  } else {
+
+    document.getElementById("verificationBadge")
+      .innerHTML =
+      `<div class="badge">SELLER NOT VERIFIED</div>`;
+  }
+}
+
+
+async function saveProfile() {
+
+  if (!currentUser) return;
+
+  const updates = {
+
+    display_name:
+      document.getElementById("profileDisplayName").value,
+
+    location:
+      document.getElementById("profileLocation").value,
+
+    whatsapp:
+      document.getElementById("profileWhatsapp").value,
+
+    seller_description:
+      document.getElementById("profileDescription").value
+  };
+
+  const { error } =
+    await db
+      .from("profiles")
+      .update(updates)
+      .eq("id",currentUser.id);
+
+  if (error) {
+
+    alert(error.message);
+    return;
+  }
+
+  alert("Profile saved successfully.");
+
+  await loadProfile();
+}
+
+
+/* ==============================
+   SELLER VERIFICATION REQUEST
+================================ */
+
+async function requestVerification() {
+
+  if (!currentUser) return;
+
+  const message =
+    prompt(
+      "Tell the administrator why you should be verified:"
+    );
+
+  if (message === null) return;
+
+  const { error } =
+    await db
+      .from("seller_verification_requests")
+      .insert({
+        user_id: currentUser.id,
+        status: "pending",
+        message: message
+      });
+
+  if (error) {
+
+    alert(error.message);
+    return;
+  }
+
+  alert(
+    "Your verification request has been sent to the administrator."
+  );
+}
+
+
+/* ==============================
+   PRODUCTS
+================================ */
+
+async function loadProducts() {
+
+  const { data, error } =
+    await db
+      .from("products")
+      .select("*")
+      .order("id",{ascending:false});
+
+  if (error) {
+
+    console.error(error);
+    return;
+  }
+
+  renderProducts(
+    data || [],
+    document.getElementById("homeProducts")
+  );
+
+  document.getElementById("productCount")
+    .textContent = (data || []).length;
+}
+
+
+function renderProducts(products,container) {
+
+  if (!products.length) {
+
+    container.innerHTML =
+      `<div class="card">
+        No products have been posted yet.
+      </div>`;
+
+    return;
+  }
+
+  container.innerHTML =
+    products.map(product => {
+
+      let status = "";
+
+      /*
+        IMPORTANT:
+        A seller being verified does NOT automatically
+        authenticate the product.
+      */
+
+      if (product.authenticated === true) {
+
+        status =
+          `<div class="authenticated">
+            ✓ PRODUCT AUTHENTICATED
+          </div>`;
+      }
+
+      return `
+        <div class="product">
+
+          <img
+            src="${escapeHTML(product.image || "https://via.placeholder.com/300")}"
+            alt="${escapeHTML(product.name || "Product")}"
+          >
+
+          <div class="product-content">
+
+            <h3>
+              ${escapeHTML(product.name || "Unnamed product")}
+            </h3>
+
+            <p style="color:#aaa">
+              ${product.price ? "₦" + product.price : ""}
+            </p>
+
+            ${status}
+
+          </div>
+
+        </div>
+      `;
+
+    }).join("");
+}
+
+
+/* ==============================
+   POST PRODUCT
+================================ */
+
+async function postProduct() {
+
+  if (!currentUser) return;
+
+  const email =
+    currentUser.email.toLowerCase();
+
+  /*
+    Temporary admin restriction.
+    Seller permissions can be expanded later.
+  */
+
+  if (
+    email !== ADMIN_EMAIL.toLowerCase()
+  ) {
+
+    document.getElementById("postMessage")
+      .innerHTML =
+      `<div class="message error">
+        You are not authorized to post products yet.
+      </div>`;
+
+    return;
+  }
+
+  const name =
+    document.getElementById("productName").value.trim();
+
+  const image =
+    document.getElementById("productImage").value.trim();
+
+  const price =
+    document.getElementById("productPrice").value;
+
+  const description =
+    document.getElementById("productDescription").value.trim();
+
+  if (!name) {
+
+    alert("Enter a product name.");
+    return;
+  }
+
+  const { 
+    data: { user },
+    error
+  } = await db.auth.getUser();
+
+  if (error || !user) {
+    alert("Please login first.");
+    return;
+  }
+
+  const { data: profile } = await db
+    .from("profiles")
+    .select("*")
+    .eq("id", user.id)
+    .single();
+
+  if (!profile) {
+    alert("Please complete your account profile first.");
+    return;
+  }
+
+  const productName = document.getElementById("productName").value.trim();
+  const productDescription = document.getElementById("productDescription").value.trim();
+  const productPrice = document.getElementById("productPrice").value.trim();
+  const productImage = document.getElementById("productImage").value.trim();
+
+  if (!productName) {
+    alert("Enter a product name.");
+    return;
+  }
+
+  const { data, error: insertError } = await db
+    .from("products")
+    .insert([{
+      name: productName,
+      description: productDescription,
+      price: productPrice ? Number(productPrice) : null,
+      image: productImage,
+      seller_id: user.id,
+      authenticated: false
+    }])
+    .select()
+    .single();
+
+  if (insertError) {
+    console.error(insertError);
+    alert("Could not post product: " + insertError.message);
+    return;
+  }
+
+  alert("Product posted successfully! It is waiting for authentication.");
+
+  document.getElementById("productName").value = "";
+  document.getElementById("productDescription").value = "";
+  document.getElementById("productPrice").value = "";
+  document.getElementById("productImage").value = "";
+
+  loadProducts();
+}
+
+async function loadProducts() {
+  const container = document.getElementById("productsContainer");
+
+  if (!container) return;
+
+  container.innerHTML = "<p>Loading products...</p>";
+
+  const { data, error } = await db
+    .from("products")
+    .select(`
+      *,
+      profiles:seller_id (
+        id,
+        display_name,
+        profile_picture,
+        account_type,
+        is_verified_seller,
+        location,
+        whatsapp
+      )
+    `)
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error(error);
+    container.innerHTML = "<p>Unable to load products.</p>";
+    return;
+  }
+
+  if (!data || data.length === 0) {
+    container.innerHTML = "<p>No products posted yet.</p>";
+    return;
+  }
+
+  container.innerHTML = data.map(product => {
+    const seller = product.profiles || {};
+
+    const sellerBadge = seller.is_verified_seller
+      ? `<span class="verified-badge">✓ VERIFIED SELLER</span>`
+      : `<span class="seller-badge">CUSTOMER</span>`;
+
+    const productBadge = product.authenticated
+      ? `<span class="authenticated-badge">✓ PRODUCT AUTHENTICATED</span>`
+      : `<span class="pending-badge">PRODUCT NOT YET AUTHENTICATED</span>`;
+
+    return `
+      <div class="product-card">
+        ${
+          product.image
+          ? `<img src="${product.image}" class="product-image" alt="${escapeHTML(product.name)}">`
+          : `<div class="product-image no-image">NO IMAGE</div>`
+        }
+
+        <div class="product-content">
+          <h3>${escapeHTML(product.name || "Unnamed Product")}</h3>
+
+          <p>${escapeHTML(product.description || "")}</p>
+
+          ${
+            product.price !== null && product.price !== undefined
+            ? `<strong>₦${Number(product.price).toLocaleString()}</strong>`
+            : ""
+          }
+
+          <div class="badges">
+            ${sellerBadge}
+            ${productBadge}
+          </div>
+
+          <div class="seller-info">
+            ${
+              seller.profile_picture
+              ? `<img src="${seller.profile_picture}" class="seller-picture">`
+              : `<div class="seller-picture placeholder">👤</div>`
+            }
+
+            <div>
+              <strong>${escapeHTML(seller.display_name || "Seller")}</strong>
+              <small>${escapeHTML(seller.location || "")}</small>
+            </div>
+          </div>
+
+          <button onclick="viewSeller('${seller.id || ""}')">
+            VIEW SELLER
+          </button>
+
+          ${
+            seller.whatsapp
+            ? `<button onclick="contactSeller('${seller.whatsapp}')">
+                CONTACT SELLER
+              </button>`
+            : ""
+          }
+        </div>
+      </div>
+    `;
+  }).join("");
+}
+
+function escapeHTML(value) {
+  return String(value || "")
+    .replace(/&/g, "&amp;")
+    .replace(/
+&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+function contactSeller(number) {
+  let phone = String(number).replace(/\D/g, "");
+
+  if (phone.startsWith("0")) {
+    phone = "234" + phone.substring(1);
+  }
+
+  window.open("https://wa.me/" + phone, "_blank");
+}
+
+async function viewSeller(sellerId) {
+  if (!sellerId) {
+    alert("Seller profile unavailable.");
+    return;
+  }
+
+  const { data: seller, error } = await db
+    .from("profiles")
+    .select("*")
+    .eq("id", sellerId)
+    .single();
+
+  if (error || !seller) {
+    alert("Seller profile could not be found.");
+    return;
+  }
+
+  const { data: products } = await db
+    .from("products")
+    .select("*")
+    .eq("seller_id", sellerId);
+
+  const productCount = products ? products.length : 0;
+
+  alert(
+    "SELLER PROFILE\n\n" +
+    (seller.display_name || "Seller") +
+    "\n" +
+    (seller.location || "Location not provided") +
+    "\n\n" +
+    (seller.is_verified_seller
+      ? "✓ VERIFIED SELLER"
+      : "CUSTOMER") +
+    "\n\nProducts: " + productCount
+  );
+}
+
+async function searchEverything() {
+  const input = document.getElementById("searchInput");
+
+  if (!input) return;
+
+  const term = input.value.trim();
+
+  if (!term) {
+    loadProducts();
+    return;
+  }
+
+  const container = document.getElementById("productsContainer");
+
+  container.innerHTML = "<p>Searching...</p>";
+
+  const { data: products, error } = await db
+    .from("products")
+    .select(`
+      *,
+      profiles:seller_id (
+        id,
+        display_name,
+        profile_picture,
+        is_verified_seller,
+        location,
+        whatsapp
+      )
+    `)
+    .or(
+      `name.ilike.%${term}%,description.ilike.%${term}%`
+    );
+
+  if (error) {
+    console.error(error);
+    container.innerHTML = "<p>Search failed.</p>";
+    return;
+  }
+
+  if (!products || products.length === 0) {
+    container.innerHTML = "<p>No matching products found.</p>";
+    return;
+  }
+
+  container.innerHTML = products.map(product => `
+    <div class="product-card">
+
+      ${
+        product.image
+          ? `<img src="${product.image}" class="product-image">`
+          : ""
+      }
+
+      <div class="product-content">
+
+        <h3>${escapeHTML(product.name)}</h3>
+
+        <p>${escapeHTML(product.description || "")}</p>
+
+        ${
+          product.authenticated
+            ? `<span class="authenticated-badge">
+                 ✓ PRODUCT AUTHENTICATED
+               </span>`
+            : `<span class="pending-badge">
+                 PRODUCT NOT YET AUTHENTICATED
+               </span>`
+        }
+
+        ${
+product.profiles?.is_verified_seller
+  ? `<span class="verified-badge">
+       ✓ VERIFIED SELLER
+     </span>`
+  : ""
+}
+
+<p>
+  Seller:
+  <strong>
+    ${escapeHTML(
+      product.profiles?.display_name || "Unknown"
+    )}
+  </strong>
+</p>
+
+${
+  product.profiles?.whatsapp
+    ? `<button onclick="contactSeller('${product.profiles.whatsapp}')">
+         CONTACT SELLER
+       </button>`
+    : ""
+}
+
+</div>
+</div>
+`).join("");
+}
+      
+async function loadProfile() {
+  const { data: { user }, error } = await db.auth.getUser();
+
+  if (error || !user) return;
+
+  const { data: profile } = await db
+    .from("profiles")
+    .select("*")
+    .eq("id", user.id)
+    .single();
+
+  if (!profile) return;
+
+  const name = document.getElementById("profileName");
+  const email = document.getElementById("profileEmail");
+  const location = document.getElementById("profileLocation");
+  const whatsapp = document.getElementById("profileWhatsapp");
+  const picture = document.getElementById("profilePicture");
+  const type = document.getElementById("accountType");
+
+  if (name) name.value = profile.display_name || "";
+  if (email) email.value = profile.email || user.email || "";
+  if (location) location.value = profile.location || "";
+  if (whatsapp) whatsapp.value = profile.whatsapp || "";
+
+  if (picture && profile.profile_picture) {
+    picture.src = profile.profile_picture;
+    picture.style.display = "block";
+  }
+
+  if (type) {
+    type.textContent = profile.account_type === "admin"
+      ? "ADMINISTRATOR"
+      : "CUSTOMER ACCOUNT";
+  }
+}
+
+async function saveProfile() {
+  const { data: { user }, error } = await db.auth.getUser();
+
+  if (error || !user) {
+    alert("Please login first.");
+    return;
+  }
+
+  const displayName =
+    document.getElementById("profileName")?.value.trim() || "";
+
+  const location =
+    document.getElementById("profileLocation")?.value.trim() || "";
+
+  const whatsapp =
+    document.getElementById("profileWhatsapp")?.value.trim() || "";
+
+  const { error: updateError } = await db
+    .from("profiles")
+    .update({
+      display_name: displayName,
+      location: location,
+      whatsapp: whatsapp
+    })
+    .eq("id", user.id);
+
+  if (updateError) {
+    console.error(updateError);
+    alert("Could not save profile: " + updateError.message);
+    return;
+  }
+
+  alert("Profile saved successfully! ✅");
+  loadProfile();
+}
+
+async function requestSellerVerification() {
+  const { data: { user }, error } = await db.auth.getUser();
+
+  if (error || !user) {
+    alert("Please login first.");
+    return;
+  }
+
+  const message =
+    prompt(
+      "Tell ABBA AUTHENTICS why you should become a verified seller:"
+    );
+
+  if (message === null) return;
+
+  const { error: requestError } = await db
+    .from("seller_verification_requests")
+    .insert([{
+      user_id: user.id,
+      message: message,
+      status: "pending"
+    }]);
+
+  if (requestError) {
+    console.error(requestError);
+    alert(
+      "Could not send verification request: " +
+      requestError.message
+    );
+    return;
+  }
+
+  alert(
+    "Your seller verification request has been sent to the administrator. ✅"
+  );
+}
+
+async function logoutUser() {
+  const { error } = await db.auth.signOut();
+
+  if (error) {
+    alert("Could not logout.");
+    return;
+  }
+
+  location.reload();
+}
+async function checkAdmin() {
+  const { data: { user } } = await db.auth.getUser();
+
+  if (!user) return false;
+
+  return user.email?.toLowerCase() === ADMIN_EMAIL.toLowerCase();
+}
+
+async function loadAdminPanel() {
+  const isAdmin = await checkAdmin();
+
+  const adminPanel = document.getElementById("adminPanel");
+
+  if (!adminPanel) return;
+
+  if (!isAdmin) {
+    adminPanel.style.display = "none";
+    return;
+  }
+
+  adminPanel.style.display = "block";
+
+  const { data: requests, error } = await db
+    .from("seller_verification_requests")
+    .select(`
+      *,
+      profiles:user_id (
+        id,
+        display_name,
+        email,
+        profile_picture,
+        location,
+        whatsapp,
+        is_verified_seller
+      )
+    `)
+    .eq("status", "pending")
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error(error);
+    return;
+  }
+
+  const container = document.getElementById(
+    "verificationRequests"
+  );
+
+  if (!container) return;
+
+  if (!requests || requests.length === 0) {
+    container.innerHTML =
+      "<p>No pending seller verification requests.</p>";
+    return;
+  }
+
+  container.innerHTML = requests.map(request => {
+    const seller = request.profiles || {};
+
+    return `
+      <div class="admin-request">
+
+        ${
+          seller.profile_picture
+            ? `<img
+                src="${seller.profile_picture}"
+                class="seller-picture"
+              >`
+            : `<div class="seller-picture placeholder">
+                👤
+              </div>`
+        }
+
+        <h3>
+          ${escapeHTML(
+            seller.display_name || "Unknown Seller"
+          )}
+        </h3>
+
+        <p>
+          ${escapeHTML(seller.email || "")}
+        </p>
+
+        <p>
+          ${escapeHTML(seller.location || "No location")}
+        </p>
+
+        <p>
+          ${escapeHTML(request.message || "No message")}
+        </p>
+
+        <button
+          onclick="verifySeller('${seller.id}', '${request.id}')">
+          ✓ VERIFY SELLER
+        </button>
+
+        <button
+          onclick="rejectSeller('${request.id}')">
+          REJECT
+        </button>
+
+      </div>
+    `;
+  }).join("");
+}
+
+async function verifySeller(userId, requestId) {
+  const isAdmin = await checkAdmin();
+
+  if (!isAdmin) {
+    alert("Administrator access required.");
+    return;
+  }
+
+  const { error: profileError } = await db
+    .from("profiles")
+    .update({
+      is_verified_seller: true,
+      account_type: "seller"
+    })
+    .eq("id", userId);
+
+  if (profileError) {
+    console.error(profileError);
+    alert(
+      "Could not verify seller: " +
+      profileError.message
+    );
+    return;
+  }
+
+  await db
+    .from("seller_verification_requests")
+    .update({
+      status: "approved"
+    })
+    .eq("id", requestId);
+
+  alert("Seller verified successfully! ✓");
+
+  loadAdminPanel();
+  loadProducts();
+}
+
+async function rejectSeller(requestId) {
+  const isAdmin = await checkAdmin();
+
+  if (!isAdmin) {
+    alert("Administrator access required.");
+    return;
+  }
+
+  const { error } = await db
+    .from("seller_verification_requests")
+    .update({
+      status: "rejected"
+    })
+    .eq("id", requestId);
+
+  if (error) {
+    alert(
+      "Could not reject request: " +
+      error.message
+    );
+    return;
+  }
+
+  alert("Verification request rejected.");
+
+  loadAdminPanel();
+}
+async function loadAdminProducts() {
+  const isAdmin = await checkAdmin();
+
+  if (!isAdmin) return;
+
+  const container = document.getElementById("adminProducts");
+
+  if (!container) return;
+
+  container.innerHTML = "<p>Loading products...</p>";
+
+  const { data: products, error } = await db
+    .from("products")
+    .select(`
+      *,
+      profiles:seller_id (
+        display_name,
+        profile_picture,
+        is_verified_seller
+      )
+    `)
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error(error);
+    container.innerHTML = "<p>Could not load products.</p>";
+    return;
+  }
+
+  if (!products || products.length === 0) {
+    container.innerHTML = "<p>No products available.</p>";
+    return;
+  }
+
+  container.innerHTML = products.map(product => `
+    <div class="admin-product">
+
+      ${
+        product.image
+          ? `<img
+              src="${product.image}"
+              class="product-image"
+              alt="${escapeHTML(product.name)}"
+            >`
+          : ""
+      }
+
+      <h3>${escapeHTML(product.name)}</h3>
+
+      <p>
+        Seller:
+        ${escapeHTML(
+          product.profiles?.display_name || "Unknown"
+        )}
+      </p>
+
+      ${
+        product.authenticated
+          ? `<span class="authenticated-badge">
+               ✓ PRODUCT AUTHENTICATED
+             </span>`
+          : `<span class="pending-badge">
+               NOT AUTHENTICATED
+             </span>`
+      }
+
+      <button
+        onclick="authenticateProduct('${product.id}')">
+        ${
+          product.authenticated
+            ? "REMOVE AUTHENTICATION"
+            : "✓ AUTHENTICATE PRODUCT"
+        }
+      </button>
+
+    </div>
+  `).join("");
+}
+
+async function authenticateProduct(productId) {
+  const isAdmin = await checkAdmin();
+
+  if (!isAdmin) {
+    alert("Administrator access required.");
+    return;
+  }
+
+  const { data: product, error: getError } = await db
+    .from("products")
+    .select("authenticated, name")
+    .eq("id", productId)
+    .single();
+
+  if (getError || !product) {
+    alert("Product could not be found.");
+            return;
+    }
+
+    const newStatus = !product.authenticated;
+
+    const action = newStatus
+      ? "authenticate"
+      : "remove authentication from";
+
+    const confirmed = confirm(
+      "Are you sure you want to " +
+      action +
+      ' "' +
+      product.name +
+      '"?'
+    );
+
+    if (!confirmed) return;
+
+    const { error } = await db
+      .from("products")
+      .update({
+        authenticated: newStatus
+      })
+      .eq("id", productId);
+
+    if (error) {
+      console.error(error);
+
+      alert(
+        "Could not update product authentication: " +
+        error.message
+      );
+
+      return;
+    }
+
+    alert(
+      newStatus
+        ? "Product authenticated successfully! ✓"
+        : "Product authentication removed."
+    );
+
+    loadAdminProducts();
+    loadProducts();
+  }
+
+  async function refreshAdmin() {
+    const isAdmin = await checkAdmin();
+
+    if (!isAdmin) {
+      alert("Administrator access required.");
+      return;
+    }
+
+    loadAdminPanel();
+    loadAdminProducts();
+  }
+async function initializeApp() {
+  const {
+    data: { session }
+  } = await db.auth.getSession();
+
+  const loginScreen = document.getElementById("loginScreen");
+  const mainApp = document.getElementById("mainApp");
+
+  if (!session) {
+    if (loginScreen) loginScreen.style.display = "flex";
+    if (mainApp) mainApp.style.display = "none";
+    return;
+  }
+
+  if (loginScreen) loginScreen.style.display = "none";
+  if (mainApp) mainApp.style.display = "block";
+
+  await loadProfile();
+  await loadProducts();
+  await loadAdminPanel();
+  await loadAdminProducts();
+}
+
+db.auth.onAuthStateChange((event, session) => {
+  if (event === "SIGNED_IN" && session) {
+    initializeApp();
+  }
+
+  if (event === "SIGNED_OUT") {
+    location.reload();
+  }
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  initializeApp();
+});
+</script>
+
+</body>
+</html>
