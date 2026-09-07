@@ -4714,3 +4714,176 @@ setInterval(
 refreshDashboard();
 
   </script>
+<script>
+
+const notificationButton =
+document.createElement("button");
+
+notificationButton.textContent =
+"🔔 Allow Notifications";
+
+notificationButton.style.padding =
+"12px";
+
+notificationButton.style.marginTop =
+"15px";
+
+notificationButton.style.borderRadius =
+"12px";
+
+notificationButton.style.background =
+"#0878ff";
+
+notificationButton.style.color =
+"white";
+
+notificationButton.style.fontWeight =
+"bold";
+
+
+document
+  .getElementById("settingsPage")
+  .appendChild(notificationButton);
+
+
+notificationButton.onclick =
+async function() {
+
+  if (!("Notification" in window)) {
+
+    alert(
+      "Notifications are not supported on this device."
+    );
+
+    return;
+
+  }
+
+
+  const permission =
+    await Notification.requestPermission();
+
+
+  if (permission === "granted") {
+
+    alert(
+      "🔔 Notifications enabled!"
+    );
+
+  } else {
+
+    alert(
+      "Notifications were not enabled."
+    );
+
+  }
+
+};
+
+  </script>
+<script>
+
+const savedTheme =
+localStorage.getItem("abbaTheme");
+
+
+if (savedTheme === "dark") {
+
+  document.body.style.background =
+    "#111827";
+
+  document.body.style.color =
+    "white";
+
+}
+
+
+document.getElementById("darkTheme")
+  .onclick = function() {
+
+    localStorage.setItem(
+      "abbaTheme",
+      "dark"
+    );
+
+    document.body.style.background =
+      "#111827";
+
+    document.body.style.color =
+      "white";
+
+  };
+
+
+lightButton.onclick = function() {
+
+  localStorage.setItem(
+    "abbaTheme",
+    "light"
+  );
+
+  document.body.style.background =
+    "#f5f7fb";
+
+  document.body.style.color =
+    "#111";
+
+};
+
+</script>
+<script>
+
+document.getElementById("logout").onclick =
+async function() {
+
+  await db.auth.signOut();
+
+  currentUser = null;
+
+  currentProfile = null;
+
+  document
+    .getElementById("home")
+    .classList.add("hidden");
+
+  document
+    .getElementById("auth")
+    .classList.remove("hidden");
+
+  document.getElementById("email")
+    .value = "";
+
+  document.getElementById("password")
+    .value = "";
+
+};
+
+</script>
+<script>
+
+async function startABBA() {
+
+  await checkLogin();
+
+  if (currentUser) {
+
+    await loadProfile();
+
+    await loadProducts();
+
+    await loadDashboard();
+
+    await updateProductDashboard();
+
+    loadVerificationStatus();
+
+    loadVerificationRequests();
+
+  }
+
+}
+
+
+startABBA();
+
+      </script>
