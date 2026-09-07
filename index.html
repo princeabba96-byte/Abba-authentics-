@@ -643,32 +643,41 @@ async function signup() {
     "success"
   );
 }
-
 async function login() {
+  const email = document.getElementById("loginEmail").value.trim();
+  const password = document.getElementById("loginPassword").value;
 
-  const email =
-    document.getElementById("loginEmail").value.trim();
-
-  const password =
-    document.getElementById("loginPassword").value;
-
-  const { data, error } =
-    await db.auth.signInWithPassword({
-      email,
-      password
-    });
-
-  if (error) {
-    showMessage("Invalid login credentials.");
+  if (!email || !password) {
+    showMessage("Please enter your Gmail and password.", "error");
     return;
   }
 
-  currentUser = data.user;
+  try {
+    showMessage("Signing in...", "success");
 
-  document.getElementById("loginScreen")
-    .classList.add("hidden");
+    const { data, error } = await db.auth.signInWithPassword({
+      email: email,
+      password: password
+    });
 
-  await loadProfile();
+    if (error) throw error;
+
+    currentUser = data.user;
+
+    await loadProfile();
+
+    document.getElementById("loginScreen").classList.add("hidden");
+
+    if (typeof loadProducts === "function") {
+      await loadProducts();
+    }
+
+    showMessage("Login successful.", "success");
+
+  } catch (error) {
+    console.error("LOGIN ERROR:", error);
+    showMessage(error.message || "Invalid login credentials.", "error");
+  }
 }
 
 async function logout() {
