@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0878ff">
+<title>ABBA AUTHENTICS</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+/* Fallback CDN if jsDelivr is blocked or unavailable */
+if(!window.supabase){
+  document.write('<script src="https://unpkg.com/@supabase/supabase-js@2"><\/script>');
+}
+</script>
+<script>
+window.addEventListener("error",function(e){
+  if(e && e.message){ console.error("ABBA AUTHENTICS:", e.message); }
+});
+</script>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--ink:#111;--gold:#d4af37;--gold2:#f0cf66;--cream:#f7f5ef;--muted:#737373;--line:#e8e4d8;--white:#fff;--green:#16a34a}
+body{font-family:Inter,Arial,sans-serif;background:var(--cream);color:var(--ink);min-height:100vh}
+button,input,select,textarea{font:inherit}button{border:0;cursor:pointer}.hidden{display:none!important}
+.app{max-width:620px;margin:auto;min-height:100vh;background:var(--cream);padding-bottom:88px}
+.auth-wrap{min-height:100vh;padding:28px 20px;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at top,#272727 0,#111 42%,#050505 100%)}
+.auth-card{width:100%;background:#fff;border-radius:28px;padding:28px;box-shadow:0 20px 60px rgba(0,0,0,.35)}
+.logo{width:64px;height:64px;border-radius:20px;background:linear-gradient(135deg,#111,#333);color:var(--gold2);border:1px solid rgba(212,175,55,.5);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:25px;margin-bottom:18px}
+.auth-card h1{font-size:28px;margin-bottom:7px}.muted{color:var(--muted)}
+.field{width:100%;padding:14px 15px;margin-top:12px;border:1px solid #ddd8ca;border-radius:14px;background:#fff;outline:none}.field:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(212,175,55,.12)}
+.primary{width:100%;padding:15px;border-radius:14px;background:#111;color:#fff;font-weight:800;margin-top:14px}.primary:hover{background:#242424}
+.secondary{width:100%;padding:14px;border-radius:14px;background:#f4edda;color:#8a6b10;font-weight:800;margin-top:10px}
+.msg{margin-top:12px;font-weight:700;text-align:center}
+.top{background:linear-gradient(135deg,#080808,#1d1d1d);color:#fff;padding:18px 16px 20px;border-radius:0 0 26px 26px;box-shadow:0 8px 25px rgba(0,0,0,.16);position:sticky;top:0;z-index:20}
+.top-row{display:flex;align-items:center;justify-content:space-between;gap:12px}.top h2{letter-spacing:.7px}.profile-mini{display:flex;align-items:center;gap:10px}
+.top-search{margin-top:14px;display:flex;align-items:center;background:#fff;border-radius:15px;padding:0 13px;color:#777}.top-search input{border:0;outline:0;background:transparent;width:100%;padding:13px 8px}
+.verified{display:inline-block;background:#16803b;color:#fff;border-radius:20px;padding:4px 8px;font-size:10px;font-weight:900;margin-top:5px}
+.content{padding:15px}.page-title{font-size:23px;font-weight:900;margin:10px 0 14px}.banner{background:linear-gradient(135deg,#111,#2a2a2a);color:#fff;padding:18px;border-radius:20px;margin-bottom:14px;box-shadow:0 10px 25px rgba(0,0,0,.12)}
+.banner .muted{color:#d7d7d7}.dashboard{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:15px}.stat{background:#fff;border-radius:17px;padding:15px;text-align:center;box-shadow:0 4px 15px rgba(0,0,0,.05);border:1px solid var(--line)}.stat strong{display:block;font-size:23px}.stat span{color:var(--muted);font-size:12px}
+.category-wrap{margin:4px 0 17px}.category-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}.category-head strong{font-size:16px}.category-head span{font-size:12px;color:#8a6b10;font-weight:800}
+.categories{display:flex;gap:9px;overflow-x:auto;padding:2px 1px 7px;scrollbar-width:none}.categories::-webkit-scrollbar{display:none}
+.cat-btn{flex:0 0 auto;min-width:74px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:9px 8px;font-size:11px;font-weight:800;color:#333;box-shadow:0 3px 10px rgba(0,0,0,.04)}
+.cat-btn span{display:block;font-size:20px;margin-bottom:4px}.cat-btn.active{background:#111;color:var(--gold2);border-color:#111}
+#categoryFilter{display:none}.card{background:#fff;border-radius:18px;padding:13px;margin-bottom:12px;box-shadow:0 4px 15px rgba(0,0,0,.055);border:1px solid var(--line)}
+#products{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}#products .card{margin-bottom:0;padding:9px;min-width:0}
+.product-img{width:100%;height:150px;object-fit:cover;border-radius:12px;background:#eee}.badge-green{color:#15803d;font-weight:900;margin-top:7px}.badge-orange{color:#b56b00;font-weight:800;margin-top:7px}
+.seller-row{display:flex;align-items:center;gap:7px;margin-top:8px}.avatar{width:42px;height:42px;border-radius:50%;object-fit:cover;background:#e9e4d4}
+.nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(620px,100%);height:72px;background:#fff;display:grid;grid-template-columns:repeat(5,1fr);box-shadow:0 -5px 20px rgba(0,0,0,.12);z-index:50;border-top:1px solid var(--line)}
+.nav button{background:#fff;color:#777;font-size:11px;font-weight:900}.nav button.active{color:#9a7712}.java{position:fixed;right:max(18px,calc((100vw - 620px)/2 + 18px));bottom:88px;width:58px;height:58px;border-radius:50%;background:#111;color:var(--gold2);font-weight:900;border:1px solid rgba(212,175,55,.6);box-shadow:0 8px 22px rgba(0,0,0,.25);z-index:55}
+.detail{position:fixed;inset:0;background:var(--cream);z-index:100;overflow:auto}.detail-inner{max-width:620px;margin:auto;padding:18px 16px 35px}.back{background:#fff;padding:11px 15px;border-radius:12px;font-weight:800;margin-bottom:15px;border:1px solid var(--line)}.close-card{background:#fff;border-radius:22px;padding:18px;border:1px solid var(--line)}textarea{resize:none}
+.dark{background:#0b0b0b;color:#f9fafb}.dark .app{background:#0b0b0b}.dark .card,.dark .stat,.dark .auth-card,.dark .nav,.dark .nav button,.dark .field,.dark .close-card,.dark .cat-btn{background:#171717;color:#f9fafb;border-color:#2d2d2d}.dark .banner{background:#171717;color:#fff}.dark .nav button{color:#aaa}.dark .category-head span{color:var(--gold2)}
+@media(max-width:700px){#products{grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}#products .card{padding:6px;border-radius:11px}#products .product-img{height:88px;border-radius:8px}#products h3{font-size:10px;line-height:1.15;margin-top:7px!important;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}#products .seller-row{font-size:8px;line-height:1.1;margin-top:5px}#products .verified{font-size:6px;padding:2px 3px;margin-top:3px}#products .badge-green,#products .badge-orange{font-size:7px;line-height:1.05;margin-top:5px}.content{padding:11px}.page-title{font-size:21px}.category-wrap{margin-bottom:13px}.cat-btn{min-width:68px;padding:8px 6px;font-size:10px}.cat-btn span{font-size:18px}}
+</style>>
+</head>
+
+<body>
+
+<div id="authScreen" class="auth-wrap">
+  <div class="auth-card">
+    <div class="logo">A</div>
+    <h1>ABBA AUTHENTICS</h1>
+    <p class="muted">Trusted products. Trusted sellers.</p>
+
+    <div id="loginBox">
+      <input id="loginEmail" class="field" type="email" placeholder="Email address">
+      <input id="loginPassword" class="field" type="password" placeholder="Password">
+      <button type="button" id="loginBtn" class="primary">SIGN IN</button>
+      <p id="loginMsg" class="msg"></p>
+      <button type="button" id="signupShow" class="secondary">CREATE ACCOUNT</button>
+    </div>
+
+    <div id="signupBox" class="hidden">
+      <input id="signupName" class="field" placeholder="Full name">
+      <input id="signupEmail" class="field" type="email" placeholder="Email address">
+      <input id="signupPassword" class="field" type="password" placeholder="Create password">
+      <select id="signupType" class="field">
+        <option value="customer">Customer</option>
+        <option value="seller">Seller</option>
+      </select>
+      <input id="signupWhatsapp" class="field" type="tel" placeholder="WhatsApp number">
+      <button type="button" id="signupBtn" class="primary">CREATE ACCOUNT</button>
+      <p id="signupMsg" class="msg"></p>
+      <button type="button" id="loginShow" class="secondary">BACK TO SIGN IN</button>
+    </div>
+  </div>
+</div>
+
+<!-- Independent authentication layer: keeps SIGN IN / CREATE ACCOUNT working even if another app feature has an error. -->
+<script>
+(function(){
+  function initABBAAuth(){
+    const S=window.supabase;
+    if(!S || !S.createClient){
+      console.error('ABBA AUTHENTICS: Supabase library did not load.');
+      return;
+    }
+    try{
+      window.abbaDB=S.createClient("https://eoccjsybttiwcxfaxeqg.supabase.co","sb_publishable_AARFSH7pm5iQIatNs5HKZg_qGqvHFE6");
+    }catch(e){console.error('ABBA AUTHENTICS: Supabase client error',e);return;}
+
+    const q=id=>document.getElementById(id);
+    q('signupShow').onclick=function(){q('loginBox').classList.add('hidden');q('signupBox').classList.remove('hidden');};
+    q('loginShow').onclick=function(){q('signupBox').classList.add('hidden');q('loginBox').classList.remove('hidden');};
+
+    q('signupBtn').onclick=async function(){
+      const name=q('signupName').value.trim(), email=q('signupEmail').value.trim().toLowerCase(), password=q('signupPassword').value;
+      const type=q('signupType').value, wa=q('signupWhatsapp').value.trim();
+      const msg=q('signupMsg'), btn=q('signupBtn');
+      if(!name||!email||!password){msg.textContent='Please fill in name, email and password.';msg.style.color='red';return;}
+      if(password.length<6){msg.textContent='Password must be at least 6 characters.';msg.style.color='red';return;}
+      btn.disabled=true;btn.textContent='CREATING ACCOUNT...';msg.textContent='Creating account...';msg.style.color='#0878ff';
+      try{
+        const {data,error}=await window.abbaDB.auth.signUp({email,password});
+        if(error) throw error;
+        if(!data || !data.user) throw new Error('Account was not created. Please try again.');
+        if(data.session){
+          await window.abbaDB.from('profiles').upsert({id:data.user.id,email,display_name:name,account_type:type,whatsapp:wa,is_verified_seller:false},{onConflict:'id'});
+        }
+        q('loginEmail').value=email;q('loginPassword').value='';
+        q('signupBox').classList.add('hidden');q('loginBox').classList.remove('hidden');
+        msg.textContent=data.session?'✓ Account created. You can now sign in.':'✓ Account created. You can now sign in.';msg.style.color='green';
+      }catch(e){
+        console.error(e);let m=e?.message||'Account creation failed. Please try again.';
+        if(/already registered|already exists/i.test(m))m='This email is already registered. Sign in instead.';
+        msg.textContent=m;msg.style.color='red';
+      }finally{btn.disabled=false;btn.textContent='CREATE ACCOUNT';}
+    };
+
+    q('loginBtn').onclick=async function(){
+      const email=q('loginEmail').value.trim().toLowerCase(), password=q('loginPassword').value;
+      const msg=q('loginMsg'),btn=q('loginBtn');
+      if(!email||!password){msg.textContent='Enter your email and password.';msg.style.color='red';return;}
+      btn.disabled=true;btn.textContent='SIGNING IN...';msg.textContent='Signing in...';msg.style.color='#0878ff';
+      try{
+        const {data,error}=await window.abbaDB.auth.signInWithPassword({email,password});
+        if(error) throw error;
+        window.currentUser=data.user;
+        q('authScreen').classList.add('hidden');q('app').classList.remove('hidden');q('nav').classList.remove('hidden');q('javaBtn').classList.remove('hidden');
+        msg.textContent='✓ Welcome back.';msg.style.color='green';
+        setTimeout(async()=>{
+          try{if(typeof loadProfile==='function')await loadProfile();}catch(e){console.error(e)}
+          try{if(typeof loadProducts==='function')await loadProducts();}catch(e){console.error(e)}
+        },0);
+      }catch(e){
+        console.error(e);let m='Invalid login credentials.';
+        if(/confirm|verified/i.test(e?.message||''))m='Please confirm your email before signing in.';
+        msg.textContent=m;msg.style.color='red';
+      }finally{btn.disabled=false;btn.textContent='SIGN IN';}
+    };
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',initABBAAuth);else initABBAAuth();
+})();
+</script>
+
+<div id="app" class="app hidden">
+  <header class="top">
+    <div class="top-row">
+      <div>
+        <h2>ABBA AUTHENTICS</h2>
+        <p style="opacity:.85;margin-top:4px">Trusted products. Trusted sellers.</p>
+      </div>
+      <div class="profile-mini">
+        <div style="text-align:right">
+          <strong id="topName">User</strong>
+          <div id="topVerified" class="verified hidden">✓ VERIFIED SELLER</div>
+        </div>
+      </div>
+    </div>
+    <div class="top-search">🔎<input id="homeSearch" placeholder="Search products, sellers..." autocomplete="off"></div>
+  </header>
+
+  <main class="content">
+    <section id="homePage">
+      <div class="banner">
+        <h2>🛡️ Buy with confidence</h2>
+        <p class="muted" style="margin-top:6px">Check trusted sellers and authenticated products.</p>
+      </div>
+      <div class="dashboard">
+        <div class="stat"><strong id="productCount">0</strong><span>Products</span></div>
+        <div class="stat"><strong id="sellerCount">0</strong><span>Verified Sellers</span></div>
+      </div>
+      <div class="category-wrap">
+        <div class="category-head"><strong>Shop by category</strong><span>See all →</span></div>
+        <div class="categories" id="categoryButtons">
+          <button class="cat-btn active" data-cat=""><span>✨</span>All</button>
+          <button class="cat-btn" data-cat="Cloths & Fashion"><span>👕</span>Fashion</button>
+          <button class="cat-btn" data-cat="Cosmetics"><span>💄</span>Beauty</button>
+          <button class="cat-btn" data-cat="Jewelries"><span>💎</span>Jewelry</button>
+          <button class="cat-btn" data-cat="Sports Outfits"><span>⚽</span>Sports</button>
+          <button class="cat-btn" data-cat="Shoes"><span>👟</span>Shoes</button>
+          <button class="cat-btn" data-cat="Bags"><span>👜</span>Bags</button>
+          <button class="cat-btn" data-cat="Electronics"><span>📱</span>Electronics</button>
+          <button class="cat-btn" data-cat="Home & Living"><span>🏠</span>Home</button>
+          <button class="cat-btn" data-cat="Other"><span>📦</span>Other</button>
+        </div>
+        <select id="categoryFilter" class="field"><option value="">All Categories</option><option>Cloths & Fashion</option><option>Cosmetics</option><option>Jewelries</option><option>Sports Outfits</option><option>Shoes</option><option>Bags</option><option>Electronics</option><option>Home & Living</option><option>Other</option></select>
+      </div>
+      <h2 class="page-title">Latest products</h2>
+      <div id="products"><p class="muted">Loading products...</p></div>
+    </section>
+
+    <section id="searchPage" class="hidden">
+      <h2 class="page-title">Search</h2>
+      <input id="productSearch" class="field" placeholder="Search products...">
+      <input id="sellerSearch" class="field" placeholder="Search sellers...">
+      <div id="searchResults" style="margin-top:14px"></div>
+    </section>
+
+    <section id="accountPage" class="hidden">
+      <h2 class="page-title">My Account</h2>
+      <div class="card">
+        <h2 id="accountName" style="text-align:center"></h2>
+        <p id="accountEmail" class="muted" style="text-align:center;margin-top:5px"></p>
+        <p id="accountType" style="text-align:center;margin-top:10px;font-weight:800"></p>
+        <p id="accountWhatsapp" class="muted" style="margin-top:8px"></p>
+        <p id="accountLocation" class="muted" style="margin-top:6px"></p>
+        <div style="text-align:center;margin:12px 0">
+          <img id="profilePic" class="avatar" style="width:90px;height:90px;display:block;margin:0 auto 10px" alt="Profile picture">
+          <input id="profileImage" class="field" type="file" accept="image/*">
+        </div>
+        <p id="accountDescription" class="muted" style="margin-top:6px"></p>
+        <div id="verificationStatus" style="margin-top:12px;font-weight:800"></div>
+      </div>
+
+      <div id="sellerTools" class="card hidden">
+        <h3>🛡️ Seller Verification</h3>
+        <p class="muted" style="margin-top:6px">Request verification from ABBA AUTHENTICS.</p>
+        <textarea id="verifyText" class="field" style="height:90px" placeholder="Why should you be verified?"></textarea>
+        <button id="verifyBtn" class="primary">REQUEST VERIFICATION</button>
+      </div>
+
+      <div class="card">
+        <h3>✏️ Edit Profile</h3>
+        <input id="editName" class="field" placeholder="Name">
+        <input id="editLocation" class="field" placeholder="Location">
+        <textarea id="editDescription" class="field" style="height:80px" placeholder="About you"></textarea>
+        <button id="saveProfile" class="primary">SAVE PROFILE</button>
+      </div>
+
+      <div id="adminPanel" class="card hidden">
+        <h3>👑 Admin Panel</h3>
+        <p class="muted" style="margin-top:6px">Seller verification requests</p>
+        <div id="adminRequests" style="margin-top:12px"></div>
+      </div>
+    </section>
+
+    <section id="postPage" class="hidden">
+      <h2 class="page-title">Post Product</h2>
+      <div id="postArea" class="card">
+        <input id="productImage" class="field" type="file" accept="image/*">
+        <input id="productName" class="field" placeholder="Product name">
+        <input id="productPrice" class="field" type="number" min="0" step="0.01" placeholder="Price (₦)">
+        <input id="productOwnerName" class="field" type="text" placeholder="Customer / Product Owner Name">
+        <input id="productSellerWhatsapp" class="field" type="tel" placeholder="Seller WhatsApp number">
+        <select id="productCategory" class="field"><option value="Other">Other</option><option>Cloths & Fashion</option><option>Cosmetics</option><option>Jewelries</option><option>Sports Outfits</option><option>Shoes</option><option>Bags</option><option>Electronics</option><option>Home & Living</option></select>
+        <button id="postBtn" class="primary">POST PRODUCT</button>
+        <button id="authenticateBtn" class="secondary">✓ AUTHENTICATE PRODUCT</button>
+        <p id="postMsg" class="msg"></p>
+      </div>
+    </section>
+
+    <section id="settingsPage" class="hidden">
+      <h2 class="page-title">Settings</h2>
+      <div class="card">
+        <button id="darkBtn" class="secondary">🌙 Dark Theme</button>
+        <button id="lightBtn" class="secondary">☀️ Light Theme</button>
+        <button id="complaintBtn" class="secondary">⚠️ Complaint</button>
+        <button id="termsBtn" class="secondary">📜 Terms & Conditions</button>
+        <button id="privacyBtn" class="secondary">🔒 Privacy Policy</button>
+        <button id="logoutBtn" class="primary">🚪 Log Out</button>
+      </div>
+    </section>
+  </main>
+</div>
+
+<nav id="nav" class="nav hidden">
+  <button data-page="homePage" class="active">🏠<br>HOME</button>
+  <button data-page="searchPage">🔎<br>SEARCH</button>
+  <button data-page="accountPage">👤<br>ACCOUNT</button>
+  <button data-page="postPage">📤<br>POST</button>
+  <button data-page="settingsPage">⚙️<br>SETTINGS</button>
+</nav>
+
+<button id="javaBtn" class="java hidden">JAVA</button>
+
+<script>
+const SUPABASE_URL="https://eoccjsybttiwcxfaxeqg.supabase.co";
+const SUPABASE_KEY="sb_publishable_AARFSH7pm5iQIatNs5HKZg_qGqvHFE6";
+const db=(window.supabase && window.supabase.createClient)
+  ? window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY)
+  : null;
+
+const ADMIN_EMAIL="princeabba96@gmail.com";
+const ADMIN_WHATSAPP="09061530541";
+
+let currentUser=null;
+let currentProfile=null;
+let productsCache=[];
+
+const $=id=>document.getElementById(id);
+
+function showPage(id){
+  if(id==="postPage"&&!isAdmin()){alert("Only ABBA AUTHENTICS admin can post products.");return}
+  document.querySelectorAll("main section").forEach(s=>s.classList.add("hidden"));
+  $(id).classList.remove("hidden");
+  document.querySelectorAll(".nav button").forEach(b=>{
+    b.classList.toggle("active",b.dataset.page===id);
+  });
+}
+
+document.querySelectorAll(".nav button").forEach(btn=>{
+  btn.onclick=()=>showPage(btn.dataset.page);
+});
+
+$("signupShow").onclick=()=>{
+  $("loginBox").classList.add("hidden");
+  $("signupBox").classList.remove("hidden");
+};
+
+$("loginShow").onclick=()=>{
+  $("signupBox").classList.add("hidden");
+  $("loginBox").classList.remove("hidden");
+};
+
+function isAdmin(){return !!currentUser && (currentUser.email||"").toLowerCase()===ADMIN_EMAIL.toLowerCase()}
+
+let loginNotificationTimer=null;
+let loginNotificationInitialized=false;
+let lastLoginNotificationId=null;
+
+function showLoginNotice(email){
+  document.querySelectorAll('.login-notice').forEach(x=>x.remove());
+  const box=document.createElement('div');
+  box.className='login-notice';
+  box.innerHTML=`<button aria-label="Close">×</button>🔔 New customer login<small>${escapeHtml(email||'Customer')} just signed in to ABBA AUTHENTICS.</small>`;
+  document.body.appendChild(box);
+  box.querySelector('button').onclick=()=>box.remove();
+  setTimeout(()=>box.remove(),8000);
+  if('Notification' in window && Notification.permission==='granted'){
+    try{new Notification('ABBA AUTHENTICS',{body:`${email||'A customer'} just signed in.`})}catch(e){}
+  }
+}
+
+async function recordCustomerLogin(){
+  if(!currentUser || isAdmin()) return;
+  try{
+    const r=await db.from('login_notifications').insert({user_id:currentUser.id,email:currentUser.email||''});
+    if(r.error) console.log('Login notification record error:',r.error);
+  }catch(e){console.log('Login notification error:',e)}
+}
+
+async function startAdminLoginNotifications(){
+  if(!isAdmin()) return;
+  if('Notification' in window && Notification.permission==='default'){
+    try{await Notification.requestPermission()}catch(e){}
+  }
+  const first=await db.from('login_notifications').select('id,email,logged_in_at').order('logged_in_at',{ascending:false}).limit(1);
+  if(first.data?.length) lastLoginNotificationId=first.data[0].id;
+  loginNotificationInitialized=true;
+  if(loginNotificationTimer) clearInterval(loginNotificationTimer);
+  loginNotificationTimer=setInterval(checkAdminLoginNotifications,8000);
+}
+
+async function checkAdminLoginNotifications(){
+  if(!isAdmin() || !loginNotificationInitialized) return;
+  try{
+    const r=await db.from('login_notifications').select('id,email,logged_in_at').order('logged_in_at',{ascending:false}).limit(10);
+    if(r.error){console.log('Login notification read error:',r.error);return}
+    const rows=(r.data||[]);
+    if(!rows.length) return;
+    if(!lastLoginNotificationId){lastLoginNotificationId=rows[0].id;return}
+    const newer=[];
+    for(const row of rows){
+      if(row.id===lastLoginNotificationId) break;
+      newer.push(row);
+    }
+    if(newer.length){
+      newer.reverse().forEach(row=>showLoginNotice(row.email));
+      lastLoginNotificationId=rows[0].id;
+    }
+  }catch(e){console.log('Login notification check error:',e)}
+}
+
+function enterApp(){
+  $("authScreen").classList.add("hidden");
+  const postNav=document.querySelector('[data-page="postPage"]');
+  if(postNav)postNav.classList.toggle("hidden",!isAdmin());
+  $("app").classList.remove("hidden");
+  $("nav").classList.remove("hidden");
+  $("javaBtn").classList.remove("hidden");
+  showPage("homePage");
+}
+
+function normalizeWhatsapp(number){
+  let n=(number||"").replace(/\D/g,"");
+  if(n.startsWith("0")) n="234"+n.slice(1);
+  return n;
+}
+
+async function loadProfile(){
+  if(!currentUser)return;
+  try{
+    const {data,error}=await db.from("profiles").select("*").eq("id",currentUser.id).maybeSingle();
+    if(error){console.log("Profile read error:",error);return}
+    currentProfile=data||null;
+    if(!currentProfile){
+      const fallback={id:currentUser.id,email:currentUser.email||"",display_name:currentUser.email?.split("@")[0]||"User",account_type:"customer",whatsapp:"",is_verified_seller:false};
+      const created=await db.from("profiles").upsert(fallback,{onConflict:"id"}).select("*").maybeSingle();
+      if(!created.error)currentProfile=created.data||fallback; else currentProfile=fallback;
+    }
+    $("topName").textContent=currentProfile.display_name||"User";
+    $("accountName").textContent=currentProfile.display_name||"User";
+    $("accountEmail").textContent=currentProfile.email||currentUser.email||"";
+    $("accountType").textContent=(currentProfile.account_type||"customer").toUpperCase()+" ACCOUNT";
+    $("accountWhatsapp").textContent="📱 "+(currentProfile.whatsapp||"No WhatsApp number");
+    $("accountLocation").textContent="📍 "+(currentProfile.location||"Location not added");
+    $("accountDescription").textContent=currentProfile.seller_description||"No description added.";
+    if($("profilePic")) $("profilePic").src=currentProfile.avatar_url||"";
+    $("editName").value=currentProfile.display_name||"";
+    $("editLocation").value=currentProfile.location||"";
+    $("editDescription").value=currentProfile.seller_description||"";
+    $("topVerified").classList.toggle("hidden",currentProfile.is_verified_seller!==true);
+    $("sellerTools").classList.toggle("hidden",currentProfile.account_type!=="seller");
+    await loadVerificationStatus();
+    await loadAdminRequests();
+  }catch(e){console.log("Profile error:",e)}
+}
+async function loadVerificationStatus(){
+  if(!currentUser)return;
+  try{
+    const {data,error}=await db.from("seller_verification_requests").select("status").eq("user_id",currentUser.id).order("created_at",{ascending:false}).limit(1);
+    if(error){console.log("Verification read error:",error);$("verificationStatus").textContent="Verification status unavailable";$("verificationStatus").style.color="#d97706";return}
+    if(!data||!data.length){
+      $("verificationStatus").textContent="Verification: Not requested";$("verificationStatus").style.color="#6b7280";return;
+    }
+    const status=data[0].status;
+    if(status==="approved"){$("verificationStatus").textContent="✓ Verification: APPROVED";$("verificationStatus").style.color="#16a34a";}
+    else{$("verificationStatus").textContent="⏳ Verification: PENDING";$("verificationStatus").style.color="#d97706";}
+  }catch(e){console.log(e)}
+}
+async function loadDashboard(){
+  const {count:pc}=await db.from("products").select("id",{count:"exact",head:true});
+  const {count:sc}=await db.from("profiles").select("id",{count:"exact",head:true}).eq("is_verified_seller",true);
+  $("productCount").textContent=pc||0;
+  $("sellerCount").textContent=sc||0;
+}
+
+async function loadProductOwners(){
+  // Product owners are entered manually by the admin when posting each product.
+  return true;
+}
+
+async function loadProducts(){
+  $("products").innerHTML="<p class='muted'>Loading products...</p>";
+  const {data,error}=await db.from("products").select("*").order("created_at",{ascending:false});
+  if(error){
+    console.log(error);
+    $("products").innerHTML="<p class='muted'>Products could not be loaded.</p>";
+    return;
+  }
+  productsCache=data||[];
+  const selectedCategory=$("categoryFilter")?.value||"";
+  const visibleProducts=selectedCategory?productsCache.filter(p=>(p.category||"Other")==selectedCategory):productsCache;
+  if(!visibleProducts.length){
+    $("products").innerHTML="<p class='muted'>No products yet.</p>";
+    await loadDashboard();
+    return;
+  }
+  $("products").innerHTML="";
+  for(const product of visibleProducts){
+    let seller=null;
+    if(product.seller_id){
+      const r=await db.from("profiles").select("display_name,is_verified_seller,location,whatsapp").eq("id",product.seller_id).maybeSingle();
+      seller=r.data||null;
+    }
+    const card=document.createElement("div");
+    card.className="card";
+    card.innerHTML=`
+      ${product.image_url?`<img class="product-img" src="${product.image_url}" alt="Product">`:""}
+      <h3 style="margin-top:11px">${escapeHtml(product.name||"Product")}</h3>
+      ${product.price!==null && product.price!==undefined && product.price!==""?`<div style="font-size:16px;font-weight:900;color:#111;margin-top:7px">₦${Number(product.price).toLocaleString()}</div>`:"<div class='muted' style='margin-top:7px'>Price not added</div>"}
+      <div class="seller-row" style="margin-top:7px">
+        <div>
+          <span class="muted" style="font-size:11px">OWNER</span><br>
+          <strong>${escapeHtml(product.seller_name||seller?.display_name||"Seller")}</strong>
+          ${seller?.is_verified_seller?`<div class="verified">✓ VERIFIED SELLER</div>`:""}
+        </div>
+      </div>
+      ${product.authenticated?`<p class="badge-green">✓ AUTHENTICATED PRODUCT</p>`:`<p class="badge-orange">⏳ AWAITING AUTHENTICATION</p>`}
+    `;
+    card.onclick=()=>showProduct(product,seller);
+    $("products").appendChild(card);
+  }
+  await loadDashboard();
+}
+
+function escapeHtml(value){
+  return String(value).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));
+}
+
+async function showProduct(product,seller){
+  const detail=document.createElement("div");
+  detail.className="detail";
+  const number=normalizeWhatsapp(product.seller_whatsapp||seller?.whatsapp||"");
+  detail.innerHTML=`
+    <div class="detail-inner">
+      <button class="back" id="closeDetail">← BACK</button>
+      <div class="close-card">
+        ${product.image_url?`<img class="product-img" src="${product.image_url}">`:""}
+        <h1 style="margin-top:15px">${escapeHtml(product.name||"Product")}</h1>
+        ${product.price!==null && product.price!==undefined && product.price!==""?`<div style="font-size:25px;font-weight:900;margin-top:8px">₦${Number(product.price).toLocaleString()}</div>`:""}
+        ${product.authenticated?`<p class="badge-green">✓ AUTHENTICATED PRODUCT</p>`:`<p class="badge-orange">⏳ AWAITING AUTHENTICATION</p>`}
+        <hr style="margin:20px 0;border:0;border-top:1px solid #e5e7eb">
+        <h2>Seller</h2>
+        <div class="seller-row">
+          <strong>${escapeHtml(product.seller_name||seller?.display_name||"Seller")}</strong>
+        </div>
+        ${seller?.is_verified_seller?`<div class="verified">✓ VERIFIED SELLER</div>`:""}
+        <p class="muted" style="margin-top:12px">📍 ${escapeHtml(seller?.location||"Location not added")}</p>
+        <p class="muted" style="margin-top:8px">${escapeHtml(seller?.seller_description||"")}</p>
+        <button id="contactProductSeller" class="primary">💬 CONTACT SELLER</button>
+        ${isAdmin()?`<button id="deleteProductBtn" class="primary" style="background:#dc2626;margin-top:10px">🗑️ DELETE PRODUCT</button>`:""}
+        <div style="margin-top:24px"><h2>⭐ Reviews</h2><div id="reviews">Loading reviews...</div></div>
+      </div>
+    </div>`;
+  document.body.appendChild(detail);
+  $("closeDetail").onclick=()=>detail.remove();
+  $("contactProductSeller").onclick=()=>{
+    if(!number){alert("Seller has no WhatsApp number.");return}
+    window.open("https://wa.me/"+number,"_blank");
+  };
+  if(isAdmin()&&$("deleteProductBtn")){
+    $("deleteProductBtn").onclick=async()=>{
+      if(!confirm("Delete this product? This cannot be undone."))return;
+      const b=$("deleteProductBtn");b.disabled=true;b.textContent="DELETING...";
+      try{
+        const result=await db.from("products").delete().eq("id",product.id);
+        if(result.error)throw result.error;
+        alert("✓ Product deleted successfully.");
+        detail.remove();
+        await loadProducts();
+      }catch(e){
+        console.log("Delete product error:",e);
+        alert("Could not delete product.\n\n"+(e?.message||"Please try again."));
+        b.disabled=false;b.textContent="🗑️ DELETE PRODUCT";
+      }
+    };
+  }
+  await loadReviews(product.id,$("reviews"));
+}
+
+async function loadReviews(productId,box){
+  const {data,error}=await db.from("reviews").select("*").eq("product_id",productId).order("created_at",{ascending:false});
+  if(error){box.innerHTML="<p class='muted'>Reviews unavailable.</p>";return}
+  if(!data?.length){box.innerHTML="<p class='muted'>No reviews yet.</p>";return}
+  box.innerHTML="";
+  for(const review of data){
+    const r=await db.from("profiles").select("display_name").eq("id",review.user_id).maybeSingle();
+    const person=r.data;
+    const item=document.createElement("div");
+    item.className="card";
+    item.innerHTML=`<strong>${escapeHtml(person?.display_name||"Customer")}</strong><p>${"⭐".repeat(Number(review.rating)||0)}</p><p style="margin-top:5px">${escapeHtml(review.comment)}</p>`;
+    box.appendChild(item);
+  }
+}
+
+async function searchAll(){
+  const pword=$("productSearch").value.trim();
+  const sword=$("sellerSearch").value.trim();
+  const box=$("searchResults");
+  box.innerHTML="";
+  if(pword){
+    const {data}=await db.from("products").select("*").ilike("name","%"+pword+"%");
+    const title=document.createElement("h3");title.textContent="Products";box.appendChild(title);
+    (data||[]).forEach(p=>{
+      const c=document.createElement("div");c.className="card";c.innerHTML=`<strong>${escapeHtml(p.name)}</strong><p class="${p.authenticated?"badge-green":"badge-orange"}">${p.authenticated?"✓ AUTHENTICATED PRODUCT":"⏳ AWAITING AUTHENTICATION"}</p>`;c.onclick=()=>showProduct(p,null);box.appendChild(c);
+    });
+  }
+  if(sword){
+    const {data}=await db.from("profiles").select("*").ilike("display_name","%"+sword+"%");
+    const title=document.createElement("h3");title.textContent="Sellers";box.appendChild(title);
+    (data||[]).forEach(s=>{
+      const c=document.createElement("div");c.className="card";c.innerHTML=`<div class="seller-row"><div><strong>${escapeHtml(s.display_name||"Seller")}</strong>${s.is_verified_seller?`<div class="verified">✓ VERIFIED SELLER</div>`:""}<p class="muted">📍 ${escapeHtml(s.location||"Location not added")}</p></div></div>`;c.onclick=()=>showSeller(s);box.appendChild(c);
+    });
+  }
+  if(!pword&&!sword)box.innerHTML="<p class='muted'>Search for a product or seller.</p>";
+}
+
+$("productSearch").oninput=searchAll;
+$("sellerSearch").oninput=searchAll;
+if($("categoryFilter")) $("categoryFilter").onchange=loadProducts;
+
+// Marketplace category navigation
+document.querySelectorAll(".cat-btn").forEach(btn=>{
+  btn.onclick=()=>{
+    document.querySelectorAll(".cat-btn").forEach(b=>b.classList.remove("active"));
+    btn.classList.add("active");
+    $("categoryFilter").value=btn.dataset.cat||"";
+    loadProducts();
+  };
+});
+if($("homeSearch")) $("homeSearch").oninput=()=>{
+  const q=$("homeSearch").value.trim();
+  if(q){$("productSearch").value=q;showPage("searchPage");searchAll();}
+};
+
+async function showSeller(seller){
+  const page=document.createElement("div");page.className="detail";
+  page.innerHTML=`<div class="detail-inner"><button class="back" id="closeSeller">← BACK</button><div class="close-card">
+  <h1 style="text-align:center">${escapeHtml(seller.display_name||"Seller")}</h1>
+  ${seller.is_verified_seller?`<div style="text-align:center"><span class="verified">✓ VERIFIED SELLER</span></div>`:""}
+  <p class="muted" style="margin-top:15px">📍 ${escapeHtml(seller.location||"Location not added")}</p>
+  <p class="muted" style="margin-top:8px">${escapeHtml(seller.seller_description||"No description yet.")}</p>
+  <button id="sellerContact" class="primary">💬 CONTACT SELLER</button>
+  <div id="sellerProducts" style="margin-top:22px"><h2>🛍️ Products</h2><p class="muted">Loading...</p></div>
+  </div></div>`;
+  document.body.appendChild(page);
+  $("closeSeller").onclick=()=>page.remove();
+  $("sellerContact").onclick=()=>{
+    const n=normalizeWhatsapp(seller.whatsapp);
+    if(!n){alert("Seller has no WhatsApp number.");return}
+    window.open("https://wa.me/"+n,"_blank");
+  };
+  const r=await db.from("products").select("*").eq("seller_id",seller.id).order("created_at",{ascending:false});
+  const box=$("sellerProducts");box.innerHTML="<h2>🛍️ Products</h2>";
+  (r.data||[]).forEach(p=>{const c=document.createElement("div");c.className="card";c.innerHTML=`<strong>${escapeHtml(p.name)}</strong>`;c.onclick=()=>showProduct(p,seller);box.appendChild(c)});
+}
+
+$("saveProfile").onclick=async()=>{
+  if(!currentUser){alert("Please sign in first.");return}
+  const btn=$("saveProfile");
+  btn.disabled=true;btn.textContent="SAVING...";
+  try{
+    const updates={
+      display_name:$("editName").value.trim(),
+      location:$("editLocation").value.trim(),
+      seller_description:$("editDescription").value.trim()
+    };
+    const profileFile=$("profileImage")?.files?.[0];
+    if(profileFile) updates.avatar_url=await uploadImage(profileFile,"profile-images");
+    if(!updates.display_name)throw new Error("Name cannot be empty.");
+    const result=await Promise.race([
+      db.from("profiles").update(updates).eq("id",currentUser.id).select("id,display_name,location,seller_description,avatar_url").maybeSingle(),
+      new Promise((_,reject)=>setTimeout(()=>reject(new Error("Profile update timed out. Please check your connection.")),10000))
+    ]);
+    if(result.error)throw result.error;
+    if(!result.data)throw new Error("Your profile was not found. Please sign out and sign in again.");
+    await loadProfile();
+    alert("✓ Profile updated successfully!");
+  }catch(e){
+    console.log("Save profile error:",e);
+    alert("Account could not be updated.\n\n"+(e?.message||"Please try again."));
+  }finally{btn.disabled=false;btn.textContent="SAVE PROFILE"}
+};
+
+$("verifyBtn").onclick=async()=>{
+  if(!currentUser){alert("Please sign in first.");return}
+  if(currentProfile?.account_type!=="seller"){alert("Seller verification is only available for seller accounts.");return}
+  const btn=$("verifyBtn");btn.disabled=true;btn.textContent="SENDING...";
+  try{
+    const message=$("verifyText").value.trim()||"I want to become a verified seller.";
+    const result=await Promise.race([
+      db.from("seller_verification_requests").insert({user_id:currentUser.id,status:"pending",message}),
+      new Promise((_,reject)=>setTimeout(()=>reject(new Error("Verification request timed out. Please try again.")),10000))
+    ]);
+    if(result.error)throw result.error;
+    $("verifyText").value="";
+    await loadVerificationStatus();
+    alert("✓ Verification request sent to ABBA AUTHENTICS admin.");
+  }catch(e){
+    console.log("Verification error:",e);
+    alert("Verification request could not be sent.\n\n"+(e?.message||"Please try again."));
+  }finally{btn.disabled=false;btn.textContent="REQUEST VERIFICATION"}
+};
+async function loadAdminRequests(){
+  if(!currentUser||currentUser.email?.toLowerCase()!==ADMIN_EMAIL.toLowerCase()){
+    $("adminPanel").classList.add("hidden");return;
+  }
+  $("adminPanel").classList.remove("hidden");
+  const box=$("adminRequests");box.innerHTML="<p class='muted'>Loading requests...</p>";
+  try{
+    const result=await Promise.race([
+      db.from("seller_verification_requests").select("id,user_id,status,message,created_at").eq("status","pending").order("created_at",{ascending:false}),
+      new Promise((_,reject)=>setTimeout(()=>reject(new Error("Request loading timed out.")),10000))
+    ]);
+    if(result.error)throw result.error;
+    const data=result.data||[];
+    if(!data.length){box.innerHTML="<p class='muted'>No pending requests.</p>";return}
+    box.innerHTML="";
+    for(const req of data){
+      const r=await db.from("profiles").select("id,display_name,email,whatsapp,location").eq("id",req.user_id).maybeSingle();
+      if(r.error){console.log("Seller profile error:",r.error)}
+      const seller=r.data||{};
+      const item=document.createElement("div");item.className="card";
+      item.innerHTML=`<strong>${escapeHtml(seller.display_name||"Seller")}</strong>
+        <p class="muted">📧 ${escapeHtml(seller.email||"")}</p>
+        <p class="muted">📱 ${escapeHtml(seller.whatsapp||"")}</p>
+        <p class="muted">📍 ${escapeHtml(seller.location||"")}</p>
+        <p style="margin-top:8px">${escapeHtml(req.message||"")}</p>
+        <button class="primary">✓ APPROVE SELLER</button>`;
+      item.querySelector("button").onclick=async()=>{
+        const b=item.querySelector("button");b.disabled=true;b.textContent="APPROVING...";
+        try{
+          const u=await db.from("profiles").update({is_verified_seller:true}).eq("id",req.user_id).select("id,is_verified_seller").maybeSingle();
+          if(u.error)throw u.error;
+          if(!u.data?.is_verified_seller)throw new Error("Seller profile was not updated.");
+          const q=await db.from("seller_verification_requests").update({status:"approved"}).eq("id",req.id).select("id,status").maybeSingle();
+          if(q.error)throw q.error;
+          if(q.data?.status!=="approved")throw new Error("Verification request was not updated.");
+          alert("✓ Seller approved successfully.");
+          await loadAdminRequests();await loadDashboard();
+        }catch(e){
+          console.log("Approve seller error:",e);
+          b.disabled=false;b.textContent="✓ APPROVE SELLER";
+          alert("Could not approve seller.\n\n"+(e?.message||"Please try again."));
+        }
+      };
+      box.appendChild(item);
+    }
+  }catch(e){
+    console.log("Admin requests error:",e);
+    box.innerHTML=`<p style='color:red'>Could not load verification requests.</p><p class='muted' style='margin-top:6px'>${escapeHtml(e?.message||"")}</p>`;
+  }
+}
+async function uploadImage(file,bucket,userId=null){
+  if(!file)return null;
+  return new Promise((resolve,reject)=>{
+    const timer=setTimeout(()=>reject(new Error("Picture processing timed out")),12000);
+    const reader=new FileReader();
+    reader.onload=()=>{
+      const img=new Image();
+      img.onload=()=>{
+        try{
+          const max=700;
+          const scale=Math.min(1,max/Math.max(img.width,img.height));
+          const canvas=document.createElement("canvas");
+          canvas.width=Math.max(1,Math.round(img.width*scale));
+          canvas.height=Math.max(1,Math.round(img.height*scale));
+          const ctx=canvas.getContext("2d");
+          if(!ctx)throw new Error("Browser cannot process this picture");
+          ctx.drawImage(img,0,0,canvas.width,canvas.height);
+          const result=canvas.toDataURL("image/jpeg",0.78);
+          clearTimeout(timer);resolve(result);
+        }catch(e){clearTimeout(timer);reject(e)}
+      };
+      img.onerror=()=>{clearTimeout(timer);reject(new Error("This picture format cannot be processed. Try JPG or PNG."))};
+      img.src=reader.result;
+    };
+    reader.onerror=()=>{clearTimeout(timer);reject(new Error("Could not read the selected picture"))};
+    reader.readAsDataURL(file);
+  });
+}
+$("postBtn").onclick=async()=>{
+  if(!isAdmin()){alert("Only ABBA AUTHENTICS admin can post products.");return}
+  let file=$("productImage").files[0],name=$("productName").value.trim(),price=$("productPrice").value.trim(),ownerName=$("productOwnerName").value.trim(),wa=$("productSellerWhatsapp").value.trim(),category=$("productCategory").value||"Other";
+  if(!wa && currentProfile?.whatsapp){wa=currentProfile.whatsapp;$("productSellerWhatsapp").value=wa;}
+  if(!file||!name||!price||!ownerName||!wa){$("postMsg").textContent="Please choose a picture, enter the product name, owner name, price and WhatsApp number.";$("postMsg").style.color="red";return}
+  const btn=$("postBtn");btn.disabled=true;btn.textContent="POSTING...";
+  $("postMsg").textContent="Preparing product picture...";$("postMsg").style.color="#0878ff";
+  try{
+    const image=await uploadImage(file,"product-images");
+    if(!image)throw new Error("Picture processing failed.");
+    $("postMsg").textContent="Saving product...";
+    const result=await Promise.race([
+      db.from("products").insert({name,price:Number(price),image_url:image,seller_name:ownerName,seller_id:currentUser?.id||null,seller_whatsapp:wa,category,authenticated:false}).select("id,name,price,seller_id,seller_whatsapp").maybeSingle(),
+      new Promise((_,reject)=>setTimeout(()=>reject(new Error("Saving product timed out. Please try again.")),12000))
+    ]);
+    if(result.error)throw result.error;
+    if(!result.data)throw new Error("Product was not saved.");
+    $("postMsg").textContent="✓ Product posted successfully.";$('postMsg').style.color="green";
+    $("productImage").value="";$("productName").value="";$("productPrice").value="";$("productOwnerName").value="";$("productSellerWhatsapp").value="";$("productCategory").value="Other";
+    await loadProductOwners();
+    await loadProducts();
+  }catch(e){
+    console.log("Post product error:",e);
+    $("postMsg").textContent=(e?.message||"Product could not be posted.");
+    $("postMsg").style.color="red";
+  }finally{btn.disabled=false;btn.textContent="POST PRODUCT"}
+};
+
+$("authenticateBtn").onclick=async()=>{
+  if(!isAdmin()){alert("Only ABBA AUTHENTICS admin can authenticate products.");return}
+  const name=$("productName").value.trim();
+  if(!name){alert("Enter the product name in the Product name box.");return}
+  const btn=$("authenticateBtn");btn.disabled=true;btn.textContent="AUTHENTICATING...";
+  try{
+    const r=await db.from("products").select("id,name,authenticated").eq("name",name).order("created_at",{ascending:false}).limit(1).maybeSingle();
+    if(r.error)throw r.error;
+    if(!r.data){throw new Error("Product not found.")}
+    const u=await db.from("products").update({authenticated:true}).eq("id",r.data.id).select("id,authenticated").maybeSingle();
+    if(u.error)throw u.error;
+    if(!u.data?.authenticated)throw new Error("Product was not updated.");
+    alert("✓ Product authenticated successfully.");
+    await loadProducts();
+  }catch(e){
+    console.log("Authentication error:",e);
+    alert("Authentication failed.\n\n"+(e?.message||"Please try again."));
+  }finally{btn.disabled=false;btn.textContent="✓ AUTHENTICATE PRODUCT"}
+};
+
+$("darkBtn").onclick=()=>{document.body.classList.add("dark");localStorage.setItem("abbaTheme","dark")};
+$("lightBtn").onclick=()=>{document.body.classList.remove("dark");localStorage.setItem("abbaTheme","light")};
+
+$("complaintBtn").onclick=()=>{
+  window.open("https://wa.me/2349061530541","_blank");
+};
+$("termsBtn").onclick=()=>alert("ABBA AUTHENTICS Terms & Conditions\n\nUse ABBA AUTHENTICS responsibly. Product authentication and seller verification are provided through the platform.");
+$("privacyBtn").onclick=()=>alert("ABBA AUTHENTICS Privacy Policy\n\nWe use account and product information to provide our services.");
+$("logoutBtn").onclick=async()=>{
+  await db.auth.signOut();
+  currentUser=null;currentProfile=null;
+  if(loginNotificationTimer)clearInterval(loginNotificationTimer);loginNotificationTimer=null;loginNotificationInitialized=false;lastLoginNotificationId=null;
+  $("app").classList.add("hidden");$("nav").classList.add("hidden");$("javaBtn").classList.add("hidden");
+  $("authScreen").classList.remove("hidden");
+};
+
+$("javaBtn").onclick=()=>{
+  const box=document.createElement("div");
+  box.className="detail";
+  box.innerHTML=`<div class="detail-inner"><div class="close-card">
+  <h2>🤖 JAVA Assistant</h2><p class="muted" style="margin-top:7px">How can I help?</p>
+  <button id="jVerify" class="primary">✓ Seller Verification</button>
+  <button id="jAuth" class="secondary">🛡️ Product Authentication</button>
+  <button id="jContact" class="secondary">💬 Contact Admin</button>
+  <button id="jClose" class="secondary">CLOSE</button>
+  </div></div>`;
+  document.body.appendChild(box);
+  $("jClose").onclick=()=>box.remove();
+  $("jVerify").onclick=()=>{box.remove();showPage("accountPage")};
+  $("jAuth").onclick=()=>alert("Product authentication is handled by ABBA AUTHENTICS admin.");
+  $("jContact").onclick=()=>window.open("https://wa.me/2349061530541","_blank");
+};
+
+$("signupBtn").onclick=async()=>{
+  const name=$("signupName").value.trim(),email=$("signupEmail").value.trim().toLowerCase(),password=$("signupPassword").value,type=$("signupType").value,wa=$("signupWhatsapp").value.trim();
+  if(!name||!email||!password){$("signupMsg").textContent="Please fill in name, email and password.";$("signupMsg").style.color="red";return}
+  const btn=$("signupBtn");btn.disabled=true;btn.textContent="CREATING ACCOUNT...";$("signupMsg").textContent="Creating account...";$("signupMsg").style.color="#0878ff";
+  try{
+    if(!window.supabase || !db) throw new Error("ABBA AUTHENTICS could not connect to the login service. Please refresh the page and try again.");
+    const {data,error}=await Promise.race([db.auth.signUp({email,password}),new Promise((_,reject)=>setTimeout(()=>reject(new Error("Connection timed out. Please try again.")),15000))]);
+    if(error)throw error;
+    const user=data?.user;
+    if(!user)throw new Error("Account was not created. Please try again.");
+    // If email confirmation is enabled, there may be no session yet. Do not block registration on profile creation.
+    if(data.session){
+      currentUser=user;
+      const profile={id:user.id,email,display_name:name,account_type:type,whatsapp:wa,is_verified_seller:false};
+      const pr=await db.from("profiles").upsert(profile,{onConflict:"id"});
+      if(pr.error)console.log("Profile setup:",pr.error);
+    }
+    $("signupMsg").textContent=data.session?"✓ Account created. You can now sign in.":"✓ Account created. Check your email, then sign in.";
+    $("signupMsg").style.color="green";$("loginEmail").value=email;$("loginPassword").value="";
+    $("loginBox").classList.remove("hidden");$("signupBox").classList.add("hidden");
+  }catch(error){
+    console.log("Signup error:",error);
+    let msg=error?.message||"Account creation failed. Please try again.";
+    if(/already registered|already exists/i.test(msg))msg="This email is already registered. Sign in instead.";
+    $("signupMsg").textContent=msg;$("signupMsg").style.color="red";
+  }finally{btn.disabled=false;btn.textContent="CREATE ACCOUNT"}
+};
+$("loginBtn").onclick=async()=>{
+  const email=$("loginEmail").value.trim().toLowerCase(),password=$("loginPassword").value;
+  if(!email||!password){$("loginMsg").textContent="Enter your email and password.";$("loginMsg").style.color="red";return}
+  const btn=$("loginBtn");btn.disabled=true;btn.textContent="SIGNING IN...";$("loginMsg").textContent="";
+  try{
+    if(!window.supabase || !db) throw new Error("ABBA AUTHENTICS could not connect to the login service. Please refresh the page and try again.");
+    const {data,error}=await db.auth.signInWithPassword({email,password});
+    if(error)throw error;
+    currentUser=data.user;
+    await recordCustomerLogin();
+    enterApp();await loadProfile();await loadProductOwners();await loadProducts();
+    if(isAdmin()) startAdminLoginNotifications();
+    $("loginMsg").textContent="✓ Welcome back.";$("loginMsg").style.color="green";
+  }catch(error){
+    console.log("Login error:",error);
+    let msg="Invalid login credentials.";
+    if(/confirm|verified/i.test(error?.message||""))msg="Please confirm your email before signing in.";
+    $("loginMsg").textContent=msg;$("loginMsg").style.color="red";
+  }finally{btn.disabled=false;btn.textContent="SIGN IN"}
+};
+async function boot(){
+  if(localStorage.getItem("abbaTheme")==="dark")document.body.classList.add("dark");
+  if(!db){
+    const msg=$("loginMsg");
+    if(msg){ msg.textContent="Login service could not load. Please open the ABBA AUTHENTICS website and refresh."; msg.style.color="red"; }
+    return;
+  }
+  const {data}=await db.auth.getSession();
+  if(data.session){
+    currentUser=data.session.user;
+    enterApp();
+    if(isAdmin()) startAdminLoginNotifications();
+    await loadProfile();
+    await loadProducts();
+  }
+}
+
+if(db) db.auth.onAuthStateChange((event,session)=>{
+  if(session&&!currentUser){
+    currentUser=session.user;
+    enterApp();
+    if(isAdmin()) startAdminLoginNotifications();
+    loadProfile();
+    loadProducts();
+  }
+});
+
+boot();
+</script>
+
+</body>
+</html>
